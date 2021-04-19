@@ -4,7 +4,7 @@ import java.awt.*;
 
 public abstract class Entity{
 
-    public static final int SIZE = 24; // size of entity
+    public static final int SIZE = 50; // size of entity
     public static final Color COLOR = Color.BLUE.darker().darker();
 
     public Integer id;
@@ -13,10 +13,12 @@ public abstract class Entity{
     public Integer aHealth;
     public Integer aEnergy;
     public Integer aLifeLenght;
+    public Integer width;
+    public Integer height;
     public String aType;
     public Tile currentPosition;
     public Tile nextPosition;
-
+    public String image;
     /**
      * Entity moves to next tile
      */

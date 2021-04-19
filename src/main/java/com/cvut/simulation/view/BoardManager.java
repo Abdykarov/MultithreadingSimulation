@@ -16,7 +16,14 @@ public class BoardManager {
      */
     public void generateWindow(){
         JFrame frame = new JFrame("Real Time Simulator");
-
+        gridMap.setOpaque(true);
+        gridMap.setBackground(new Color(240, 235, 232));
         frame.add(gridMap);
+        frame.setResizable(false);
+        frame.setSize(new Dimension(gridMap.width, gridMap.height));
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 }

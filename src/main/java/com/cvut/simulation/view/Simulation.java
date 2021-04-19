@@ -10,8 +10,8 @@ public class Simulation {
 
     public static void main(String[] args){
 
-        int gridWidth = 624;
-        int gridHeight = 480;
+        int gridWidth = 20*50;
+        int gridHeight = 13*50;
 
         List<Entity> entities = new ArrayList<>();
 

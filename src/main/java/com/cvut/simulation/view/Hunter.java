@@ -10,7 +10,10 @@ public class Hunter extends Entity{
         this.aLifeLenght = aLifeLenght;
         this.aSpeed = aSpeed;
         this.aType = "Hunter";
+        this.image = "wolf.png";
         this.id = id;
+        this.width = 50;
+        this.height = 35;
         this.currentPosition = tilePos;
         this.nextPosition = calculateNextPosition(tilePos);
     }
