@@ -15,7 +15,7 @@ public class GridMap extends JPanel{
     {
         if (width % Entity.SIZE != 0 || height % Entity.SIZE != 0)
         {
-            throw new IllegalArgumentException("Width and Height of grid must be a multiple of Particle.SIZE");
+            throw new IllegalArgumentException("Width and Height of grid must be a multiple of Entity.SIZE");
         }
 
         this.width = width;
@@ -24,7 +24,9 @@ public class GridMap extends JPanel{
     }
 
     public void animateEntityStep(Tile initialPosition, Tile NextPosition){
-
+        repaint(initialPosition.x, initialPosition.y, Entity.SIZE, Entity.SIZE);
+        repaint(NextPosition.x, NextPosition.y, Entity.SIZE, Entity.SIZE);
+        Toolkit.getDefaultToolkit().sync();
     }
 
     public void paintComponent(Graphics g) {
@@ -35,7 +37,7 @@ public class GridMap extends JPanel{
         Image RED_LAND;
         for(int hor = 0; hor < width/tileSize; hor++){
             for (int ver = 0; ver < height/tileSize; ver++){
-                RED_LAND = new ImageIcon("logo.png").getImage();
+                RED_LAND = new ImageIcon("grass.png").getImage();
                 g.drawImage(RED_LAND, hor*tileSize, ver*tileSize, tileSize,tileSize,null);
             }
         }

@@ -3,8 +3,8 @@ package com.cvut.simulation.view;
 
 public class Tile {
 
-    public final int x;
-    public final int y;
+    public int x;
+    public int y;
 
     public Tile(int x, int y)
     {

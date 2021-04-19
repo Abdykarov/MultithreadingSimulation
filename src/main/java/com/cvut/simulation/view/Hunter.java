@@ -47,7 +47,7 @@ public class Hunter extends Entity{
      */
     @Override
     public Tile calculateNextPosition(Tile currentPosition) {
-        return null;
+        return new Tile(currentPosition.x, currentPosition.y + 50);
     }
 
     @Override

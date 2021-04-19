@@ -32,6 +32,7 @@ public class Simulation {
         {
             EntityRunnable particleRunnable = new EntityRunnable(entity, gridMap);
             new Thread(particleRunnable).start();
+
         }
 
 

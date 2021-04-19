@@ -20,7 +20,7 @@ public class BoardManager {
         gridMap.setBackground(new Color(240, 235, 232));
         frame.add(gridMap);
         frame.setResizable(false);
-        frame.setSize(new Dimension(gridMap.width, gridMap.height));
+        frame.setSize(new Dimension(gridMap.width+10, gridMap.height+30));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setLocationRelativeTo(null);
