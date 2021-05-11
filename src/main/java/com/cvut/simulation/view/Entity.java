@@ -19,6 +19,11 @@ public abstract class Entity{
     public Tile currentPosition;
     public Tile nextPosition;
     public String image;
+
+    Entity(Integer id, Integer aSpeed, Integer aHunger, Integer aHealth, Integer aLifeLenght, Integer height){
+        this.id = id;
+    }
+
     /**
      * Entity moves to next tile
      */
