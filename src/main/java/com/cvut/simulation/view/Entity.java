@@ -20,9 +20,6 @@ public abstract class Entity{
     public Tile nextPosition;
     public String image;
 
-    Entity(Integer id, Integer aSpeed, Integer aHunger, Integer aHealth, Integer aLifeLenght, Integer height){
-        this.id = id;
-    }
 
     /**
      * Entity moves to next tile
@@ -45,6 +42,13 @@ public abstract class Entity{
      */
     public abstract void die();
 
+    public abstract int getXPosition();
+
+    public abstract int getYPosition();
+
+    public abstract void setXPosition(int x);
+
+    public abstract void setYPosition(int y);
     /**
      * Drinks water
      * @param waterObject

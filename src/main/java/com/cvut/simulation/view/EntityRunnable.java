@@ -24,11 +24,7 @@ public class EntityRunnable implements Runnable {
             Tile nextPosition = entity.nextPosition;
             moveEntity(nextPosition.x, nextPosition.y);
             gridMap.animateEntityStep(currentPosition, nextPosition);
-            System.out.println(Thread.currentThread().getName());
-            System.out.println(currentPosition.x);
-            System.out.println(currentPosition.y);
-            System.out.println(nextPosition.x);
-            System.out.println(nextPosition.y);
+
         }
     }
 

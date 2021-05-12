@@ -55,6 +55,26 @@ public class Hunter extends Entity{
 
     }
 
+    @Override
+    public int getXPosition() {
+        return 0;
+    }
+
+    @Override
+    public int getYPosition() {
+        return 0;
+    }
+
+    @Override
+    public void setXPosition(int x) {
+
+    }
+
+    @Override
+    public void setYPosition(int y) {
+
+    }
+
     /**
      * Drinks water
      *
