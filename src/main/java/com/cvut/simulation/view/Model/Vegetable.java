@@ -1,15 +1,17 @@
-package com.cvut.simulation.view;
+package com.cvut.simulation.view.Model;
 
-public class Water extends Entity{
+import com.cvut.simulation.view.View.Tile;
+
+public class Vegetable extends Entity {
 
 
-    Water(Tile tilePos,int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght){
+    Vegetable(Tile tilePos, int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght){
         this.aEnergy = aEnergy;
         this.aHealth = aHealth;
         this.aHunger = aHunger;
         this.aLifeLenght = aLifeLenght;
         this.aSpeed = aSpeed;
-        this.aType = "Water";
+        this.aType = "Vegetable";
         this.id = id;
         this.currentPosition = tilePos;
         this.nextPosition = calculateNextPosition(tilePos);

@@ -1,15 +1,17 @@
-package com.cvut.simulation.view;
+package com.cvut.simulation.view.Model;
 
-public class Meat extends Entity{
+import com.cvut.simulation.view.View.Tile;
+
+public class Wolf extends Entity {
 
 
-    Meat(Tile tilePos,int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght){
+    Wolf(Tile tilePos, int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght){
         this.aEnergy = aEnergy;
         this.aHealth = aHealth;
         this.aHunger = aHunger;
         this.aLifeLenght = aLifeLenght;
         this.aSpeed = aSpeed;
-        this.aType = "Meat";
+        this.aType = "Wolf";
         this.id = id;
         this.currentPosition = tilePos;
         this.nextPosition = calculateNextPosition(tilePos);
@@ -49,6 +51,26 @@ public class Meat extends Entity{
 
     @Override
     public void die() {
+
+    }
+
+    @Override
+    public int getXPosition() {
+        return 0;
+    }
+
+    @Override
+    public int getYPosition() {
+        return 0;
+    }
+
+    @Override
+    public void setXPosition(int x) {
+
+    }
+
+    @Override
+    public void setYPosition(int y) {
 
     }
 

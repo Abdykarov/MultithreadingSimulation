@@ -1,4 +1,6 @@
-package com.cvut.simulation.view;
+package com.cvut.simulation.view.Model;
+
+import com.cvut.simulation.view.View.Tile;
 
 import java.awt.*;
 

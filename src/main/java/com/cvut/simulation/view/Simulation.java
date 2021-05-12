@@ -1,5 +1,11 @@
 package com.cvut.simulation.view;
 
+import com.cvut.simulation.view.Controller.EntityRunnable;
+import com.cvut.simulation.view.Model.Entity;
+import com.cvut.simulation.view.Model.Hunter;
+import com.cvut.simulation.view.View.GridMap;
+import com.cvut.simulation.view.View.Tile;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

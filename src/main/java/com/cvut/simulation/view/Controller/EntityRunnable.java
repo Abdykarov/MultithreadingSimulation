@@ -1,4 +1,8 @@
-package com.cvut.simulation.view;
+package com.cvut.simulation.view.Controller;
+
+import com.cvut.simulation.view.View.GridMap;
+import com.cvut.simulation.view.Model.Entity;
+import com.cvut.simulation.view.View.Tile;
 
 public class EntityRunnable implements Runnable {
 

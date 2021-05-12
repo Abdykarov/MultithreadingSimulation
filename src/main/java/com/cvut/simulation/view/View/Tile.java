@@ -1,4 +1,4 @@
-package com.cvut.simulation.view;
+package com.cvut.simulation.view.View;
 
 
 public class Tile {

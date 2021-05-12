@@ -1,5 +1,7 @@
 package com.cvut.simulation.view;
 
+import com.cvut.simulation.view.View.GridMap;
+
 import javax.swing.*;
 import java.awt.*;
 

@@ -1,16 +1,21 @@
-package com.cvut.simulation.view;
+package com.cvut.simulation.view.Model;
 
-public class Wolf extends Entity{
+import com.cvut.simulation.view.View.Tile;
+
+public class Hunter extends Entity {
 
 
-    Wolf(Tile tilePos,int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght){
+    Hunter(Tile tilePos, int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght){
         this.aEnergy = aEnergy;
         this.aHealth = aHealth;
         this.aHunger = aHunger;
         this.aLifeLenght = aLifeLenght;
         this.aSpeed = aSpeed;
-        this.aType = "Wolf";
+        this.aType = "Hunter";
+        this.image = "wolf.png";
         this.id = id;
+        this.width = 50;
+        this.height = 35;
         this.currentPosition = tilePos;
         this.nextPosition = calculateNextPosition(tilePos);
     }
@@ -44,11 +49,31 @@ public class Wolf extends Entity{
      */
     @Override
     public Tile calculateNextPosition(Tile currentPosition) {
-        return null;
+        return new Tile(currentPosition.x, currentPosition.y + 50);
     }
 
     @Override
     public void die() {
+
+    }
+
+    @Override
+    public int getXPosition() {
+        return 0;
+    }
+
+    @Override
+    public int getYPosition() {
+        return 0;
+    }
+
+    @Override
+    public void setXPosition(int x) {
+
+    }
+
+    @Override
+    public void setYPosition(int y) {
 
     }
 

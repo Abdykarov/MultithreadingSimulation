@@ -1,15 +1,17 @@
-package com.cvut.simulation.view;
+package com.cvut.simulation.view.Model;
 
-public class Fox extends Entity{
+import com.cvut.simulation.view.View.Tile;
+
+public class Meat extends Entity {
 
 
-    Fox(Tile tilePos,int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght){
+    Meat(Tile tilePos, int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght){
         this.aEnergy = aEnergy;
         this.aHealth = aHealth;
         this.aHunger = aHunger;
         this.aLifeLenght = aLifeLenght;
         this.aSpeed = aSpeed;
-        this.aType = "Fox";
+        this.aType = "Meat";
         this.id = id;
         this.currentPosition = tilePos;
         this.nextPosition = calculateNextPosition(tilePos);
