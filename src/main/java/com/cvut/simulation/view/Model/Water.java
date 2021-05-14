@@ -18,13 +18,15 @@ public class Water extends Entity {
     }
 
 
+
     /**
      * Entity moves to next tile
      *
-     * @param tileToMove
+     * @param x
+     * @param y
      */
     @Override
-    public void move(Tile tileToMove) {
+    public void move(int x, int y) {
 
     }
 
@@ -54,6 +56,27 @@ public class Water extends Entity {
 
     }
 
+    @Override
+    public int getXPosition() {
+        return 0;
+
+    }
+
+    @Override
+    public int getYPosition() {
+        return 0;
+    }
+
+    @Override
+    public void setXPosition(int x) {
+
+    }
+
+    @Override
+    public void setYPosition(int y) {
+
+    }
+
     /**
      * Drinks water
      *
@@ -62,5 +85,10 @@ public class Water extends Entity {
     @Override
     public void drinkWater(Water waterObject) {
 
+    }
+
+    @Override
+    public Tile getTile() {
+        return null;
     }
 }

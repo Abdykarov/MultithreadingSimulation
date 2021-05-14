@@ -2,13 +2,13 @@ package com.cvut.simulation.view.Model;
 
 import com.cvut.simulation.view.View.Tile;
 
+import javax.swing.*;
 import java.awt.*;
 
 public abstract class Entity{
 
     public static final int SIZE = 50; // size of entity
     public static final Color COLOR = Color.BLUE.darker().darker();
-
     public Integer id;
     public Integer aSpeed; //animalSpeed
     public Integer aHunger;
@@ -21,12 +21,15 @@ public abstract class Entity{
     public Tile currentPosition;
     public Tile nextPosition;
     public String image;
+    public Image EntityImage = new ImageIcon(image).getImage();
+
+//    public abstract Tile getTile();
 
 
     /**
      * Entity moves to next tile
      */
-    public abstract void move(Tile tileToMove);
+    public abstract void move(int x,int y);
 
     /**
      * Entity eats other entity, which is placed in the next tile
@@ -56,4 +59,6 @@ public abstract class Entity{
      * @param waterObject
      */
     public abstract void drinkWater(Water waterObject);
+
+    public abstract Tile getTile();
 }

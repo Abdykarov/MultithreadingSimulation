@@ -6,6 +6,7 @@ import com.cvut.simulation.view.Model.Hunter;
 import com.cvut.simulation.view.View.GridMap;
 import com.cvut.simulation.view.View.Tile;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -27,11 +28,21 @@ public class Simulation {
 
         entities.add(new Hunter(getRandomPosition(gridWidth,gridHeight, entities),2,
                 80,50,40,80, 66));
+entities.add(new Hunter(getRandomPosition(gridWidth,gridHeight, entities),2,
+                80,50,40,80, 66));
+entities.add(new Hunter(getRandomPosition(gridWidth,gridHeight, entities),2,
+                80,50,40,80, 66));
+entities.add(new Hunter(getRandomPosition(gridWidth,gridHeight, entities),2,
+                80,50,40,80, 66));
+entities.add(new Hunter(getRandomPosition(gridWidth,gridHeight, entities),2,
+                80,50,40,80, 66));
+entities.add(new Hunter(getRandomPosition(gridWidth,gridHeight, entities),2,
+                80,50,40,80, 66));
+entities.add(new Hunter(getRandomPosition(gridWidth,gridHeight, entities),2,
+                80,50,40,80, 66));
 
-        /* Generate and display the grid map */
         GridMap gridMap = new GridMap(gridWidth, gridHeight, entities);
         BoardManager boardManager = new BoardManager(gridMap);
-        boardManager.generateWindow();
 
         /* Start the Entity Runnables */
         for (Entity entity : entities)
@@ -40,6 +51,14 @@ public class Simulation {
             new Thread(particleRunnable).start();
 
         }
+
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                boardManager.generateWindow();
+            }
+        });
 
 
     }

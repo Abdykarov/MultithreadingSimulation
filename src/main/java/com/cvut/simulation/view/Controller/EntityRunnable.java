@@ -4,10 +4,14 @@ import com.cvut.simulation.view.View.GridMap;
 import com.cvut.simulation.view.Model.Entity;
 import com.cvut.simulation.view.View.Tile;
 
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
+
 public class EntityRunnable implements Runnable {
 
     public Entity entity;
     public GridMap gridMap;
+    Random rand = new Random();
 
     public EntityRunnable(Entity entity, GridMap gridMap) {
         this.entity = entity;
@@ -21,14 +25,14 @@ public class EntityRunnable implements Runnable {
     public void run() {
         while (true) {
             try {
-                Thread.sleep(100);
+                TimeUnit.MILLISECONDS.sleep(50);
             } catch (InterruptedException e) {
             }
-            Tile currentPosition = entity.currentPosition;
-            Tile nextPosition = entity.nextPosition;
-            moveEntity(nextPosition.x, nextPosition.y);
-            gridMap.animateEntityStep(currentPosition, nextPosition);
-
+            int max = 10;
+            int min = -10;
+            entity.move(rand.nextInt(max) * 1,0);
+            System.out.println(entity.currentPosition.x);
+            System.out.println(Thread.currentThread().getName());
         }
     }
 

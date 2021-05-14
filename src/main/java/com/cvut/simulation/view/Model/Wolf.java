@@ -18,13 +18,15 @@ public class Wolf extends Entity {
     }
 
 
+
     /**
      * Entity moves to next tile
      *
-     * @param tileToMove
+     * @param x
+     * @param y
      */
     @Override
-    public void move(Tile tileToMove) {
+    public void move(int x, int y) {
 
     }
 
@@ -82,5 +84,10 @@ public class Wolf extends Entity {
     @Override
     public void drinkWater(Water waterObject) {
 
+    }
+
+    @Override
+    public Tile getTile() {
+        return null;
     }
 }
