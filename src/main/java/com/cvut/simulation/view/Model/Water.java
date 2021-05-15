@@ -19,14 +19,12 @@ public class Water extends Entity {
 
 
 
+
     /**
      * Entity moves to next tile
-     *
-     * @param x
-     * @param y
      */
     @Override
-    public void move(int x, int y) {
+    public void move() {
 
     }
 

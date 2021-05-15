@@ -22,6 +22,7 @@ public class Hunter extends Entity {
         this.currentPosition = tilePos;
         this.nextPosition = calculateNextPosition(tilePos);
         this.EntityImage = new ImageIcon(image).getImage();
+        this.isAlive = true;
 
     }
 
@@ -37,9 +38,10 @@ public class Hunter extends Entity {
      * @param tileToMove
      */
     @Override
-    public void move(int x, int y) {
-        this.currentPosition.x += x;
-        this.currentPosition.y += y;
+    public void move() {
+        if(isAlive){
+            System.out.println(aLifeLenght);
+        }
     }
 
     /**

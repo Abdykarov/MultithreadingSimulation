@@ -21,14 +21,12 @@ public class Wolf extends Entity {
 
     /**
      * Entity moves to next tile
-     *
-     * @param x
-     * @param y
      */
     @Override
-    public void move(int x, int y) {
+    public void move() {
 
     }
+
 
     /**
      * Entity eats other entity, which is placed in the next tile

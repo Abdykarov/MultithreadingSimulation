@@ -4,7 +4,9 @@ import com.cvut.simulation.view.Model.Entity;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -13,6 +15,7 @@ public class GridMap extends JPanel implements Runnable{
     public final int width;
     public final int height;
     public final List<Entity> entities;
+    public boolean redraw;
 
    public GridMap(int width, int height, List<Entity> entities)
     {
@@ -22,6 +25,7 @@ public class GridMap extends JPanel implements Runnable{
         }
 
         this.width = width;
+        this.redraw = true;
         this.height = height;
         this.entities = entities;
         Thread thr = new Thread(this);
@@ -37,36 +41,58 @@ public class GridMap extends JPanel implements Runnable{
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-//        // drawing tiles
-//        int tileSize = 50;
-//        Image RED_LAND;
-//        for(int hor = 0; hor < width/tileSize; hor++){
-//            for (int ver = 0; ver < height/tileSize; ver++){
-//                RED_LAND = new ImageIcon("grass.png").getImage();
-//                g.drawImage(RED_LAND, hor*tileSize, ver*tileSize, tileSize,tileSize,null);
-//            }
-//        }
-//        Random rand = new Random();
-//
-//        // draw trees
-//        int treeCount = 10;
-//        Image TREE;
-//        for(int t = 0; t < treeCount; t++){
-//            TREE = new ImageIcon("tree2.png").getImage();
-//            g.drawImage(TREE,rand.nextInt(width/Entity.SIZE)*Entity.SIZE,rand.nextInt(height/Entity.SIZE)*Entity.SIZE, tileSize,tileSize, null);
-//        }
+        // drawing tiles
+        int tileSize = 50;
+        Image RED_LAND;
+        for(int hor = 0; hor < width/tileSize; hor++){
+            for (int ver = 0; ver < height/tileSize; ver++){
+                RED_LAND = new ImageIcon("grass.png").getImage();
+                g.drawImage(RED_LAND, hor*tileSize, ver*tileSize, tileSize,tileSize,null);
+            }
+        }
+        Random rand = new Random();
+
+        // draw trees
+        int treeCount = 10;
+        Image TREE;
+        for(int t = 0; t < treeCount; t++){
+            TREE = new ImageIcon("tree2.png").getImage();
+            g.drawImage(TREE,rand.nextInt(width/Entity.SIZE)*Entity.SIZE,rand.nextInt(height/Entity.SIZE)*Entity.SIZE, tileSize,tileSize, null);
+        }
         Toolkit.getDefaultToolkit().sync();
         //draw entities
-        for (Entity entity : entities)
-        {
-            g.drawImage(entity.EntityImage,entity.currentPosition.x, entity.currentPosition.y, entity.width, entity.height, null);
+
+        ListIterator<Entity> iter = entities.listIterator();
+        while(iter.hasNext()){
+            Entity entity = iter.next();
+            if(!entity.isAlive){
+                iter.remove();
+            }else{
+                g.drawImage(entity.EntityImage,entity.currentPosition.x, entity.currentPosition.y, entity.width, entity.height, null);
+            }
         }
+
+        if(entities.isEmpty()){
+            redraw = false;
+            JOptionPane.showMessageDialog(null, "My Goodness, simulation is canceld");
+            System.out.println("all dead");
+        }
+
+//        for (Entity entity : entities)
+//        {
+//            if(entity.isAlive){
+//                g.drawImage(entity.EntityImage,entity.currentPosition.x, entity.currentPosition.y, entity.width, entity.height, null);
+//            }
+//            else{
+//                entities.remove(entity);
+//            }
+//        }
     }
 
     public void redraw() {
 
         try {
-            TimeUnit.MILLISECONDS.sleep(50);
+            TimeUnit.SECONDS.sleep(1);
         }
         catch (InterruptedException e) {
             System.out.println("Interrupted");
@@ -76,7 +102,7 @@ public class GridMap extends JPanel implements Runnable{
 
     @Override
     public void run() {
-        while (true) {
+        while (redraw == true) {
             redraw();
         }
     }

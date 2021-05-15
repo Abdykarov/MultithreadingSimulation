@@ -25,14 +25,12 @@ public class EntityRunnable implements Runnable {
     public void run() {
         while (true) {
             try {
-                TimeUnit.MILLISECONDS.sleep(50);
+                TimeUnit.SECONDS.sleep(1);
             } catch (InterruptedException e) {
             }
-            int max = 10;
-            int min = -10;
-            entity.move(rand.nextInt(max) * 1,0);
-            System.out.println(entity.currentPosition.x);
-            System.out.println(Thread.currentThread().getName());
+            entity.aLifeLenght = entity.aLifeLenght - 1;
+            if(entity.aLifeLenght == 0) entity.isAlive = false;
+            entity.move();
         }
     }
 

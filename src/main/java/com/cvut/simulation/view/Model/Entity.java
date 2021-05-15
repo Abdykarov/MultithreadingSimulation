@@ -10,6 +10,7 @@ public abstract class Entity{
     public static final int SIZE = 50; // size of entity
     public static final Color COLOR = Color.BLUE.darker().darker();
     public Integer id;
+    public Boolean isAlive;
     public Integer aSpeed; //animalSpeed
     public Integer aHunger;
     public Integer aHealth;
@@ -29,7 +30,7 @@ public abstract class Entity{
     /**
      * Entity moves to next tile
      */
-    public abstract void move(int x,int y);
+    public abstract void move();
 
     /**
      * Entity eats other entity, which is placed in the next tile
