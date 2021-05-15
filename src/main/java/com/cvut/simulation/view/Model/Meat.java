@@ -2,18 +2,22 @@ package com.cvut.simulation.view.Model;
 
 import com.cvut.simulation.view.View.Tile;
 
+import javax.swing.*;
+
 public class Meat extends Entity {
 
 
-    Meat(Tile tilePos, int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght){
+    public Meat(Tile tilePos, int id, int aEnergy, int aLifeLenght){
         this.aEnergy = aEnergy;
-        this.aHealth = aHealth;
-        this.aHunger = aHunger;
         this.aLifeLenght = aLifeLenght;
-        this.aSpeed = aSpeed;
         this.aType = "Meat";
+        this.image = "meat.png";
         this.id = id;
+        this.width = 50;
+        this.height = 35;
         this.currentPosition = tilePos;
+        this.EntityImage = new ImageIcon(image).getImage();
+        this.isAlive = true;
     }
 
 
@@ -78,7 +82,7 @@ public class Meat extends Entity {
      * @param waterObject
      */
     @Override
-    public void drinkWater(Water waterObject) {
+    public void drinkWater(Rabbit waterObject) {
 
     }
 

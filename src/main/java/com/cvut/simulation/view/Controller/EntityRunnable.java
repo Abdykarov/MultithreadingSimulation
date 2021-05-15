@@ -29,18 +29,22 @@ public class EntityRunnable implements Runnable {
                 TimeUnit.MILLISECONDS.sleep(fps);
             } catch (InterruptedException e) {
             }
-            entity.aLifeLenght = entity.aLifeLenght - 1;
+//            decreaseAge();
             if(entity.aLifeLenght == 0) entity.isAlive = false;
-            moveEntity(entity.currentPosition.x, entity.currentPosition.y);
+            entity.move();
 
         }
+    }
+
+    private void decreaseAge(){
+        entity.aLifeLenght = entity.aLifeLenght - 1;
     }
 
     /**
      * Moves entity to next position
      */
     private void moveEntity (int xDelta, int yDelta) {
-
+        // TODO update ai logic in future
         int velocity = rand.nextInt(9-1) +1;
         // there is will be 9 ways to go,
         switch (velocity){

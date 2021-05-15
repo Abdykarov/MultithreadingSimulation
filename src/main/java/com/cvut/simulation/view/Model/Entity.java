@@ -59,7 +59,7 @@ public abstract class Entity{
      * Drinks water
      * @param waterObject
      */
-    public abstract void drinkWater(Water waterObject);
+    public abstract void drinkWater(Rabbit waterObject);
 
     public abstract Tile getTile();
 }

@@ -3,7 +3,6 @@ package com.cvut.simulation.view.Model;
 import com.cvut.simulation.view.View.Tile;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class Hunter extends Entity {
 
@@ -15,7 +14,7 @@ public class Hunter extends Entity {
         this.aLifeLenght = aLifeLenght;
         this.aSpeed = aSpeed;
         this.aType = "Hunter";
-        this.image = "wolf.png";
+        this.image = "hunter.png";
         this.id = id;
         this.width = 50;
         this.height = 35;
@@ -142,7 +141,7 @@ public class Hunter extends Entity {
      * @param waterObject
      */
     @Override
-    public void drinkWater(Water waterObject) {
+    public void drinkWater(Rabbit waterObject) {
 
     }
 }

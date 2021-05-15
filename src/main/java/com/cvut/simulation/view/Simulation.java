@@ -1,8 +1,7 @@
 package com.cvut.simulation.view;
 
 import com.cvut.simulation.view.Controller.EntityRunnable;
-import com.cvut.simulation.view.Model.Entity;
-import com.cvut.simulation.view.Model.Hunter;
+import com.cvut.simulation.view.Model.*;
 import com.cvut.simulation.view.View.GridMap;
 import com.cvut.simulation.view.View.Tile;
 
@@ -22,21 +21,40 @@ public class Simulation {
 
         List<Entity> entities = new ArrayList<>();
 
+
         // Creating new entities wtih different parametrs
-        entities.add(new Hunter(getRandomPosition(gridWidth,gridHeight, entities),1,
+        entities.add(new Fox(getRandomPosition(gridWidth,gridHeight, entities),1,
                 100,100,50,70, 16));
- // Creating new entities wtih different parametrs
-        entities.add(new Hunter(getRandomPosition(gridWidth,gridHeight, entities),1,
+        entities.add(new Fox(getRandomPosition(gridWidth,gridHeight, entities),1,
                 100,100,50,70, 16));
- // Creating new entities wtih different parametrs
-        entities.add(new Hunter(getRandomPosition(gridWidth,gridHeight, entities),1,
+        entities.add(new Fox(getRandomPosition(gridWidth,gridHeight, entities),1,
                 100,100,50,70, 16));
- // Creating new entities wtih different parametrs
-        entities.add(new Hunter(getRandomPosition(gridWidth,gridHeight, entities),1,
+
+        entities.add(new Rabbit(getRandomPosition(gridWidth,gridHeight, entities),1,
                 100,100,50,70, 16));
- // Creating new entities wtih different parametrs
-        entities.add(new Hunter(getRandomPosition(gridWidth,gridHeight, entities),1,
+
+        entities.add(new Rabbit(getRandomPosition(gridWidth,gridHeight, entities),1,
                 100,100,50,70, 16));
+        entities.add(new Rabbit(getRandomPosition(gridWidth,gridHeight, entities),1,
+                100,100,50,70, 16));
+
+        entities.add(new Wolf(getRandomPosition(gridWidth,gridHeight, entities),1,
+                100,100,50,70, 16));
+
+        entities.add(new Wolf(getRandomPosition(gridWidth,gridHeight, entities),1,
+                100,100,50,70, 16));
+
+        entities.add(new Sheep(getRandomPosition(gridWidth,gridHeight, entities),1,
+                100,100,50,70, 16));
+
+        entities.add(new Sheep(getRandomPosition(gridWidth,gridHeight, entities),1,
+                100,100,50,70, 16));
+
+
+        entities.add(new Meat(getRandomPosition(gridWidth,gridHeight, entities),1,
+                100, 16));
+        entities.add(new Meat(getRandomPosition(gridWidth,gridHeight, entities),1,
+                100, 16));
 
 
 
@@ -52,7 +70,6 @@ public class Simulation {
         }
 
         SwingUtilities.invokeLater(new Runnable() {
-
             @Override
             public void run() {
                 boardManager.generateWindow();

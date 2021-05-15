@@ -47,8 +47,8 @@ public class GridMap extends JPanel implements Runnable{
         Image RED_LAND;
         for(int hor = 0; hor < width/tileSize; hor++){
             for (int ver = 0; ver < height/tileSize; ver++){
-                RED_LAND = new ImageIcon("grass.png").getImage();
-                g.drawImage(RED_LAND, hor*tileSize, ver*tileSize, tileSize,tileSize,null);
+//                RED_LAND = new ImageIcon("grass.png").getImage();
+                g.drawRect(hor*tileSize, ver*tileSize, tileSize,tileSize);
             }
         }
         Random rand = new Random();

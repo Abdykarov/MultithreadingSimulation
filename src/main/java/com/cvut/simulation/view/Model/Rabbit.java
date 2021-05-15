@@ -4,25 +4,26 @@ import com.cvut.simulation.view.View.Tile;
 
 import javax.swing.*;
 
-public class Fox extends Entity {
+public class Rabbit extends Entity {
 
 
-    public Fox(Tile tilePos, int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght){
+    public Rabbit(Tile tilePos, int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght){
         this.aEnergy = aEnergy;
         this.aHealth = aHealth;
         this.aHunger = aHunger;
         this.aLifeLenght = aLifeLenght;
         this.aSpeed = aSpeed;
-        this.aType = "Fox";
-        this.image = "fox.png";
+        this.aType = "Rabbit";
+        this.image = "rabbit.png";
         this.id = id;
-        this.width = 50;
-        this.height = 45;
+        this.width = 40;
+        this.height = 35;
         this.currentPosition = tilePos;
         this.EntityImage = new ImageIcon(image).getImage();
         this.isAlive = true;
-
     }
+
+
 
 
     /**
@@ -80,7 +81,6 @@ public class Fox extends Entity {
         currentPosition.y = yDelta;
     }
 
-
     /**
      * Entity eats other entity, which is placed in the next tile
      *
@@ -110,6 +110,7 @@ public class Fox extends Entity {
     @Override
     public int getXPosition() {
         return 0;
+
     }
 
     @Override
