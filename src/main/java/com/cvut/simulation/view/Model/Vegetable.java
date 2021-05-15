@@ -14,7 +14,6 @@ public class Vegetable extends Entity {
         this.aType = "Vegetable";
         this.id = id;
         this.currentPosition = tilePos;
-        this.nextPosition = calculateNextPosition(tilePos);
     }
 
 

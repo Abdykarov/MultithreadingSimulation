@@ -14,7 +14,6 @@ public class Fox extends Entity {
         this.aType = "Fox";
         this.id = id;
         this.currentPosition = tilePos;
-        this.nextPosition = calculateNextPosition(tilePos);
     }
 
 

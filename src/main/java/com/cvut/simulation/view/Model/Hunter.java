@@ -20,7 +20,6 @@ public class Hunter extends Entity {
         this.width = 50;
         this.height = 35;
         this.currentPosition = tilePos;
-        this.nextPosition = calculateNextPosition(tilePos);
         this.EntityImage = new ImageIcon(image).getImage();
         this.isAlive = true;
 
@@ -39,9 +38,8 @@ public class Hunter extends Entity {
      */
     @Override
     public void move() {
-        if(isAlive){
-            System.out.println(aLifeLenght);
-        }
+
+
     }
 
     /**
@@ -62,7 +60,55 @@ public class Hunter extends Entity {
      */
     @Override
     public Tile calculateNextPosition(Tile currentPosition) {
-        return new Tile(currentPosition.x, currentPosition.y + 50);
+        int dx = currentPosition.x;
+        int dy = currentPosition.y;
+
+        int velocity = rand.nextInt(9-1) +1;
+        // there is will be 9 ways to go,
+        switch (velocity){
+            case 1:
+                currentPosition.x += 0;
+                currentPosition.y += 0;
+                break;
+            case 2:
+                currentPosition.x += 50;
+                currentPosition.y += 0;
+                break;
+            case 3:
+                currentPosition.x += 50;
+                currentPosition.y += 50;
+                break;
+            case 4:
+                currentPosition.x += 0;
+                currentPosition.y += 50;
+                break;
+            case 5:
+                currentPosition.x += -50;
+                currentPosition.y += 50;
+                break;
+            case 6:
+                currentPosition.x += -50;
+                currentPosition.y += 0;
+                break;
+            case 7:
+                currentPosition.x += 50;
+                currentPosition.y += -50;
+                break;
+            case 8:
+                currentPosition.x += 0;
+                currentPosition.y += -50;
+                break;
+            case 9:
+                currentPosition.x += -50;
+                currentPosition.y += -50;
+                break;
+            default:
+                break;
+        }
+
+        System.out.println(1);
+
+        return new Tile(dx,dy);
     }
 
     @Override

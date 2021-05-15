@@ -24,16 +24,20 @@ public class Simulation {
 
         // Creating new entities wtih different parametrs
         entities.add(new Hunter(getRandomPosition(gridWidth,gridHeight, entities),1,
-                100,100,50,70, 6));
+                100,100,50,70, 16));
+ // Creating new entities wtih different parametrs
+        entities.add(new Hunter(getRandomPosition(gridWidth,gridHeight, entities),1,
+                100,100,50,70, 16));
+ // Creating new entities wtih different parametrs
+        entities.add(new Hunter(getRandomPosition(gridWidth,gridHeight, entities),1,
+                100,100,50,70, 16));
+ // Creating new entities wtih different parametrs
+        entities.add(new Hunter(getRandomPosition(gridWidth,gridHeight, entities),1,
+                100,100,50,70, 16));
+ // Creating new entities wtih different parametrs
+        entities.add(new Hunter(getRandomPosition(gridWidth,gridHeight, entities),1,
+                100,100,50,70, 16));
 
-        entities.add(new Hunter(getRandomPosition(gridWidth,gridHeight, entities),2,
-                80,50,40,80, 5));
-entities.add(new Hunter(getRandomPosition(gridWidth,gridHeight, entities),2,
-                80,50,40,80, 6));
-entities.add(new Hunter(getRandomPosition(gridWidth,gridHeight, entities),2,
-                80,50,40,80, 1));
-entities.add(new Hunter(getRandomPosition(gridWidth,gridHeight, entities),2,
-                80,50,40,80, 10));
 
 
         GridMap gridMap = new GridMap(gridWidth, gridHeight, entities);

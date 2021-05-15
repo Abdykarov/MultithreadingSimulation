@@ -4,9 +4,10 @@ import com.cvut.simulation.view.View.Tile;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 
 public abstract class Entity{
-
+    public Random rand = new Random();
     public static final int SIZE = 50; // size of entity
     public static final Color COLOR = Color.BLUE.darker().darker();
     public Integer id;
@@ -20,7 +21,6 @@ public abstract class Entity{
     public Integer height;
     public String aType;
     public Tile currentPosition;
-    public Tile nextPosition;
     public String image;
     public Image EntityImage = new ImageIcon(image).getImage();
 

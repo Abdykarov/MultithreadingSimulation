@@ -14,7 +14,6 @@ public class Wolf extends Entity {
         this.aType = "Wolf";
         this.id = id;
         this.currentPosition = tilePos;
-        this.nextPosition = calculateNextPosition(tilePos);
     }
 
 

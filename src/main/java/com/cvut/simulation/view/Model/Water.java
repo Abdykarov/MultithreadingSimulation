@@ -14,7 +14,6 @@ public class Water extends Entity {
         this.aType = "Water";
         this.id = id;
         this.currentPosition = tilePos;
-        this.nextPosition = calculateNextPosition(tilePos);
     }
 
 

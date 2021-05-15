@@ -16,6 +16,7 @@ public class GridMap extends JPanel implements Runnable{
     public final int height;
     public final List<Entity> entities;
     public boolean redraw;
+    public final long fps = 600;
 
    public GridMap(int width, int height, List<Entity> entities)
     {
@@ -52,13 +53,16 @@ public class GridMap extends JPanel implements Runnable{
         }
         Random rand = new Random();
 
-        // draw trees
-        int treeCount = 10;
-        Image TREE;
-        for(int t = 0; t < treeCount; t++){
-            TREE = new ImageIcon("tree2.png").getImage();
-            g.drawImage(TREE,rand.nextInt(width/Entity.SIZE)*Entity.SIZE,rand.nextInt(height/Entity.SIZE)*Entity.SIZE, tileSize,tileSize, null);
-        }
+//        // draw trees
+//        int treeCount = 10;
+//        Image TREE;
+//        for(int t = 0; t < treeCount; t++){
+//            TREE = new ImageIcon("tree2.png").getImage();
+//            g.drawImage(TREE,rand.nextInt(width/Entity.SIZE)*Entity.SIZE,rand.nextInt(height/Entity.SIZE)*Entity.SIZE, tileSize,tileSize, null);
+//        }
+
+
+
         Toolkit.getDefaultToolkit().sync();
         //draw entities
 
@@ -92,7 +96,7 @@ public class GridMap extends JPanel implements Runnable{
     public void redraw() {
 
         try {
-            TimeUnit.SECONDS.sleep(1);
+            TimeUnit.MILLISECONDS.sleep(fps);
         }
         catch (InterruptedException e) {
             System.out.println("Interrupted");
