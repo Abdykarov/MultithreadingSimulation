@@ -16,7 +16,7 @@ public class Hunter extends Entity {
         this.aLifeLenght = aLifeLenght;
         this.aSpeed = aSpeed;
         this.aType = "Hunter";
-        this.image = "hunter.png";
+        this.image = "images/hunter.png";
         this.id = id;
         this.width = 55;
         this.height = 45;

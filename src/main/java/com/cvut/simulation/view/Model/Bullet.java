@@ -11,7 +11,7 @@ public class Bullet extends Entity {
     public Bullet(Tile tilePos, int id, int direction){
         this.direction = direction;
         this.aType = "Bullet";
-        this.image = "bullet.png";
+        this.image = "images/bullet.png";
         this.id = id;
         this.width = 50;
         this.aLifeLenght = 1;

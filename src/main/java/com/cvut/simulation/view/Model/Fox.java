@@ -19,7 +19,7 @@ public class Fox extends Entity {
         this.aLifeLenght = aLifeLenght;
         this.aSpeed = aSpeed;
         this.aType = "Fox";
-        this.image = "fox.png";
+        this.image = "images/fox.png";
         this.id = id;
         this.width = 50;
         this.height = 45;

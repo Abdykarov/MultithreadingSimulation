@@ -12,7 +12,7 @@ public class Sheep extends Entity {
         this.aLifeLenght = aLifeLenght;
         this.aSpeed = aSpeed;
         this.aType = "Sheap";
-        this.image = "sheep.png";
+        this.image = "images/sheep.png";
         this.id = id;
         this.width = 55;
         this.height = 45;

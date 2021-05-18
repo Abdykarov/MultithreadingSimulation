@@ -9,7 +9,7 @@ public class Meat extends Entity {
         this.aEnergy = aEnergy;
         this.aLifeLenght = aLifeLenght;
         this.aType = "Meat";
-        this.image = "meat.png";
+        this.image = "images/meat.png";
         this.id = id;
         this.width = 50;
         this.height = 35;

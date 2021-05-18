@@ -12,7 +12,7 @@ public class Wolf extends Entity {
         this.aLifeLenght = aLifeLenght;
         this.aSpeed = aSpeed;
         this.aType = "Wolf";
-        this.image = "wolf.png";
+        this.image = "images/wolf.png";
         this.id = id;
         this.width = 50;
         this.height = 35;
