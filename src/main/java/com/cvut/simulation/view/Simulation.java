@@ -8,11 +8,13 @@ import com.cvut.simulation.view.Model.Tile;
 
 import javax.swing.*;
 import java.util.*;
+import java.util.concurrent.CountDownLatch;
 
 public class Simulation {
 
     private static final Random rand = new Random();
     public static List<Entity> entities = new ArrayList<>();
+    final CountDownLatch latch = new CountDownLatch(1);
 
     public static void main(String[] args){
 
@@ -25,16 +27,26 @@ public class Simulation {
                 100,100,400,20, 160, 100));
         entities.add(new Fox(getRandomPosition(gridWidth,gridHeight, entities),2,
                 100,100,400,20, 160,100));
+  // Creating new entities wtih different parametrs
+        entities.add(new Fox(getRandomPosition(gridWidth,gridHeight, entities),3,
+                100,100,400,20, 160, 100));
+        entities.add(new Fox(getRandomPosition(gridWidth,gridHeight, entities),4,
+                100,100,400,20, 160,100));
+  // Creating new entities wtih different parametrs
+        entities.add(new Fox(getRandomPosition(gridWidth,gridHeight, entities),5,
+                100,100,400,20, 160, 100));
+        entities.add(new Fox(getRandomPosition(gridWidth,gridHeight, entities),6,
+                100,100,400,20, 160,100));
 
 
-//        entities.add(new Rabbit(getRandomPosition(gridWidth,gridHeight, entities),4,
-//                100,100,50,70, 16));
-//
-//        entities.add(new Rabbit(getRandomPosition(gridWidth,gridHeight, entities),5,
-//                100,100,50,70, 16));
-//        entities.add(new Rabbit(getRandomPosition(gridWidth,gridHeight, entities),6,
-//                100,100,50,70, 16));
-//
+        entities.add(new Rabbit(getRandomPosition(gridWidth,gridHeight, entities),7,
+                100,100,50,70, 16));
+
+        entities.add(new Rabbit(getRandomPosition(gridWidth,gridHeight, entities),8,
+                100,100,50,70, 16));
+        entities.add(new Rabbit(getRandomPosition(gridWidth,gridHeight, entities),9,
+                100,100,50,70, 16));
+
 //        entities.add(new Wolf(getRandomPosition(gridWidth,gridHeight, entities),7,
 //                100,100,50,70, 16));
 //
@@ -53,23 +65,17 @@ public class Simulation {
 //        entities.add(new Hunter(getRandomPosition(gridWidth,gridHeight, entities),12,
 //                100,100,50,70, 200));
 //
-//
-//        entities.add(new Meat(getRandomPosition(gridWidth,gridHeight, entities),13,
-//                100, 16));
-//        entities.add(new Meat(getRandomPosition(gridWidth,gridHeight, entities),14,
-//                100, 16));
-
-
 
 
 
         GridMap gridMap = new GridMap(gridWidth, gridHeight);
         BoardManager boardManager = new BoardManager(gridMap);
+        final CountDownLatch latch = new CountDownLatch(1);
 
         /* Start the Entity Runnables */
         for (Entity entity : entities)
         {
-            EntityRunnable particleRunnable = new EntityRunnable(entity);
+            EntityRunnable particleRunnable = new EntityRunnable(entity, latch);
             new Thread(particleRunnable).start();
 
         }
@@ -81,6 +87,9 @@ public class Simulation {
                 boardManager.generateWindow();
             }
         });
+
+        Statistics stats = new Statistics( gridMap, entities);
+        new Thread(stats).start();
 
 
     }
@@ -107,7 +116,7 @@ public class Simulation {
         Entity fox = new Fox(tile,id,
                 100,100,50,70, 16, 20);
         entities.add(fox);
-        EntityRunnable foxRunnable = new EntityRunnable(fox);
+        EntityRunnable foxRunnable = new EntityRunnable(fox, latch);
         new Thread(foxRunnable).start();
 
     }
@@ -116,7 +125,7 @@ public class Simulation {
         Tile tile = new Tile(posX, posY);
         Entity bullet = new Bullet(tile,id, direction);
         entities.add(bullet);
-        EntityRunnable particleRunnable = new EntityRunnable(bullet);
+        EntityRunnable particleRunnable = new EntityRunnable(bullet, latch);
         new Thread(particleRunnable).start();
 
     }

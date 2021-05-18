@@ -52,8 +52,7 @@ public class GridMap extends JPanel implements Runnable{
         Random rand = new Random();
 
 
-        //optimise miltithreading
-        Toolkit.getDefaultToolkit().sync();
+
 
 
         //draw entities
@@ -89,7 +88,9 @@ public class GridMap extends JPanel implements Runnable{
             System.out.println("Interrupted");
         }
         repaint();
-    }
+        //optimise miltithreading
+        Toolkit.getDefaultToolkit().sync();
+   }
 
     @Override
     public void run() {
