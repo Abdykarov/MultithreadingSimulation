@@ -3,7 +3,6 @@ package com.cvut.simulation.view.Controller;
 import com.cvut.simulation.view.Simulation;
 import com.cvut.simulation.view.View.GridMap;
 import com.cvut.simulation.view.Model.Entity;
-import com.cvut.simulation.view.View.Tile;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;

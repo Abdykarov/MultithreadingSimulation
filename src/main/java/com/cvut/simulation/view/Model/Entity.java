@@ -1,7 +1,5 @@
 package com.cvut.simulation.view.Model;
 
-import com.cvut.simulation.view.View.Tile;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
