@@ -1,9 +1,8 @@
 package com.cvut.simulation.view.Model;
 
-import com.cvut.simulation.view.Controller.EntityRunnable;
+import com.cvut.simulation.view.Utils.Tile;
 
 import javax.swing.*;
-import java.util.concurrent.TimeUnit;
 
 public class Hunter extends Entity {
 

@@ -1,5 +1,7 @@
 package com.cvut.simulation.view.Model;
 
+import com.cvut.simulation.view.Utils.Tile;
+
 import javax.swing.*;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;

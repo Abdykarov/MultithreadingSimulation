@@ -1,6 +1,7 @@
 package com.cvut.simulation.view.Model;
 
 import com.cvut.simulation.view.Simulation;
+import com.cvut.simulation.view.Utils.Tile;
 
 import javax.swing.*;
 import java.awt.*;

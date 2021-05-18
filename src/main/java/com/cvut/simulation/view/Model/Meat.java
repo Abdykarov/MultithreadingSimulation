@@ -1,5 +1,7 @@
 package com.cvut.simulation.view.Model;
 
+import com.cvut.simulation.view.Utils.Tile;
+
 import javax.swing.*;
 
 public class Meat extends Entity {
