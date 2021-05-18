@@ -2,63 +2,69 @@ package com.cvut.simulation.view;
 
 import com.cvut.simulation.view.Controller.EntityRunnable;
 import com.cvut.simulation.view.Model.*;
+import com.cvut.simulation.view.View.BoardManager;
 import com.cvut.simulation.view.View.GridMap;
 import com.cvut.simulation.view.View.Tile;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Simulation {
 
     private static final Random rand = new Random();
+    public static List<Entity> entities = new ArrayList<>();
 
     public static void main(String[] args){
 
         int gridWidth = 20*50;
         int gridHeight = 13*50;
 
-        List<Entity> entities = new ArrayList<>();
-
 
         // Creating new entities wtih different parametrs
         entities.add(new Fox(getRandomPosition(gridWidth,gridHeight, entities),1,
                 100,100,50,70, 16));
-        entities.add(new Fox(getRandomPosition(gridWidth,gridHeight, entities),1,
+        entities.add(new Fox(getRandomPosition(gridWidth,gridHeight, entities),2,
                 100,100,50,70, 16));
-        entities.add(new Fox(getRandomPosition(gridWidth,gridHeight, entities),1,
-                100,100,50,70, 16));
-
-        entities.add(new Rabbit(getRandomPosition(gridWidth,gridHeight, entities),1,
+        entities.add(new Fox(getRandomPosition(gridWidth,gridHeight, entities),3,
                 100,100,50,70, 16));
 
-        entities.add(new Rabbit(getRandomPosition(gridWidth,gridHeight, entities),1,
-                100,100,50,70, 16));
-        entities.add(new Rabbit(getRandomPosition(gridWidth,gridHeight, entities),1,
+        entities.add(new Rabbit(getRandomPosition(gridWidth,gridHeight, entities),4,
                 100,100,50,70, 16));
 
-        entities.add(new Wolf(getRandomPosition(gridWidth,gridHeight, entities),1,
+        entities.add(new Rabbit(getRandomPosition(gridWidth,gridHeight, entities),5,
+                100,100,50,70, 16));
+        entities.add(new Rabbit(getRandomPosition(gridWidth,gridHeight, entities),6,
                 100,100,50,70, 16));
 
-        entities.add(new Wolf(getRandomPosition(gridWidth,gridHeight, entities),1,
+        entities.add(new Wolf(getRandomPosition(gridWidth,gridHeight, entities),7,
                 100,100,50,70, 16));
 
-        entities.add(new Sheep(getRandomPosition(gridWidth,gridHeight, entities),1,
+        entities.add(new Wolf(getRandomPosition(gridWidth,gridHeight, entities),8,
                 100,100,50,70, 16));
 
-        entities.add(new Sheep(getRandomPosition(gridWidth,gridHeight, entities),1,
+        entities.add(new Sheep(getRandomPosition(gridWidth,gridHeight, entities),9,
                 100,100,50,70, 16));
 
+        entities.add(new Sheep(getRandomPosition(gridWidth,gridHeight, entities),10,
+                100,100,50,70, 16));
 
-        entities.add(new Meat(getRandomPosition(gridWidth,gridHeight, entities),1,
+        entities.add(new Hunter(getRandomPosition(gridWidth,gridHeight, entities),11,
+                100,100,50,70, 20));
+
+        entities.add(new Hunter(getRandomPosition(gridWidth,gridHeight, entities),12,
+                100,100,50,70, 20));
+
+
+        entities.add(new Meat(getRandomPosition(gridWidth,gridHeight, entities),13,
                 100, 16));
-        entities.add(new Meat(getRandomPosition(gridWidth,gridHeight, entities),1,
+        entities.add(new Meat(getRandomPosition(gridWidth,gridHeight, entities),14,
                 100, 16));
 
 
 
-        GridMap gridMap = new GridMap(gridWidth, gridHeight, entities);
+
+
+        GridMap gridMap = new GridMap(gridWidth, gridHeight);
         BoardManager boardManager = new BoardManager(gridMap);
 
         /* Start the Entity Runnables */
@@ -69,6 +75,7 @@ public class Simulation {
 
         }
 
+        // start gui thread
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -77,6 +84,27 @@ public class Simulation {
         });
 
 
+    }
+
+    public void removeEntity(Entity entity){
+
+//        for (Entity ent : entities) {
+//            if(ent != null && ent.id == entity.id){
+//                entities.remove(ent);
+//            }
+//        }
+
+        for (Iterator<Entity> iterator = entities.iterator(); iterator.hasNext();) {
+            Entity ent = iterator.next();
+            if(ent != null && ent.id == entity.id){
+                iterator.remove();
+            }
+        }
+
+    }
+
+    public List<Entity> getEntities(){
+        return entities;
     }
 
     /**

@@ -16,8 +16,8 @@ public class Hunter extends Entity {
         this.aType = "Hunter";
         this.image = "hunter.png";
         this.id = id;
-        this.width = 50;
-        this.height = 35;
+        this.width = 55;
+        this.height = 45;
         this.currentPosition = tilePos;
         this.EntityImage = new ImageIcon(image).getImage();
         this.isAlive = true;
@@ -30,14 +30,57 @@ public class Hunter extends Entity {
     }
 
 
-    /**
-     * Entity moves to next tile
-     *
-     * @param tileToMove
-     */
+
     @Override
     public void move() {
+        int xDelta = currentPosition.x;
+        int yDelta = currentPosition.y;
+        // TODO update ai logic in future
+        int velocity = rand.nextInt(9-1) +1;
+        // there is will be 9 ways to go,
+        switch (velocity){
+            case 1:
+                xDelta+= 0;
+                yDelta += 0;
+                break;
+            case 2:
+                xDelta += 50;
+                yDelta += 0;
+                break;
+            case 3:
+                xDelta+= 50;
+                yDelta += 50;
+                break;
+            case 4:
+                xDelta += 0;
+                yDelta += 50;
+                break;
+            case 5:
+                xDelta += -50;
+                yDelta += 50;
+                break;
+            case 6:
+                xDelta += -50;
+                yDelta += 0;
+                break;
+            case 7:
+                xDelta += 50;
+                yDelta += -50;
+                break;
+            case 8:
+                xDelta += 0;
+                yDelta += -50;
+                break;
+            case 9:
+                xDelta += -50;
+                yDelta += -50;
+                break;
+            default:
+                break;
+        }
 
+        currentPosition.x = xDelta;
+        currentPosition.y = yDelta;
 
     }
 

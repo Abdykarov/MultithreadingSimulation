@@ -1,6 +1,7 @@
 package com.cvut.simulation.view.View;
 
 import com.cvut.simulation.view.Model.Entity;
+import com.cvut.simulation.view.Simulation;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,11 +15,11 @@ public class GridMap extends JPanel implements Runnable{
 
     public final int width;
     public final int height;
-    public final List<Entity> entities;
+    public Simulation sim;
     public boolean redraw;
-    public final long fps = 600;
+    public final long fps = 400;
 
-   public GridMap(int width, int height, List<Entity> entities)
+   public GridMap(int width, int height)
     {
         if (width % Entity.SIZE != 0 || height % Entity.SIZE != 0)
         {
@@ -28,7 +29,7 @@ public class GridMap extends JPanel implements Runnable{
         this.width = width;
         this.redraw = true;
         this.height = height;
-        this.entities = entities;
+        this.sim = new Simulation();
         Thread thr = new Thread(this);
         thr.start();
     }
@@ -41,6 +42,8 @@ public class GridMap extends JPanel implements Runnable{
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        List<Entity> entities = sim.getEntities();
 
         // drawing tiles
         int tileSize = 50;
@@ -69,10 +72,13 @@ public class GridMap extends JPanel implements Runnable{
         ListIterator<Entity> iter = entities.listIterator();
         while(iter.hasNext()){
             Entity entity = iter.next();
-            if(!entity.isAlive){
-                iter.remove();
-            }else{
-                g.drawImage(entity.EntityImage,entity.currentPosition.x, entity.currentPosition.y, entity.width, entity.height, null);
+
+            g.drawImage(entity.EntityImage,entity.currentPosition.x, entity.currentPosition.y, entity.width, entity.height, null);
+
+        }
+        for(Entity ent : entities){
+            if(ent != null){
+                System.out.println(ent.id);
             }
         }
 

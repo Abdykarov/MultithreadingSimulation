@@ -1,4 +1,4 @@
-package com.cvut.simulation.view;
+package com.cvut.simulation.view.View;
 
 import com.cvut.simulation.view.View.GridMap;
 
