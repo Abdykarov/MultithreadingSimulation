@@ -34,11 +34,7 @@ public class GridMap extends JPanel implements Runnable{
         thr.start();
     }
 
-    public void animateEntityStep(Tile initialPosition, Tile NextPosition){
-        repaint(initialPosition.x, initialPosition.y, Entity.SIZE, Entity.SIZE);
-        repaint(NextPosition.x, NextPosition.y, Entity.SIZE, Entity.SIZE);
-        Toolkit.getDefaultToolkit().sync();
-    }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -50,25 +46,17 @@ public class GridMap extends JPanel implements Runnable{
         Image RED_LAND;
         for(int hor = 0; hor < width/tileSize; hor++){
             for (int ver = 0; ver < height/tileSize; ver++){
-//                RED_LAND = new ImageIcon("grass.png").getImage();
                 g.drawRect(hor*tileSize, ver*tileSize, tileSize,tileSize);
             }
         }
         Random rand = new Random();
 
-//        // draw trees
-//        int treeCount = 10;
-//        Image TREE;
-//        for(int t = 0; t < treeCount; t++){
-//            TREE = new ImageIcon("tree2.png").getImage();
-//            g.drawImage(TREE,rand.nextInt(width/Entity.SIZE)*Entity.SIZE,rand.nextInt(height/Entity.SIZE)*Entity.SIZE, tileSize,tileSize, null);
-//        }
 
-
-
+        //optimise miltithreading
         Toolkit.getDefaultToolkit().sync();
-        //draw entities
 
+
+        //draw entities
         ListIterator<Entity> iter = entities.listIterator();
         while(iter.hasNext()){
             Entity entity = iter.next();
@@ -76,11 +64,13 @@ public class GridMap extends JPanel implements Runnable{
             g.drawImage(entity.EntityImage,entity.currentPosition.x, entity.currentPosition.y, entity.width, entity.height, null);
 
         }
-        for(Entity ent : entities){
-            if(ent != null){
-                System.out.println(ent.id);
-            }
-        }
+
+
+//        for(Entity ent : entities){
+//            if(ent != null){
+//                System.out.println(ent.aType);
+//            }
+//        }
 
         if(entities.isEmpty()){
             redraw = false;
@@ -88,15 +78,6 @@ public class GridMap extends JPanel implements Runnable{
             System.out.println("all dead");
         }
 
-//        for (Entity entity : entities)
-//        {
-//            if(entity.isAlive){
-//                g.drawImage(entity.EntityImage,entity.currentPosition.x, entity.currentPosition.y, entity.width, entity.height, null);
-//            }
-//            else{
-//                entities.remove(entity);
-//            }
-//        }
     }
 
     public void redraw() {

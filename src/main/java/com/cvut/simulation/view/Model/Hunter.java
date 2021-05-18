@@ -1,9 +1,13 @@
 package com.cvut.simulation.view.Model;
 
+import com.cvut.simulation.view.Controller.EntityRunnable;
+
 import javax.swing.*;
+import java.util.concurrent.TimeUnit;
 
 public class Hunter extends Entity {
 
+    public boolean shot = false;
 
     public Hunter(Tile tilePos, int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght){
         this.aEnergy = aEnergy;
@@ -27,10 +31,13 @@ public class Hunter extends Entity {
         return currentPosition;
     }
 
-
+    public void shotBullet(){
+        sim.addBullet(1,currentPosition.x, currentPosition.y, 1);
+    }
 
     @Override
     public void move() {
+
         int xDelta = currentPosition.x;
         int yDelta = currentPosition.y;
         // TODO update ai logic in future
@@ -79,6 +86,9 @@ public class Hunter extends Entity {
 
         currentPosition.x = xDelta;
         currentPosition.y = yDelta;
+
+//        shotBullet();
+
 
     }
 

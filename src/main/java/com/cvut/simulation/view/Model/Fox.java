@@ -4,11 +4,13 @@ import javax.swing.*;
 
 public class Fox extends Entity {
 
+    public int sexualDesire = 100;
 
-    public Fox(Tile tilePos, int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght){
+    public Fox(Tile tilePos, int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght, int sexualDesire){
         this.aEnergy = aEnergy;
         this.aHealth = aHealth;
         this.aHunger = aHunger;
+        this.sexualDesire = sexualDesire;
         this.aLifeLenght = aLifeLenght;
         this.aSpeed = aSpeed;
         this.aType = "Fox";
@@ -20,14 +22,34 @@ public class Fox extends Entity {
         this.EntityImage = new ImageIcon(image).getImage();
         this.isAlive = true;
 
+
     }
 
+    public Entity detectAnotherFox(){
+        for(Entity entity: EntityList){
+            if((entity.aType == "Fox") && entity.id != id && (entity.currentPosition.x == currentPosition.x) && (entity.currentPosition.y == currentPosition.y)){
+                System.out.println("another fox detected");
+                return entity;
+            }
+        }
+        return null;
+    }
 
     /**
      * Entity moves to next tile
      */
     @Override
     public void move() {
+        // create new fox
+        if(detectAnotherFox() != null && aEnergy > 70 && detectAnotherFox().aEnergy > 70 && aHunger < 30 && detectAnotherFox().aHunger < 30 && sexualDesire > 90){
+            sim.addFox(20,currentPosition.x + 50, currentPosition.y);
+            sexualDesire = 50;
+            aHunger += 20;
+            aEnergy -= 20;
+            System.out.println("fox borned");
+            move();
+        }
+
         int xDelta = currentPosition.x;
         int yDelta = currentPosition.y;
         // TODO update ai logic in future
@@ -76,6 +98,8 @@ public class Fox extends Entity {
 
         currentPosition.x = xDelta;
         currentPosition.y = yDelta;
+        sexualDesire += 1;
+
     }
 
 

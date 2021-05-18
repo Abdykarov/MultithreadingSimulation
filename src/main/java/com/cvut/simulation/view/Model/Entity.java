@@ -1,7 +1,10 @@
 package com.cvut.simulation.view.Model;
 
+import com.cvut.simulation.view.Simulation;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 import java.util.Random;
 
 public abstract class Entity{
@@ -20,6 +23,8 @@ public abstract class Entity{
     public String aType;
     public Tile currentPosition;
     public String image;
+    public Simulation sim = new Simulation();
+    public List<Entity> EntityList = sim.getEntities();
     public Image EntityImage = new ImageIcon(image).getImage();
 
 //    public abstract Tile getTile();

@@ -10,14 +10,12 @@ import java.util.concurrent.TimeUnit;
 public class EntityRunnable implements Runnable {
 
     public Entity entity;
-    public GridMap gridMap;
     public Simulation sim;
-    public final long fps = 400;
+    public final long fps = 100;
     Random rand = new Random();
 
-    public EntityRunnable(Entity entity, GridMap gridMap) {
+    public EntityRunnable(Entity entity) {
         this.entity = entity;
-        this.gridMap = gridMap;
         sim = new Simulation();
     }
 
@@ -28,10 +26,10 @@ public class EntityRunnable implements Runnable {
     public void run() {
         while (entity.isAlive) {
             try {
-                TimeUnit.MILLISECONDS.sleep(fps);
+                TimeUnit.MILLISECONDS.sleep(entity.aSpeed);
             } catch (InterruptedException e) {
             }
-//            decreaseAge();
+            decreaseAge();
             if(entity.aLifeLenght == 0){
                 killEntity(entity);
             }
