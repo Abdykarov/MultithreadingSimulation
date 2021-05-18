@@ -1,10 +1,15 @@
 package com.cvut.simulation.view.Model;
 
 import javax.swing.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Fox extends Entity {
 
     public int sexualDesire = 100;
+    public final Lock lock = new ReentrantLock();
+    private int killingRabbitCountdown = 0;
+    private int creatingFoxCountdown = 0;
 
     public Fox(Tile tilePos, int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght, int sexualDesire){
         this.aEnergy = aEnergy;
@@ -22,8 +27,8 @@ public class Fox extends Entity {
         this.EntityImage = new ImageIcon(image).getImage();
         this.isAlive = true;
 
-
     }
+
 
     public Entity detectAnotherFox(){
         for(Entity entity: EntityList){
