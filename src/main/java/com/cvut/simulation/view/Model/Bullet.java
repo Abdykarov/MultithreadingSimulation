@@ -3,12 +3,15 @@ package com.cvut.simulation.view.Model;
 import com.cvut.simulation.view.Utils.Tile;
 
 import javax.swing.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Bullet extends Entity {
 
     public final int direction;
     public int steps = 0;
     public Entity entityToDestroy;
+    public final Lock lock = new ReentrantLock();
 
     public Bullet(Tile tilePos, int id, int direction){
         this.direction = direction;
@@ -30,33 +33,31 @@ public class Bullet extends Entity {
      */
     @Override
     public void move() {
-        if(steps == 5){
-            isAlive = false;
-            sim.removeEntity(this);
-        }else if(detectCollision()){
-            entityToDestroy.isAlive = false;
-            sim.removeEntity(entityToDestroy);
-        }
-        int xDelta = currentPosition.x;
-        int yDelta = currentPosition.y;
-        xDelta = xDelta + 50;
-        yDelta = yDelta;
-        currentPosition.x = xDelta;
-        currentPosition.y = yDelta;
-        steps += 1;
+
 
     }
 
-    public boolean detectCollision(){
-
+    public Entity detectCollision(){
+        EntityList = sim.getEntities();
         for(Entity entity: EntityList){
-            if((entity.aType == "Wolf" || entity.aType == "Fox") && entity.currentPosition.x == currentPosition.x && entity.currentPosition.y == currentPosition.y){
+            if((entity.aType == "Wolf" || entity.aType == "Fox" || entity.aType == "Rabbit" || entity.aType=="Sheep") && entity.currentPosition.x == currentPosition.x && entity.currentPosition.y == currentPosition.y){
                 entityToDestroy = entity;
                 System.out.println("bullet shots");
-                return true;
+                if(entity.aType == "Wolf"){
+                    return (Wolf) entity;
+                }
+                else if(entity.aType == "Fox"){
+                    return (Fox) entity;
+                }
+                else if(entity.aType == "Rabbit"){
+                    return (Rabbit) entity;
+                }
+                else if(entity.aType == "Sheep"){
+                    return (Sheep) entity;
+                }
             }
         }
-        return false;
+        return null;
     }
 
     /**

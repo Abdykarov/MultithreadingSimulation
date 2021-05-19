@@ -3,83 +3,51 @@ package com.cvut.simulation.view.Model;
 import com.cvut.simulation.view.Utils.Tile;
 
 import javax.swing.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Rabbit extends Entity {
 
+    public int sexualDesire = 100;
 
+    // A lock of this monitor
+    public final Lock lock = new ReentrantLock();
     public Rabbit(Tile tilePos, int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght){
         this.aEnergy = aEnergy;
         this.aHealth = aHealth;
         this.aHunger = aHunger;
+        this.sexualDesire = sexualDesire;
         this.aLifeLenght = aLifeLenght;
         this.aSpeed = aSpeed;
         this.aType = "Rabbit";
         this.image = "images/rabbit.png";
         this.id = id;
-        this.width = 40;
-        this.height = 35;
+        this.width = 50;
+        this.height = 45;
         this.currentPosition = tilePos;
         this.EntityImage = new ImageIcon(image).getImage();
         this.isAlive = true;
+
     }
 
 
-
+    public Rabbit detectAnotherRabbit(){
+        for(Entity entity: EntityList){
+            if((entity.aType == "Rabbit") && (entity.currentPosition.x == currentPosition.x) && (entity.currentPosition.y == currentPosition.y)){
+                return (Rabbit) entity;
+            }
+        }
+        return null;
+    }
 
     /**
      * Entity moves to next tile
      */
     @Override
     public void move() {
-        int xDelta = currentPosition.x;
-        int yDelta = currentPosition.y;
-        // TODO update ai logic in future
-        int velocity = rand.nextInt(9-1) +1;
-        // there is will be 9 ways to go,
-        switch (velocity){
-            case 1:
-                xDelta+= 0;
-                yDelta += 0;
-                break;
-            case 2:
-                xDelta += 50;
-                yDelta += 0;
-                break;
-            case 3:
-                xDelta+= 50;
-                yDelta += 50;
-                break;
-            case 4:
-                xDelta += 0;
-                yDelta += 50;
-                break;
-            case 5:
-                xDelta += -50;
-                yDelta += 50;
-                break;
-            case 6:
-                xDelta += -50;
-                yDelta += 0;
-                break;
-            case 7:
-                xDelta += 50;
-                yDelta += -50;
-                break;
-            case 8:
-                xDelta += 0;
-                yDelta += -50;
-                break;
-            case 9:
-                xDelta += -50;
-                yDelta += -50;
-                break;
-            default:
-                break;
-        }
 
-        currentPosition.x = xDelta;
-        currentPosition.y = yDelta;
     }
+
 
     /**
      * Entity eats other entity, which is placed in the next tile
@@ -110,7 +78,6 @@ public class Rabbit extends Entity {
     @Override
     public int getXPosition() {
         return 0;
-
     }
 
     @Override

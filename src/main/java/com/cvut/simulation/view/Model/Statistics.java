@@ -1,53 +1,57 @@
 package com.cvut.simulation.view.Model;
 
 import com.cvut.simulation.view.Simulation;
-import com.cvut.simulation.view.View.GridMap;
+import com.cvut.simulation.view.Utils.Tile;
 
-import java.sql.Time;
-import java.util.HashMap;
+import javax.swing.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-public class Statistics implements Runnable{
+public class Statistics {
 
-    public List<Entity> entityList;
-    public Simulation sim;
-    public GridMap gridMap;
-    public int TotalCount;
-    public int FoxCount;
-    public int WolfCount;
+    public int foxCount;
     public int HunterCount;
     public int RabbitCount;
     public int SheepCount;
-    public int TimePassed;
+    public int WolfCount;
+    public int BulletCount;
 
-    public Statistics(GridMap gridMap, List<Entity> entities){
-        this.gridMap = gridMap;
+    public Simulation sim;
+    public List<Entity> entityList;
+
+
+
+    public Statistics(List<Entity> EntityList){
+        this.entityList = EntityList;
         this.sim = new Simulation();
-        this.entityList = entities;
-        TotalCount = entities.size();
+        this.foxCount = getCountByType("Fox");
+        this.HunterCount = getCountByType("Hunter");
+        this.RabbitCount = getCountByType("Rabbit");
+        this.SheepCount = getCountByType("Sheep");
+        this.WolfCount = getCountByType("Wolf");
+        this.BulletCount = getCountByType("Bullet");
     }
 
-    public int getTotalCount(){
-        return TotalCount;
+    public void updateCounts(){
+        this.foxCount = getCountByType("Fox");
+        this.HunterCount = getCountByType("Hunter");
+        this.RabbitCount = getCountByType("Rabbit");
+        this.SheepCount = getCountByType("Sheep");
+        this.WolfCount = getCountByType("Wolf");
+        this.BulletCount = getCountByType("Bullet");
     }
 
-    public Integer[] getEntityCountArray(){
-        Map<Integer, Boolean> map = new HashMap<Integer, Boolean>();
-        Set<Integer> keys = map.keySet();
-        Integer[] array = keys.toArray(new Integer[keys.size()]);
-        return array;
+    public int getCountByType(String aType){
+        int count = 0;
+        for(Entity entity :entityList){
+            if(entity.aType == aType) {
+                count += 1;
+            }
+        }
+        return count;
     }
 
-    public void updateCount(List<Entity> entities){
-        TotalCount = entities.size();
+    public void updateEntities(){
+        entityList = sim.getEntities();
     }
 
-    @Override
-    public void run() {
-        updateCount(sim.getEntities());
-        TimePassed += 1;
-        System.out.println(TimePassed);
-    }
 }

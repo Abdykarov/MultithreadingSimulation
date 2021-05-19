@@ -4,7 +4,9 @@ import com.cvut.simulation.view.Model.Statistics;
 import com.cvut.simulation.view.Simulation;
 import com.cvut.simulation.view.Model.Entity;
 
+import java.sql.Time;
 import java.util.*;
+import java.util.concurrent.CountDownLatch;
 
 
 public class StatisticsRunnable implements Runnable {
@@ -37,9 +39,27 @@ public class StatisticsRunnable implements Runnable {
 
     @Override
     public void run() {
-        updateCount(sim.getEntities());
-        TimePassed += 1;
-        System.out.println(TimePassed);
+        while(sim.isRunning){
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            sim.lock.lock();
+            try {
+                updateCount(sim.getEntities());
+                TimePassed += 1;
+                statistics.updateEntities();
+                statistics.updateCounts();
+
+                System.out.println(statistics.BulletCount);
+            }
+            finally {
+                sim.lock.unlock();
+            }
+        }
+
     }
 
 }

@@ -20,6 +20,10 @@ public class BoardManager {
         JFrame frame = new JFrame("Real Time Simulator");
         gridMap.setOpaque(true);
         gridMap.setBackground(new Color(240, 235, 232));
+        Jpanel1 = new JPanel();
+        jPanel1.setLayout(new BoxLayout(jPanel1, BoxLayout.Y_AXIS));
+        jPanel1.add(jTextArea1);
+        jPanel1.add(panel2);
         frame.add(gridMap);
         frame.setResizable(false);
         frame.setSize(new Dimension(gridMap.width+10, gridMap.height+30));

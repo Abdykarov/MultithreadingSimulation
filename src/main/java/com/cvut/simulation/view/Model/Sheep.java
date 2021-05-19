@@ -3,9 +3,12 @@ package com.cvut.simulation.view.Model;
 import com.cvut.simulation.view.Utils.Tile;
 
 import javax.swing.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Sheep extends Entity {
 
+    public final Lock lock = new ReentrantLock();
 
     public Sheep(Tile tilePos, int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght){
         this.aEnergy = aEnergy;

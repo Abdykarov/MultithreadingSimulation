@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.locks.Lock;
 
 public abstract class Entity{
     public Random rand = new Random();
@@ -27,6 +28,7 @@ public abstract class Entity{
     public Simulation sim = new Simulation();
     public List<Entity> EntityList = sim.getEntities();
     public Image EntityImage = new ImageIcon(image).getImage();
+    public Lock lock;
 
 //    public abstract Tile getTile();
 

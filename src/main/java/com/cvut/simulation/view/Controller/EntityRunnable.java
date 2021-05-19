@@ -15,6 +15,7 @@ public class EntityRunnable implements Runnable {
     private final CountDownLatch latch;
     public final long fps = 100;
     Random rand = new Random();
+    public int count;
 
     public EntityRunnable(Entity entity, CountDownLatch latch) {
         this.entity = entity;
@@ -37,17 +38,23 @@ public class EntityRunnable implements Runnable {
             return;
         }
 
+
         while (entity.isAlive) {
             try {
-                TimeUnit.MILLISECONDS.sleep(entity.aSpeed);
+                TimeUnit.SECONDS.sleep(1);
             } catch (InterruptedException e) {
             }
-            decreaseAge();
-            if(entity.aLifeLenght == 0){
-                killEntity(entity);
-            }
-            entity.move();
+            System.out.println(count);
+            count += 1;
+            sim.lock.lock();
+            try {
 
+                    entity.move();
+
+            }
+            finally {
+                sim.lock.unlock();
+            }
         }
     }
 

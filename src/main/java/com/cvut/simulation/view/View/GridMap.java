@@ -16,7 +16,7 @@ public class GridMap extends JPanel implements Runnable{
     public final int height;
     public Simulation sim;
     public boolean redraw;
-    public final long fps = 400;
+    public final long fps = 1000;
 
    public GridMap(int width, int height)
     {
@@ -58,8 +58,11 @@ public class GridMap extends JPanel implements Runnable{
         ListIterator<Entity> iter = entities.listIterator();
         while(iter.hasNext()){
             Entity entity = iter.next();
+            if(entity == null){
 
-            g.drawImage(entity.EntityImage,entity.currentPosition.x, entity.currentPosition.y, entity.width, entity.height, null);
+            }else{
+                g.drawImage(entity.EntityImage,entity.currentPosition.x, entity.currentPosition.y, entity.width, entity.height, null);
+            }
 
         }
 

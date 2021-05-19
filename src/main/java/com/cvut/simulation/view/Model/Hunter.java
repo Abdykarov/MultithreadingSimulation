@@ -3,12 +3,15 @@ package com.cvut.simulation.view.Model;
 import com.cvut.simulation.view.Utils.Tile;
 
 import javax.swing.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Hunter extends Entity {
 
     public boolean shot = false;
+    public final Lock lock = new ReentrantLock();
 
-    public Hunter(Tile tilePos, int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght){
+    public Hunter(Tile tilePos, int id, int aEnergy, int aHunger, int aLifeLenght){
         this.aEnergy = aEnergy;
         this.aHealth = aHealth;
         this.aHunger = aHunger;
