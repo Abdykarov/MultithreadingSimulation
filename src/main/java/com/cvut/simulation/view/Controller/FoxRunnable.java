@@ -92,9 +92,9 @@ public class FoxRunnable implements Runnable {
 
     public void eatRabbit(){
         Simulation sim = new Simulation();
-        sim.lock.lock();
         if(fox.detectAnotherRabbit() != null){
             if(fox.aHunger > 10){
+                sim.lock.lock();
                 try {
                     sim.removeEntity(fox.detectAnotherRabbit());
                     fox.sexualDesire += 10;
@@ -119,9 +119,9 @@ public class FoxRunnable implements Runnable {
     public void createNewFox() {
         // create new fox
         Simulation sim = new Simulation();
-        sim.lock.lock();
             if(fox.detectAnotherFox() != null){
                 if(fox.aEnergy > 70 && fox.detectAnotherFox().aEnergy > 70 && fox.aHunger < 30 && fox.detectAnotherFox().aHunger < 30 && fox.sexualDesire > 90){
+                    sim.lock.lock();
                     try {
                         sim.addFox(20,fox.currentPosition.x, fox.currentPosition.y);
                         System.out.println("Fox was created");

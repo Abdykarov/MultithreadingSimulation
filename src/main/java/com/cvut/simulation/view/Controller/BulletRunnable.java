@@ -74,6 +74,7 @@ public class BulletRunnable implements Runnable {
 
     public void move() {
         Simulation sim = new Simulation();
+        Entity detectedEntity;
             if(bullet.steps == 5){
                 sim.lock.lock();
                 try {
@@ -83,9 +84,9 @@ public class BulletRunnable implements Runnable {
                 }finally {
                     sim.lock.unlock();
                 }
-            }else if(bullet.detectCollision() != null){
+            }else if((detectedEntity =  bullet.detectCollision() )!= null){
                 sim.lock.lock();
-                bullet.detectCollision().lock.lock();
+                detectedEntity.lock.lock();
                 try {
                     LOGGER.log(Level.FINEST, String.valueOf("entity shoted"));
                     bullet.entityToDestroy.isAlive = false;
@@ -93,7 +94,7 @@ public class BulletRunnable implements Runnable {
                 }
                 finally {
                     sim.lock.unlock();
-                    bullet.detectCollision().lock.unlock();
+                    detectedEntity.lock.unlock();
                 }
             }else{
                 int xDelta = bullet.currentPosition.x;

@@ -18,9 +18,9 @@ public class BoardManager {
      */
     public void generateWindow(){
         JFrame frame = new JFrame("Real Time Simulator");
+        frame.setLayout(new CardLayout());
         gridMap.setOpaque(true);
         gridMap.setBackground(new Color(240, 235, 232));
-        
         frame.add(gridMap);
         frame.setResizable(false);
         frame.setSize(new Dimension(gridMap.width+10, gridMap.height+30));
