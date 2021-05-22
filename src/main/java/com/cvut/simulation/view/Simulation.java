@@ -16,7 +16,7 @@ public class Simulation {
 
     private static final Random rand = new Random();
     public volatile static List<Entity> entities = new ArrayList<>();
-    public boolean isRunning = true;
+    public boolean isRunning = false;
     final CountDownLatch latch = new CountDownLatch(1);
     public final Lock lock = new ReentrantLock();
     public int gridWidth = 20*50;

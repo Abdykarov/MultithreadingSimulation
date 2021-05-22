@@ -19,10 +19,12 @@ public class BulletRunnable implements Runnable {
 
     public Bullet bullet;
     private final CountDownLatch latch;
+    private Simulation sim;
 
     private final static Logger LOGGER = Logger.getLogger(BulletRunnable.class.getName());
 
     public BulletRunnable(Entity entity, CountDownLatch latch) {
+        this.sim = new Simulation();
         this.bullet = (Bullet) entity;
         this.latch = latch;
         Handler handlerObj = new ConsoleHandler();
@@ -47,7 +49,7 @@ public class BulletRunnable implements Runnable {
             return;
         }
 
-        while (true)
+        while (sim.isRunning && bullet.isAlive)
         {
             try
             {
@@ -73,7 +75,6 @@ public class BulletRunnable implements Runnable {
     }
 
     public void move() {
-        Simulation sim = new Simulation();
         Entity detectedEntity;
             if(bullet.steps == 5){
                 sim.lock.lock();

@@ -15,8 +15,9 @@ public class RabbitRunnable implements Runnable {
     public Rabbit rabbit;
     private final CountDownLatch latch;
     public Random rand = new Random();
-
+    private Simulation sim;
     public RabbitRunnable(Entity rabbit, CountDownLatch latch) {
+        this.sim = new Simulation();
         this.rabbit = (Rabbit) rabbit;
         this.latch = latch;
 
@@ -37,7 +38,7 @@ public class RabbitRunnable implements Runnable {
             return;
         }
 
-        while (rabbit.isAlive)
+        while (rabbit.isAlive && sim.isRunning)
         {
             try
             {
@@ -50,7 +51,6 @@ public class RabbitRunnable implements Runnable {
 
     private void moveParticle()
     {;
-        Simulation sim = new Simulation();
         rabbit.lock.lock();
         try
         {
@@ -89,7 +89,6 @@ public class RabbitRunnable implements Runnable {
 
 
     public void simpleStep(){
-        Simulation sim = new Simulation();
         int xDelta = rabbit.currentPosition.x;
         int yDelta = rabbit.currentPosition.y;
         // TODO update ai logic in future

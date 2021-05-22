@@ -19,7 +19,7 @@ public class StatisticsRunnable implements Runnable {
 
     public StatisticsRunnable(Statistics statistics) {
         this.statistics = statistics;
-        sim = new Simulation();
+        this.sim = new Simulation();
     }
 
     public int getTotalCount(){

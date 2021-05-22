@@ -16,8 +16,10 @@ public class HunterRunnable implements Runnable {
     public Hunter hunter;
     private final CountDownLatch latch;
     public Random rand = new Random();
+    private Simulation sim;
 
     public HunterRunnable(Entity hunter, CountDownLatch latch) {
+        this.sim = new Simulation();
         this.hunter = (Hunter) hunter;
         this.latch = latch;
 
@@ -38,7 +40,7 @@ public class HunterRunnable implements Runnable {
             return;
         }
 
-        while (hunter.isAlive)
+        while (hunter.isAlive && sim.isRunning)
         {
             try
             {
@@ -52,7 +54,6 @@ public class HunterRunnable implements Runnable {
     {
         Rabbit rabbit;
         Fox nearFox;
-        Simulation sim = new Simulation();
         hunter.lock.lock();
         try
         {
@@ -94,8 +95,6 @@ public class HunterRunnable implements Runnable {
      */
     public void shot() {
         // create new fox
-        Simulation sim = new Simulation();
-
         sim.lock.lock();
             if(hunter.aEnergy > 70){
                 try {
@@ -115,7 +114,6 @@ public class HunterRunnable implements Runnable {
 
 
     public void simpleStep(){
-        Simulation sim = new Simulation();
         int xDelta = hunter.currentPosition.x;
         int yDelta = hunter.currentPosition.y;
         // TODO update ai logic in future

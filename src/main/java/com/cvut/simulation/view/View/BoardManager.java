@@ -18,10 +18,16 @@ public class BoardManager {
      */
     public void generateWindow(){
         JFrame frame = new JFrame("Real Time Simulator");
-        frame.setLayout(new CardLayout());
-        gridMap.setOpaque(true);
-        gridMap.setBackground(new Color(240, 235, 232));
-        frame.add(gridMap);
+        CardLayout ca = new CardLayout();
+        JPanel mainPanel = new JPanel(ca);
+        JPanel mainMenuCard = new MainMenu(mainPanel, ca);
+        JPanel parametrsCard = new ParametrsView(mainPanel, ca);
+        JPanel simulationCard = new SimulationView();
+        mainPanel.add(mainMenuCard, "menu");
+        mainPanel.add(parametrsCard, "params");
+//        gridMap.setOpaque(true);
+//        gridMap.setBackground(new Color(240, 235, 232));
+        frame.add(mainPanel);
         frame.setResizable(false);
         frame.setSize(new Dimension(gridMap.width+10, gridMap.height+30));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -29,4 +35,5 @@ public class BoardManager {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
+
 }

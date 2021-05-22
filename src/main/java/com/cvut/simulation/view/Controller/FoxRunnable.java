@@ -15,8 +15,10 @@ public class FoxRunnable implements Runnable {
     public Fox fox;
     private final CountDownLatch latch;
     public Random rand = new Random();
+    private Simulation sim;
 
     public FoxRunnable(Entity fox, CountDownLatch latch) {
+        this.sim = new Simulation();
         this.fox = (Fox) fox;
         this.latch = latch;
 
@@ -37,7 +39,7 @@ public class FoxRunnable implements Runnable {
             return;
         }
 
-        while (fox.isAlive)
+        while (fox.isAlive && sim.isRunning)
         {
             try
             {
@@ -51,7 +53,6 @@ public class FoxRunnable implements Runnable {
     {
         Rabbit rabbit;
         Fox nearFox;
-        Simulation sim = new Simulation();
         fox.lock.lock();
         try
         {
@@ -91,7 +92,6 @@ public class FoxRunnable implements Runnable {
     }
 
     public void eatRabbit(){
-        Simulation sim = new Simulation();
         if(fox.detectAnotherRabbit() != null){
             if(fox.aHunger > 10){
                 sim.lock.lock();
@@ -118,7 +118,6 @@ public class FoxRunnable implements Runnable {
      */
     public void createNewFox() {
         // create new fox
-        Simulation sim = new Simulation();
             if(fox.detectAnotherFox() != null){
                 if(fox.aEnergy > 70 && fox.detectAnotherFox().aEnergy > 70 && fox.aHunger < 30 && fox.detectAnotherFox().aHunger < 30 && fox.sexualDesire > 90){
                     sim.lock.lock();
@@ -143,7 +142,6 @@ public class FoxRunnable implements Runnable {
 
 
     public void simpleStep(){
-        Simulation sim = new Simulation();
         int xDelta = fox.currentPosition.x;
         int yDelta = fox.currentPosition.y;
         // TODO update ai logic in future
