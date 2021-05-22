@@ -11,8 +11,9 @@ public class Hunter extends Entity {
     public boolean shot = false;
     public final Lock lock = new ReentrantLock();
 
-    public Hunter(Tile tilePos, int id, int aEnergy, int aHunger, int aLifeLenght){
+    public Hunter(Tile tilePos, int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght, int sexualDesire){
         this.aEnergy = aEnergy;
+        this.sexualDesire = sexualDesire;
         this.aHealth = aHealth;
         this.aHunger = aHunger;
         this.aLifeLenght = aLifeLenght;
@@ -196,5 +197,19 @@ public class Hunter extends Entity {
     @Override
     public void drinkWater(Rabbit waterObject) {
 
+    }
+
+    @Override
+    public String toString() {
+        return "Hunter | " +
+                "id=" + id +
+                " | sexualDesire=" + sexualDesire +
+                " | aSpeed=" + aSpeed +
+                " | aHunger=" + aHunger +
+                " | aHealth=" + aHealth +
+                " | aEnergy=" + aEnergy +
+                " | aLifeLenght=" + aLifeLenght +
+                " | currentPosition=" + currentPosition +
+                "\n";
     }
 }

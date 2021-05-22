@@ -7,9 +7,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Fox extends Entity {
-
-    public int sexualDesire = 100;
-
+    
     // A lock of this monitor
     public final Lock lock = new ReentrantLock();
     public Fox(Tile tilePos, int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght, int sexualDesire){
@@ -182,5 +180,19 @@ public class Fox extends Entity {
     @Override
     public Tile getTile() {
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return "Fox | " +
+                "id=" + id +
+                " | sexualDesire=" + sexualDesire +
+                " | aSpeed=" + aSpeed +
+                " | aHunger=" + aHunger +
+                " | aHealth=" + aHealth +
+                " | aEnergy=" + aEnergy +
+                " | aLifeLenght=" + aLifeLenght +
+                " | currentPosition=" + currentPosition +
+                "\n";
     }
 }

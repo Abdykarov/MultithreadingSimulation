@@ -12,18 +12,38 @@ public class EntityManager {
     public volatile static List<Entity> entities = new ArrayList<>();
     private final int gridWidth;
     private final int gridHeight;
+    private int id;
 
     public EntityManager(int gridWidth, int gridHeight){
         this.gridWidth = gridWidth;
         this.gridHeight = gridHeight;
+        this.id = 0;
     }
 
     private void removeEntity(){
 
     }
 
-    private void addEntity(){
+    public boolean removeEntity(int id){
+        Entity entityToRemove = findEntity(id);
+        if (entityToRemove != null){
+            entities.remove(entityToRemove);
+            return true;
+        }
+        return false;
+    }
 
+    public Entity findEntity(int id){
+        for(Entity entity: entities){
+            if(entity.id == id){
+                return entity;
+            }
+        }
+        return null;
+    }
+
+    public void addEntity(Entity entity){
+        entities.add(entity);
     }
 
     public Entity getEntity(){
@@ -41,13 +61,13 @@ public class EntityManager {
      * @param gridHeight
      * @return
      */
-    private static Tile getRandomPosition(int gridWidth, int gridHeight, List<Entity> entities)
+    public Tile getRandomPosition(List<Entity> entities)
     {
         int xPos = rand.nextInt(gridWidth / Entity.SIZE) * Entity.SIZE;
         int yPos = rand.nextInt(gridHeight / Entity.SIZE) * Entity.SIZE;
 
         if(positionIsOccupied(new Tile(xPos,yPos),entities)){
-            return getRandomPosition(gridWidth,gridHeight,entities);
+            return getRandomPosition(entities);
         }
 
         return new Tile(xPos, yPos);
@@ -60,7 +80,7 @@ public class EntityManager {
      * @param entities
      * @return
      */
-    private static boolean positionIsOccupied(Tile position, List<Entity> entities)
+    private boolean positionIsOccupied(Tile position, List<Entity> entities)
     {
         for (Entity entity : entities)
         {
@@ -70,6 +90,11 @@ public class EntityManager {
             }
         }
         return false;
+    }
+
+    public int getNextID(){
+        this.id = id + 1;
+        return id + 1;
     }
 
     private void startThreads(){

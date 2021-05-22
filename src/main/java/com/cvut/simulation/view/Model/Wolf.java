@@ -10,8 +10,9 @@ public class Wolf extends Entity {
 
     public final Lock lock = new ReentrantLock();
 
-    public Wolf(Tile tilePos, int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght){
+    public Wolf(Tile tilePos, int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght, int sexualDesire){
         this.aEnergy = aEnergy;
+        this.sexualDesire = sexualDesire;
         this.aHealth = aHealth;
         this.aHunger = aHunger;
         this.aLifeLenght = aLifeLenght;
@@ -192,4 +193,20 @@ public class Wolf extends Entity {
     public Tile getTile() {
         return null;
     }
+
+
+    @Override
+    public String toString() {
+        return "Wolf | " +
+                "id=" + id +
+                " | sexualDesire=" + sexualDesire +
+                " | aSpeed=" + aSpeed +
+                " | aHunger=" + aHunger +
+                " | aHealth=" + aHealth +
+                " | aEnergy=" + aEnergy +
+                " | aLifeLenght=" + aLifeLenght +
+                " | currentPosition=" + currentPosition +
+                "\n";
+    }
+
 }

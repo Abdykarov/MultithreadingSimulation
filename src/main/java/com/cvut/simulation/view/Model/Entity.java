@@ -14,6 +14,7 @@ public abstract class Entity{
     public static final int SIZE = 50; // size of entity
     public static final Color COLOR = Color.BLUE.darker().darker();
     public Integer id;
+    public Integer sexualDesire;
     public Boolean isAlive;
     public Integer aSpeed; //animalSpeed
     public Integer aHunger;
@@ -68,4 +69,6 @@ public abstract class Entity{
     public abstract void drinkWater(Rabbit waterObject);
 
     public abstract Tile getTile();
+
+
 }

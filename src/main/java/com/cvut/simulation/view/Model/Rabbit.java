@@ -12,7 +12,7 @@ public class Rabbit extends Entity {
 
     // A lock of this monitor
     public final Lock lock = new ReentrantLock();
-    public Rabbit(Tile tilePos, int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght){
+    public Rabbit(Tile tilePos, int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght, int sexualDesire){
         this.aEnergy = aEnergy;
         this.aHealth = aHealth;
         this.aHunger = aHunger;
@@ -108,5 +108,19 @@ public class Rabbit extends Entity {
     @Override
     public Tile getTile() {
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return "Rabbit | " +
+                "id=" + id +
+                " | sexualDesire=" + sexualDesire +
+                " | aSpeed=" + aSpeed +
+                " | aHunger=" + aHunger +
+                " | aHealth=" + aHealth +
+                " | aEnergy=" + aEnergy +
+                " | aLifeLenght=" + aLifeLenght +
+                " | currentPosition=" + currentPosition +
+                "\n";
     }
 }

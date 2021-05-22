@@ -1,17 +1,21 @@
 package com.cvut.simulation.view.View;
 
-import com.cvut.simulation.view.Model.Entity;
+import com.cvut.simulation.view.Model.*;
 import com.cvut.simulation.view.Utils.EntityManager;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ParametrsView extends JPanel {
+    private static final Logger LOGGER = Logger.getLogger(String.valueOf(ParametrsView.class));
+
     private JPanel mainPanel;
 
-    private JTextField id;
+    private JTextField ID;
     private JTextField energy;
     private JTextField health;
     private JTextField speed;
@@ -57,6 +61,7 @@ public class ParametrsView extends JPanel {
     }
 
     private void listEntities(){
+        System.out.println(em.getEntities().size());
         tableArea.setText(null);
         for (Entity entity: em.getEntities()){
             tableArea.append(entity.toString());
@@ -105,10 +110,10 @@ public class ParametrsView extends JPanel {
         lifeLenght.setSize(75, 41);
         add(lifeLenght);
 
-        id = new JTextField();
-        id.setLocation(775, 50);
-        id.setSize(75, 41);
-        add(id);
+        ID = new JTextField();
+        ID.setLocation(775, 50);
+        ID.setSize(75, 41);
+        add(ID);
 
         // labels
 
@@ -197,7 +202,7 @@ public class ParametrsView extends JPanel {
         scrollBar.setLocation(25,175);
         scrollBar.setSize(825, 450);
         scrollBar.setViewportView(tableArea);
-        this.add(scrollBar);
+        add(scrollBar);
 
         startBtn = new JButton("Start");
         startBtn.setLocation(875, 350);
@@ -209,6 +214,63 @@ public class ParametrsView extends JPanel {
 
     private void generateListeners(){
 
+        // remove entity from array
+        deleteBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+               int idValue = Integer.parseInt(ID.getText());
+
+
+                if( em.removeEntity(idValue)){
+                    LOGGER.log(Level.INFO, "Entity removed!");
+                    listEntities();
+                }else{
+                    LOGGER.log(Level.WARNING, "Entity remove exception!");
+                }
+
+            }
+        });
+
+
+        // create entity
+        addBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                String type = (String) entityType.getSelectedItem();
+                int healthValue = Integer.parseInt(health.getText());
+                int energyValue = Integer.parseInt(energy.getText());
+                int ageLengthValue = Integer.parseInt(lifeLenght.getText());
+                int speedValue = Integer.parseInt(speed.getText());
+                int hungerValue = Integer.parseInt(hunger.getText());
+                int desireValue = Integer.parseInt(sexualDesire.getText());
+                int id = em.getNextID();
+
+                try {
+                    switch (type){
+                        case "Wolf":
+                            em.addEntity(new Wolf(em.getRandomPosition(em.getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
+                            break;
+                        case "Fox":
+                            em.addEntity(new Fox(em.getRandomPosition(em.getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
+                            break;
+                        case "Hunter":
+                            em.addEntity(new Hunter(em.getRandomPosition(em.getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
+                            break;
+                        case "Rabbit":
+                            em.addEntity(new Rabbit(em.getRandomPosition(em.getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
+                            break;
+                        case "Sheep":
+                            em.addEntity(new Sheep(em.getRandomPosition(em.getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
+                            break;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                LOGGER.log(Level.INFO, "Entity created!");
+                listEntities();
+
+            }
+        });
     }
 
 }
