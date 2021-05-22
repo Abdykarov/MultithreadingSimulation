@@ -48,6 +48,12 @@ public class ParametrsView extends JPanel {
 
     private final EntityManager em;
 
+    /**
+     * View for creating entities with different parameters, editing and removing.
+     * @param mainPanel
+     * @param ca
+     * @param em
+     */
     ParametrsView(JPanel mainPanel, CardLayout ca, EntityManager em){
         this.mainPanel = mainPanel;
         this.em = em;
@@ -60,7 +66,10 @@ public class ParametrsView extends JPanel {
         listEntities();
     }
 
-    private void listEntities(){
+    /**
+     * List all toStrings into table
+     */
+    public void listEntities(){
         System.out.println(em.getEntities().size());
         tableArea.setText(null);
         for (Entity entity: em.getEntities()){
@@ -68,6 +77,9 @@ public class ParametrsView extends JPanel {
         }
     }
 
+    /**
+     * Generating components: buttons, labels, inputs etc.
+     */
     private void generateComponents(){
         String[] entityTypes = new String[] { "Wolf", "Fox", "Rabbit", "Hunter", "Sheep" };
         entityType = new JComboBox<>(entityTypes);
@@ -212,6 +224,56 @@ public class ParametrsView extends JPanel {
 
     }
 
+    /**
+     * Creating new entity
+     * @param type
+     * @param healthValue
+     * @param energyValue
+     * @param ageLengthValue
+     * @param speedValue
+     * @param hungerValue
+     * @param desireValue
+     * @param id
+     */
+    public void createEntity(String type, int healthValue, int energyValue, int ageLengthValue, int speedValue, int hungerValue, int desireValue, int id){
+        try {
+            switch (type){
+                case "Wolf":
+                    em.addEntity(new Wolf(em.getRandomPosition(em.getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
+                    break;
+                case "Fox":
+                    em.addEntity(new Fox(em.getRandomPosition(em.getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
+                    break;
+                case "Hunter":
+                    em.addEntity(new Hunter(em.getRandomPosition(em.getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
+                    break;
+                case "Rabbit":
+                    em.addEntity(new Rabbit(em.getRandomPosition(em.getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
+                    break;
+                case "Sheep":
+                    em.addEntity(new Sheep(em.getRandomPosition(em.getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        LOGGER.log(Level.INFO, "Entity created!");
+    }
+
+    /**
+     * Remove entity from array
+     * @param idValue
+     */
+    public void removeEntity(int idValue){
+        if( em.removeEntity(idValue)){
+            LOGGER.log(Level.INFO, "Entity removed!");
+            listEntities();
+        }else{
+            LOGGER.log(Level.WARNING, "Entity remove exception!");
+        }
+    }
+
+
     private void generateListeners(){
 
         // remove entity from array
@@ -220,14 +282,7 @@ public class ParametrsView extends JPanel {
             public void actionPerformed(ActionEvent actionEvent) {
                int idValue = Integer.parseInt(ID.getText());
 
-
-                if( em.removeEntity(idValue)){
-                    LOGGER.log(Level.INFO, "Entity removed!");
-                    listEntities();
-                }else{
-                    LOGGER.log(Level.WARNING, "Entity remove exception!");
-                }
-
+               removeEntity(idValue);
             }
         });
 
@@ -245,28 +300,7 @@ public class ParametrsView extends JPanel {
                 int desireValue = Integer.parseInt(sexualDesire.getText());
                 int id = em.getNextID();
 
-                try {
-                    switch (type){
-                        case "Wolf":
-                            em.addEntity(new Wolf(em.getRandomPosition(em.getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
-                            break;
-                        case "Fox":
-                            em.addEntity(new Fox(em.getRandomPosition(em.getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
-                            break;
-                        case "Hunter":
-                            em.addEntity(new Hunter(em.getRandomPosition(em.getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
-                            break;
-                        case "Rabbit":
-                            em.addEntity(new Rabbit(em.getRandomPosition(em.getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
-                            break;
-                        case "Sheep":
-                            em.addEntity(new Sheep(em.getRandomPosition(em.getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
-                            break;
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                LOGGER.log(Level.INFO, "Entity created!");
+                createEntity(type,healthValue,energyValue,ageLengthValue,speedValue,hungerValue,desireValue,id);
                 listEntities();
 
             }

@@ -20,9 +20,6 @@ public class EntityManager {
         this.id = 0;
     }
 
-    private void removeEntity(){
-
-    }
 
     public boolean removeEntity(int id){
         Entity entityToRemove = findEntity(id);
