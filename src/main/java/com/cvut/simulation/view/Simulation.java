@@ -2,6 +2,7 @@ package com.cvut.simulation.view;
 
 import com.cvut.simulation.view.Controller.*;
 import com.cvut.simulation.view.Model.*;
+import com.cvut.simulation.view.Utils.EntityManager;
 import com.cvut.simulation.view.View.BoardManager;
 import com.cvut.simulation.view.View.GridMap;
 import com.cvut.simulation.view.Utils.Tile;
@@ -31,43 +32,13 @@ public class Simulation {
 //         Creating new entities wtih different parametrs
         entities.add(new Fox(getRandomPosition(gridWidth,gridHeight, entities),1,
                 100,100,400,20, 160, 100));
-entities.add(new Fox(getRandomPosition(gridWidth,gridHeight, entities),2,
-                100,100,400,20, 160, 100));
-entities.add(new Fox(getRandomPosition(gridWidth,gridHeight, entities),3,
-                100,100,400,20, 160, 100));
-entities.add(new Fox(getRandomPosition(gridWidth,gridHeight, entities),4,
-                100,100,400,20, 160, 100));
-entities.add(new Fox(getRandomPosition(gridWidth,gridHeight, entities),5,
-                100,100,400,20, 160, 100));
-entities.add(new Fox(getRandomPosition(gridWidth,gridHeight, entities),6,
-                100,100,400,20, 160, 100));
-entities.add(new Fox(getRandomPosition(gridWidth,gridHeight, entities),7,
-                100,100,400,20, 160, 100));
-
-        entities.add(new Rabbit(getRandomPosition(gridWidth,gridHeight, entities),7,
-                100,100,50,70, 16));
-
-        entities.add(new Rabbit(getRandomPosition(gridWidth,gridHeight, entities),8,
-                100,100,50,70, 50));
-        entities.add(new Rabbit(getRandomPosition(gridWidth,gridHeight, entities),9,
-                100,100,50,70, 50));
-        entities.add(new Rabbit(getRandomPosition(gridWidth,gridHeight, entities),10,
-                100,100,50,70, 50));
-        entities.add(new Rabbit(getRandomPosition(gridWidth,gridHeight, entities),11,
-                100,100,50,70, 50));
-
-
-        entities.add(new Hunter(getRandomPosition(gridWidth,gridHeight, entities),12,
-                100,20, 50));
-
-        entities.add(new Hunter(getRandomPosition(gridWidth,gridHeight, entities),12,
-                100,20, 50));
 
 
 
 
         GridMap gridMap = new GridMap(gridWidth, gridHeight);
-        BoardManager boardManager = new BoardManager(gridMap);
+        EntityManager em = new EntityManager(gridWidth, gridHeight);
+        BoardManager boardManager = new BoardManager(gridMap,em);
         // thread starts after 1 second
         final CountDownLatch latch = new CountDownLatch(1);
 

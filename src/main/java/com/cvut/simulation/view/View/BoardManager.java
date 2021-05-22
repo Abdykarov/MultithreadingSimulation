@@ -1,5 +1,6 @@
 package com.cvut.simulation.view.View;
 
+import com.cvut.simulation.view.Utils.EntityManager;
 import com.cvut.simulation.view.View.GridMap;
 
 import javax.swing.*;
@@ -8,9 +9,10 @@ import java.awt.*;
 public class BoardManager {
 
     private final GridMap gridMap;
-
-    public BoardManager(GridMap gridMap){
+    private final EntityManager em;
+    public BoardManager(GridMap gridMap, EntityManager em){
         this.gridMap = gridMap;
+        this.em = em;
     }
 
     /**
@@ -21,7 +23,7 @@ public class BoardManager {
         CardLayout ca = new CardLayout();
         JPanel mainPanel = new JPanel(ca);
         JPanel mainMenuCard = new MainMenu(mainPanel, ca);
-        JPanel parametrsCard = new ParametrsView(mainPanel, ca);
+        JPanel parametrsCard = new ParametrsView(mainPanel, ca,em);
         JPanel simulationCard = new SimulationView();
         mainPanel.add(mainMenuCard, "menu");
         mainPanel.add(parametrsCard, "params");

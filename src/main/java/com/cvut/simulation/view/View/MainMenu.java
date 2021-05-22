@@ -34,7 +34,7 @@ public class MainMenu extends JPanel {
         });
 
         setOpaque(true);
-        setBackground(new Color(255, 255, 255));
+        setBackground(new Color(40, 40, 40));
     }
 
 }
