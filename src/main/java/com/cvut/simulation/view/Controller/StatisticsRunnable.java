@@ -3,6 +3,7 @@ package com.cvut.simulation.view.Controller;
 import com.cvut.simulation.view.Model.Statistics;
 import com.cvut.simulation.view.Simulation;
 import com.cvut.simulation.view.Model.Entity;
+import com.cvut.simulation.view.Utils.EntityManager;
 
 import java.sql.Time;
 import java.util.*;
@@ -13,13 +14,13 @@ public class StatisticsRunnable implements Runnable {
     public int TimePassed;
     public int TotalCount;
     public Statistics statistics;
-    public Simulation sim;
+    public EntityManager em;
     public final long fps = 100;
     Random rand = new Random();
 
-    public StatisticsRunnable(Statistics statistics) {
+    public StatisticsRunnable(Statistics statistics, EntityManager em) {
         this.statistics = statistics;
-        this.sim = new Simulation();
+        this.em = em;
     }
 
     public int getTotalCount(){
@@ -39,24 +40,23 @@ public class StatisticsRunnable implements Runnable {
 
     @Override
     public void run() {
-        while(sim.isRunning){
+        while(em.isRunning){
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
-            sim.lock.lock();
+            em.lock.lock();
             try {
-                updateCount(sim.getEntities());
+                updateCount(em.getEntities());
                 TimePassed += 1;
-                statistics.updateEntities();
                 statistics.updateCounts();
 
                 System.out.println(statistics.BulletCount);
             }
             finally {
-                sim.lock.unlock();
+                em.lock.unlock();
             }
         }
 

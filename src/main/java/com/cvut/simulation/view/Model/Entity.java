@@ -1,6 +1,7 @@
 package com.cvut.simulation.view.Model;
 
 import com.cvut.simulation.view.Simulation;
+import com.cvut.simulation.view.Utils.EntityManager;
 import com.cvut.simulation.view.Utils.Tile;
 
 import javax.swing.*;
@@ -26,8 +27,8 @@ public abstract class Entity{
     public String aType;
     public Tile currentPosition;
     public String image;
+    public EntityManager em;
     public Simulation sim = new Simulation();
-    public List<Entity> EntityList = sim.getEntities();
     public Image EntityImage = new ImageIcon(image).getImage();
     public Lock lock;
 

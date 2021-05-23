@@ -1,5 +1,6 @@
 package com.cvut.simulation.view.Model;
 
+import com.cvut.simulation.view.Utils.EntityManager;
 import com.cvut.simulation.view.Utils.Tile;
 
 import javax.swing.*;
@@ -8,10 +9,12 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class Sheep extends Entity {
 
-    public final Lock lock = new ReentrantLock();
+    public final Lock lock;
 
-    public Sheep(Tile tilePos, int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght, int sexualDesire){
+    public Sheep(EntityManager em, Tile tilePos, int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght, int sexualDesire){
+        this.lock = new ReentrantLock();
         this.aEnergy = aEnergy;
+        this.em = em;
         this.sexualDesire = sexualDesire;
         this.aHealth = aHealth;
         this.aHunger = aHunger;

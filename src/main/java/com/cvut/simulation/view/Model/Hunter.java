@@ -1,5 +1,6 @@
 package com.cvut.simulation.view.Model;
 
+import com.cvut.simulation.view.Utils.EntityManager;
 import com.cvut.simulation.view.Utils.Tile;
 
 import javax.swing.*;
@@ -9,11 +10,13 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Hunter extends Entity {
 
     public boolean shot = false;
-    public final Lock lock = new ReentrantLock();
+    public final Lock lock;
 
-    public Hunter(Tile tilePos, int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght, int sexualDesire){
+    public Hunter(EntityManager em, Tile tilePos, int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght, int sexualDesire){
         this.aEnergy = aEnergy;
         this.sexualDesire = sexualDesire;
+        this.em = em;
+        this.lock = new ReentrantLock();
         this.aHealth = aHealth;
         this.aHunger = aHunger;
         this.aLifeLenght = aLifeLenght;
@@ -35,7 +38,7 @@ public class Hunter extends Entity {
     }
 
     public void shotBullet(){
-        sim.addBullet(1,currentPosition.x, currentPosition.y, 1);
+        em.addBullet(1,currentPosition.x, currentPosition.y, 1);
     }
 
     @Override

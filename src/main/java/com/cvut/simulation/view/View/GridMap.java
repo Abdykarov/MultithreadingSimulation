@@ -2,6 +2,7 @@ package com.cvut.simulation.view.View;
 
 import com.cvut.simulation.view.Model.Entity;
 import com.cvut.simulation.view.Simulation;
+import com.cvut.simulation.view.Utils.EntityManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,23 +13,19 @@ import java.util.concurrent.TimeUnit;
 
 public class GridMap extends JPanel implements Runnable{
 
-    public final int width;
-    public final int height;
-    public Simulation sim;
+    public EntityManager em;
     public boolean redraw;
-    public final long fps = 1000;
+    public int width;
+    public int height;
 
-   public GridMap(int width, int height)
+   public GridMap(EntityManager em, int width, int height)
     {
-        if (width % Entity.SIZE != 0 || height % Entity.SIZE != 0)
-        {
-            throw new IllegalArgumentException("Width and Height of grid must be a multiple of Entity.SIZE");
-        }
-
-        this.width = width;
+        this.em = em;
         this.redraw = true;
-        this.height = height;
-        this.sim = new Simulation();
+
+        setOpaque(true);
+        setBackground(new Color(240, 235, 232));
+
         Thread thr = new Thread(this);
         thr.start();
     }
@@ -37,8 +34,7 @@ public class GridMap extends JPanel implements Runnable{
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        List<Entity> entities = sim.getEntities();
+        List<Entity> entities = em.getEntities();
 
         // drawing tiles
         int tileSize = 50;
@@ -50,33 +46,19 @@ public class GridMap extends JPanel implements Runnable{
         }
         Random rand = new Random();
 
-
-
-
-
         //draw entities
-        ListIterator<Entity> iter = entities.listIterator();
-        while(iter.hasNext()){
-            Entity entity = iter.next();
-            if(entity == null){
+        for (Entity entity : entities) {
+            if (entity == null) {
 
-            }else{
-                g.drawImage(entity.EntityImage,entity.currentPosition.x, entity.currentPosition.y, entity.width, entity.height, null);
+            } else {
+                g.drawImage(entity.EntityImage, entity.currentPosition.x, entity.currentPosition.y, entity.width, entity.height, null);
             }
 
         }
 
-
-//        for(Entity ent : entities){
-//            if(ent != null){
-//                System.out.println(ent.aType);
-//            }
-//        }
-
         if(entities.isEmpty()){
             redraw = false;
             JOptionPane.showMessageDialog(null, "My Goodness, simulation is canceld");
-            System.out.println("all dead");
         }
 
     }
@@ -84,7 +66,7 @@ public class GridMap extends JPanel implements Runnable{
     public void redraw() {
 
         try {
-            TimeUnit.MILLISECONDS.sleep(fps);
+            TimeUnit.MILLISECONDS.sleep(em.simulationSpeed);
         }
         catch (InterruptedException e) {
             System.out.println("Interrupted");
@@ -96,7 +78,7 @@ public class GridMap extends JPanel implements Runnable{
 
     @Override
     public void run() {
-        while (redraw == true) {
+        while (redraw) {
             redraw();
         }
     }

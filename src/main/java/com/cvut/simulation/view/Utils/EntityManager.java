@@ -1,23 +1,35 @@
 package com.cvut.simulation.view.Utils;
 
+import com.cvut.simulation.view.Controller.*;
+import com.cvut.simulation.view.Model.Bullet;
 import com.cvut.simulation.view.Model.Entity;
+import com.cvut.simulation.view.Model.Fox;
+import com.cvut.simulation.view.Model.Statistics;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class EntityManager {
 
     private static final Random rand = new Random();
     public volatile static List<Entity> entities = new ArrayList<>();
-    private final int gridWidth;
-    private final int gridHeight;
+    public final int gridWidth;
+    public final int gridHeight;
     private int id;
+    public int simulationSpeed;
+    final CountDownLatch latch = new CountDownLatch(1);
+    public final Lock lock = new ReentrantLock();
+    public boolean isRunning;
 
     public EntityManager(int gridWidth, int gridHeight){
         this.gridWidth = gridWidth;
         this.gridHeight = gridHeight;
         this.id = 0;
+        this.isRunning = false;
     }
 
 
@@ -51,13 +63,7 @@ public class EntityManager {
         return entities;
     }
 
-    /**
-     * Return random tile for new entity. Divides the width/height of map by entities size
-     * and then multiplies by entities size
-     * @param gridWidth
-     * @param gridHeight
-     * @return
-     */
+
     public Tile getRandomPosition(List<Entity> entities)
     {
         int xPos = rand.nextInt(gridWidth / Entity.SIZE) * Entity.SIZE;
@@ -94,7 +100,97 @@ public class EntityManager {
         return id + 1;
     }
 
-    private void startThreads(){
+    public void startStats(){
+        Statistics stats = new Statistics( this);
+        StatisticsRunnable statsRunnable = new StatisticsRunnable(stats,this);
+        new Thread(statsRunnable).start();
+    }
+
+    public void startThreads(){
+        this.isRunning = true;
+        /* Start the Entity Runnables */
+        for (Entity entity : entities)
+        {
+            if(entity.aType == "Fox"){
+                FoxRunnable particleRunnable = new FoxRunnable(this,entity, latch);
+                new Thread(particleRunnable).start();
+            }
+            if(entity.aType == "Rabbit"){
+                RabbitRunnable particleRunnable = new RabbitRunnable(this,entity, latch);
+                new Thread(particleRunnable).start();
+            }
+            if(entity.aType == "Hunter"){
+                HunterRunnable particleRunnable = new HunterRunnable(this,entity, latch);
+                new Thread(particleRunnable).start();
+            }
+//            if(entity.aType == "Wolf"){
+//                WolfRunnable particleRunnable = new HunterRunnable(this,entity, latch);
+//                new Thread(particleRunnable).start();
+//            }
+//            if(entity.aType == "Sheep"){
+//                HunterRunnable particleRunnable = new HunterRunnable(this,entity, latch);
+//                new Thread(particleRunnable).start();
+//            }
+
+        }
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        latch.countDown();
+    }
+
+
+    public void addWolf(){
+
+    }
+
+    public Fox detectFox(Fox fox)
+    {
+        for (Entity entity : entities)
+        {
+            if (entity.id != fox.id)
+            {
+                if(entity.aType == "Fox" && entity.currentPosition.x == fox.currentPosition.x && entity.currentPosition.y == fox.currentPosition.y){
+                    return (Fox) entity;
+                }
+            }
+        }
+        return null;
+    }
+
+
+    public void addFox(int id, int posX, int posY){
+        CountDownLatch foxLatch = new CountDownLatch(1);
+        Tile tile = new Tile(posX, posY);
+        Entity fox = new Fox(this, tile,id,
+                100,100,50,70, 16, 20);
+        entities.add(fox);
+        FoxRunnable particleRunnable = new FoxRunnable(this,fox, foxLatch);
+        new Thread(particleRunnable).start();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        foxLatch.countDown();
+    }
+
+    public void addBullet(int id, int posX, int posY, int direction){
+        CountDownLatch bulletLatch = new CountDownLatch(1);
+        Tile tile = new Tile(posX, posY);
+        Entity bullet = new Bullet(this,tile,id, direction);
+        entities.add(bullet);
+        BulletRunnable particleRunnable = new BulletRunnable(this,bullet, bulletLatch);
+        new Thread(particleRunnable).start();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        bulletLatch.countDown();
 
     }
 }

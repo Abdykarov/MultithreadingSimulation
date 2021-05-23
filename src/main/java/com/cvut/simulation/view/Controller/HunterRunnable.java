@@ -4,22 +4,28 @@ import com.cvut.simulation.view.Model.Fox;
 import com.cvut.simulation.view.Model.Hunter;
 import com.cvut.simulation.view.Model.Rabbit;
 import com.cvut.simulation.view.Simulation;
+import com.cvut.simulation.view.Utils.EntityManager;
 import com.cvut.simulation.view.View.GridMap;
 import com.cvut.simulation.view.Model.Entity;
 
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class HunterRunnable implements Runnable {
 
     public Hunter hunter;
     private final CountDownLatch latch;
     public Random rand = new Random();
-    private Simulation sim;
+    private EntityManager em;
 
-    public HunterRunnable(Entity hunter, CountDownLatch latch) {
-        this.sim = new Simulation();
+    private final static Logger LOGGER = Logger.getLogger(BulletRunnable.class.getName());
+
+
+    public HunterRunnable(EntityManager em, Entity hunter, CountDownLatch latch) {
+        this.em = em;
         this.hunter = (Hunter) hunter;
         this.latch = latch;
 
@@ -40,11 +46,11 @@ public class HunterRunnable implements Runnable {
             return;
         }
 
-        while (hunter.isAlive && sim.isRunning)
+        while (hunter.isAlive && em.isRunning)
         {
             try
             {
-                Thread.sleep(1000);
+                Thread.sleep(hunter.aSpeed);
             } catch (InterruptedException ignored) {}
             moveParticle();
         }
@@ -58,25 +64,25 @@ public class HunterRunnable implements Runnable {
         try
         {
             if(hunter.aLifeLenght == 0) {
-                sim.lock.lock();
+                em.lock.lock();
                 try {
                     hunter.isAlive = false;
-                    sim.removeEntity(hunter);
+                    em.removeEntity(hunter.id);
                     return;
                 }
                 finally {
-                    sim.lock.unlock();
+                    em.lock.unlock();
                 }
             }
             if(hunter.aHunger > 100) {
-                sim.lock.lock();
+                em.lock.lock();
                 try {
                     hunter.isAlive = false;
-                    sim.removeEntity(hunter);
+                    em.removeEntity(hunter.id);
                     return;
                 }
                 finally {
-                    sim.lock.unlock();
+                    em.lock.unlock();
                 }
             }
 
@@ -95,15 +101,15 @@ public class HunterRunnable implements Runnable {
      */
     public void shot() {
         // create new fox
-        sim.lock.lock();
+        em.lock.lock();
             if(hunter.aEnergy > 70){
                 try {
-                    sim.addBullet(20,hunter.currentPosition.x, hunter.currentPosition.y, rand.nextInt(5-1) +1);
-                    System.out.println("hunter shoots");
+                    em.addBullet(20,hunter.currentPosition.x, hunter.currentPosition.y, rand.nextInt(5-1) +1);
+                    LOGGER.log(Level.WARNING,"hunter shoots");
                     hunter.aEnergy += 20;
                 }
                 finally {
-                    sim.lock.unlock();
+                    em.lock.unlock();
                 }
             } else {
                 simpleStep();
@@ -160,14 +166,14 @@ public class HunterRunnable implements Runnable {
                 break;
         }
 
-        if(xDelta > sim.gridWidth-50){
-            xDelta = sim.gridWidth - 50;
+        if(xDelta > em.gridWidth-50){
+            xDelta = em.gridWidth - 50;
         }
         if(xDelta < 50){
             xDelta = 50;
         }
-        if (yDelta > sim.gridHeight-50){
-            yDelta = sim.gridHeight - 50;
+        if (yDelta > em.gridHeight-50){
+            yDelta = em.gridHeight - 50;
         }
         if(yDelta < 50){
             yDelta = 50;

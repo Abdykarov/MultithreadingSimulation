@@ -4,6 +4,7 @@ import com.cvut.simulation.view.Model.Bullet;
 import com.cvut.simulation.view.Model.Fox;
 import com.cvut.simulation.view.Model.Rabbit;
 import com.cvut.simulation.view.Simulation;
+import com.cvut.simulation.view.Utils.EntityManager;
 import com.cvut.simulation.view.View.GridMap;
 import com.cvut.simulation.view.Model.Entity;
 
@@ -19,19 +20,14 @@ public class BulletRunnable implements Runnable {
 
     public Bullet bullet;
     private final CountDownLatch latch;
-    private Simulation sim;
+    private EntityManager em;
 
     private final static Logger LOGGER = Logger.getLogger(BulletRunnable.class.getName());
 
-    public BulletRunnable(Entity entity, CountDownLatch latch) {
-        this.sim = new Simulation();
+    public BulletRunnable(EntityManager em,Entity entity, CountDownLatch latch) {
+        this.em = em;
         this.bullet = (Bullet) entity;
         this.latch = latch;
-        Handler handlerObj = new ConsoleHandler();
-        handlerObj.setLevel(Level.ALL);
-        LOGGER.addHandler(handlerObj);
-        LOGGER.setLevel(Level.ALL);
-        LOGGER.setUseParentHandlers(false);
     }
 
     /**
@@ -49,11 +45,11 @@ public class BulletRunnable implements Runnable {
             return;
         }
 
-        while (sim.isRunning && bullet.isAlive)
+        while (em.isRunning && bullet.isAlive)
         {
             try
             {
-                Thread.sleep(1000);
+                Thread.sleep(bullet.aSpeed);
             } catch (InterruptedException ignored) {}
             moveParticle();
 //            LOGGER.log(Level.FINEST, String.valueOf());
@@ -77,24 +73,24 @@ public class BulletRunnable implements Runnable {
     public void move() {
         Entity detectedEntity;
             if(bullet.steps == 5){
-                sim.lock.lock();
+                em.lock.lock();
                 try {
                     bullet.isAlive = false;
-                    LOGGER.log(Level.FINEST, String.valueOf("steps over"));
-                    sim.removeEntity(bullet);
+                    LOGGER.log(Level.INFO, String.valueOf("steps over"));
+                    em.removeEntity(bullet.id);
                 }finally {
-                    sim.lock.unlock();
+                    em.lock.unlock();
                 }
             }else if((detectedEntity =  bullet.detectCollision() )!= null){
-                sim.lock.lock();
+                em.lock.lock();
                 detectedEntity.lock.lock();
                 try {
-                    LOGGER.log(Level.FINEST, String.valueOf("entity shoted"));
+                    LOGGER.log(Level.INFO, String.valueOf("entity shoted"));
                     bullet.entityToDestroy.isAlive = false;
-                    sim.removeEntity(bullet.entityToDestroy);
+                    em.removeEntity(bullet.entityToDestroy.id);
                 }
                 finally {
-                    sim.lock.unlock();
+                    em.lock.unlock();
                     detectedEntity.lock.unlock();
                 }
             }else{

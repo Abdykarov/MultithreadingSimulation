@@ -3,21 +3,27 @@ package com.cvut.simulation.view.Controller;
 import com.cvut.simulation.view.Model.Fox;
 import com.cvut.simulation.view.Model.Rabbit;
 import com.cvut.simulation.view.Simulation;
+import com.cvut.simulation.view.Utils.EntityManager;
 import com.cvut.simulation.view.View.GridMap;
 import com.cvut.simulation.view.Model.Entity;
 
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 public class RabbitRunnable implements Runnable {
 
     public Rabbit rabbit;
     private final CountDownLatch latch;
     public Random rand = new Random();
-    private Simulation sim;
-    public RabbitRunnable(Entity rabbit, CountDownLatch latch) {
-        this.sim = new Simulation();
+    private EntityManager em;
+
+    private final static Logger LOGGER = Logger.getLogger(BulletRunnable.class.getName());
+
+
+    public RabbitRunnable(EntityManager em, Entity rabbit, CountDownLatch latch) {
+        this.em = em;
         this.rabbit = (Rabbit) rabbit;
         this.latch = latch;
 
@@ -38,11 +44,11 @@ public class RabbitRunnable implements Runnable {
             return;
         }
 
-        while (rabbit.isAlive && sim.isRunning)
+        while (rabbit.isAlive && em.isRunning)
         {
             try
             {
-                Thread.sleep(1000);
+                Thread.sleep(rabbit.aSpeed);
             } catch (InterruptedException ignored) {}
             moveParticle();
 
@@ -55,25 +61,25 @@ public class RabbitRunnable implements Runnable {
         try
         {
             if(rabbit.aLifeLenght == 0) {
-                sim.lock.lock();
+                em.lock.lock();
                 try {
                     rabbit.isAlive = false;
-                    sim.removeEntity(rabbit);
+                    em.removeEntity(rabbit.id);
                     return;
                 }
                 finally {
-                    sim.lock.unlock();
+                    em.lock.unlock();
                 }
             }
             if(rabbit.aHunger > 100) {
-                sim.lock.lock();
+                em.lock.lock();
                 try {
                     rabbit.isAlive = false;
-                    sim.removeEntity(rabbit);
+                    em.removeEntity(rabbit.id);
                     return;
                 }
                 finally {
-                    sim.lock.unlock();
+                    em.lock.unlock();
                 }
             }
                 simpleStep();
@@ -135,14 +141,14 @@ public class RabbitRunnable implements Runnable {
                 break;
         }
 
-        if(xDelta > sim.gridWidth-50){
-            xDelta = sim.gridWidth - 50;
+        if(xDelta > em.gridWidth-50){
+            xDelta = em.gridWidth - 50;
         }
         if(xDelta < 50){
             xDelta = 50;
         }
-        if (yDelta > sim.gridHeight-50){
-            yDelta = sim.gridHeight - 50;
+        if (yDelta > em.gridHeight-50){
+            yDelta = em.gridHeight - 50;
         }
         if(yDelta < 50){
             yDelta = 50;

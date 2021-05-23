@@ -1,6 +1,7 @@
 package com.cvut.simulation.view.Model;
 
 import com.cvut.simulation.view.Simulation;
+import com.cvut.simulation.view.Utils.EntityManager;
 import com.cvut.simulation.view.Utils.Tile;
 
 import javax.swing.*;
@@ -15,14 +16,12 @@ public class Statistics {
     public int WolfCount;
     public int BulletCount;
 
-    public Simulation sim;
-    public List<Entity> entityList;
+    public EntityManager em;
 
 
 
-    public Statistics(List<Entity> EntityList){
-        this.entityList = EntityList;
-        this.sim = new Simulation();
+    public Statistics(EntityManager em){
+        this.em = em;
         this.foxCount = getCountByType("Fox");
         this.HunterCount = getCountByType("Hunter");
         this.RabbitCount = getCountByType("Rabbit");
@@ -42,16 +41,12 @@ public class Statistics {
 
     public int getCountByType(String aType){
         int count = 0;
-        for(Entity entity :entityList){
+        for(Entity entity :em.getEntities()){
             if(entity.aType == aType) {
                 count += 1;
             }
         }
         return count;
-    }
-
-    public void updateEntities(){
-        entityList = sim.getEntities();
     }
 
 }

@@ -3,25 +3,28 @@ package com.cvut.simulation.view.Controller;
 import com.cvut.simulation.view.Model.Fox;
 import com.cvut.simulation.view.Model.Rabbit;
 import com.cvut.simulation.view.Simulation;
+import com.cvut.simulation.view.Utils.EntityManager;
 import com.cvut.simulation.view.View.GridMap;
 import com.cvut.simulation.view.Model.Entity;
 
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FoxRunnable implements Runnable {
 
     public Fox fox;
     private final CountDownLatch latch;
     public Random rand = new Random();
-    private Simulation sim;
+    private EntityManager em;
+    private final static Logger LOGGER = Logger.getLogger(BulletRunnable.class.getName());
 
-    public FoxRunnable(Entity fox, CountDownLatch latch) {
-        this.sim = new Simulation();
+    public FoxRunnable(EntityManager em, Entity fox, CountDownLatch latch) {
+        this.em = em;
         this.fox = (Fox) fox;
         this.latch = latch;
-
     }
 
     /**
@@ -39,11 +42,11 @@ public class FoxRunnable implements Runnable {
             return;
         }
 
-        while (fox.isAlive && sim.isRunning)
+        while (fox.isAlive && em.isRunning)
         {
             try
             {
-                Thread.sleep(1000);
+                Thread.sleep(fox.aSpeed);
             } catch (InterruptedException ignored) {}
             moveParticle();
         }
@@ -57,25 +60,25 @@ public class FoxRunnable implements Runnable {
         try
         {
             if(fox.aLifeLenght == 0) {
-                sim.lock.lock();
+                em.lock.lock();
                 try {
                     fox.isAlive = false;
-                    sim.removeEntity(fox);
+                    em.removeEntity(fox.id);
                     return;
                 }
                 finally {
-                    sim.lock.unlock();
+                    em.lock.unlock();
                 }
             }
             if(fox.aHunger > 100) {
-                sim.lock.lock();
+                em.lock.lock();
                 try {
                     fox.isAlive = false;
-                    sim.removeEntity(fox);
+                    em.removeEntity(fox.id);
                     return;
                 }
                 finally {
-                    sim.lock.unlock();
+                    em.lock.unlock();
                 }
             }
 
@@ -94,16 +97,16 @@ public class FoxRunnable implements Runnable {
     public void eatRabbit(){
         if(fox.detectAnotherRabbit() != null){
             if(fox.aHunger > 10){
-                sim.lock.lock();
+                em.lock.lock();
                 try {
-                    sim.removeEntity(fox.detectAnotherRabbit());
+                    em.removeEntity(fox.detectAnotherRabbit().id);
                     fox.sexualDesire += 10;
                     fox.aHunger -= 20;
-                    System.out.println("rabbit was eaten");
+                    LOGGER.log(Level.INFO, "Rabbit was eaten");
                     fox.aEnergy += 20;
                 }
                 finally {
-                    sim.lock.unlock();
+                    em.lock.unlock();
                 }
             } else{
                 simpleStep();
@@ -120,16 +123,16 @@ public class FoxRunnable implements Runnable {
         // create new fox
             if(fox.detectAnotherFox() != null){
                 if(fox.aEnergy > 70 && fox.detectAnotherFox().aEnergy > 70 && fox.aHunger < 30 && fox.detectAnotherFox().aHunger < 30 && fox.sexualDesire > 90){
-                    sim.lock.lock();
+                    em.lock.lock();
                     try {
-                        sim.addFox(20,fox.currentPosition.x, fox.currentPosition.y);
-                        System.out.println("Fox was created");
+                        em.addFox(20,fox.currentPosition.x, fox.currentPosition.y);
+                        LOGGER.log(Level.INFO, "Fox was created");
                         fox.sexualDesire = 50;
                         fox.aHunger += 20;
                         fox.aEnergy -= 20;
                     }
                     finally {
-                        sim.lock.unlock();
+                        em.lock.unlock();
                     }
                 } else{
                     simpleStep();
@@ -188,14 +191,14 @@ public class FoxRunnable implements Runnable {
                 break;
         }
 
-        if(xDelta > sim.gridWidth-50){
-            xDelta = sim.gridWidth - 50;
+        if(xDelta > em.gridWidth-50){
+            xDelta = em.gridWidth - 50;
         }
         if(xDelta < 50){
             xDelta = 50;
         }
-        if (yDelta > sim.gridHeight-50){
-            yDelta = sim.gridHeight - 50;
+        if (yDelta > em.gridHeight-50){
+            yDelta = em.gridHeight - 50;
         }
         if(yDelta < 50){
             yDelta = 50;

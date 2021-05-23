@@ -1,5 +1,6 @@
 package com.cvut.simulation.view.View;
 
+import com.cvut.simulation.view.Controller.StatisticsRunnable;
 import com.cvut.simulation.view.Model.*;
 import com.cvut.simulation.view.Utils.EntityManager;
 
@@ -239,19 +240,19 @@ public class ParametrsView extends JPanel {
         try {
             switch (type){
                 case "Wolf":
-                    em.addEntity(new Wolf(em.getRandomPosition(em.getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
+                    em.addEntity(new Wolf(em,em.getRandomPosition(em.getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
                     break;
                 case "Fox":
-                    em.addEntity(new Fox(em.getRandomPosition(em.getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
+                    em.addEntity(new Fox(em,em.getRandomPosition(em.getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
                     break;
                 case "Hunter":
-                    em.addEntity(new Hunter(em.getRandomPosition(em.getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
+                    em.addEntity(new Hunter(em,em.getRandomPosition(em.getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
                     break;
                 case "Rabbit":
-                    em.addEntity(new Rabbit(em.getRandomPosition(em.getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
+                    em.addEntity(new Rabbit(em,em.getRandomPosition(em.getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
                     break;
                 case "Sheep":
-                    em.addEntity(new Sheep(em.getRandomPosition(em.getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
+                    em.addEntity(new Sheep(em,em.getRandomPosition(em.getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
                     break;
             }
         } catch (Exception e) {
@@ -267,14 +268,72 @@ public class ParametrsView extends JPanel {
     public void removeEntity(int idValue){
         if( em.removeEntity(idValue)){
             LOGGER.log(Level.INFO, "Entity removed!");
-            listEntities();
         }else{
             LOGGER.log(Level.WARNING, "Entity remove exception!");
         }
     }
 
+    /**
+     * Editing entity, find by id and set new values
+     * @param idValue
+     * @param healthValue
+     * @param energyValue
+     * @param ageLengthValue
+     * @param speedValue
+     * @param desireValue
+     */
+    public void editEntity(int idValue, int healthValue,int energyValue, int ageLengthValue, int speedValue, int hungerValue, int desireValue){
+        Entity entityToEdit = em.findEntity(idValue);
+        if(entityToEdit != null){
+            entityToEdit.aHealth = healthValue;
+            entityToEdit.aEnergy = energyValue;
+            entityToEdit.aLifeLenght = ageLengthValue;
+            entityToEdit.aSpeed = speedValue;
+            entityToEdit.aHunger = hungerValue;
+            entityToEdit.sexualDesire = desireValue;
+            LOGGER.log(Level.INFO,"Edited successfully");
+        }
+    }
 
     private void generateListeners(){
+
+
+        // start simulation
+        startBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if(simulationSpeed.getText() != null){
+                    int speed = Integer.parseInt(simulationSpeed.getText());
+                    if(speed > 0 && speed < 10000){
+                        CardLayout cl = (CardLayout) (mainPanel.getLayout());
+                        cl.show(mainPanel, "simulation");
+                        em.simulationSpeed = Integer.parseInt(simulationSpeed.getText());
+                        em.startThreads();
+                        em.startStats();
+
+                    }else{
+                        LOGGER.log(Level.WARNING,"Incorrect simulation speed!");
+                    }
+                }
+            }
+        });
+
+        // edit entity
+
+        editBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                int idValue = Integer.parseInt(ID.getText());
+                int healthValue = Integer.parseInt(health.getText());
+                int energyValue = Integer.parseInt(energy.getText());
+                int ageLengthValue = Integer.parseInt(lifeLenght.getText());
+                int speedValue = Integer.parseInt(speed.getText());
+                int hungerValue = Integer.parseInt(hunger.getText());
+                int desireValue = Integer.parseInt(sexualDesire.getText());
+                editEntity(idValue,healthValue,energyValue,ageLengthValue,speedValue,hungerValue,desireValue);
+                listEntities();
+            }
+        });
 
         // remove entity from array
         deleteBtn.addActionListener(new ActionListener() {
@@ -283,6 +342,7 @@ public class ParametrsView extends JPanel {
                int idValue = Integer.parseInt(ID.getText());
 
                removeEntity(idValue);
+               listEntities();
             }
         });
 
