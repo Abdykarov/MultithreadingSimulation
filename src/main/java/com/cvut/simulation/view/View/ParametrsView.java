@@ -15,6 +15,7 @@ public class ParametrsView extends JPanel {
     private static final Logger LOGGER = Logger.getLogger(String.valueOf(ParametrsView.class));
 
     private JPanel mainPanel;
+    private GridMap gridMap;
 
     private JTextField ID;
     private JTextField energy;
@@ -55,8 +56,9 @@ public class ParametrsView extends JPanel {
      * @param ca
      * @param em
      */
-    ParametrsView(JPanel mainPanel, CardLayout ca, EntityManager em){
+    ParametrsView(JPanel mainPanel, CardLayout ca, EntityManager em, GridMap gridMap){
         this.mainPanel = mainPanel;
+        this.gridMap = gridMap;
         this.em = em;
         setOpaque(true);
         setBackground(new Color(40, 40, 40));
@@ -310,7 +312,7 @@ public class ParametrsView extends JPanel {
                         em.simulationSpeed = Integer.parseInt(simulationSpeed.getText());
                         em.startThreads();
                         em.startStats();
-
+                        gridMap.startRedraw();
                     }else{
                         LOGGER.log(Level.WARNING,"Incorrect simulation speed!");
                     }

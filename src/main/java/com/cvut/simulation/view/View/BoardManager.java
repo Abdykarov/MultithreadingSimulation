@@ -9,22 +9,27 @@ import java.awt.*;
 public class BoardManager {
 
     private final EntityManager em;
+    private final GridMap gm;
+    private int gridWidth;
+    private int gridHeight;
     public BoardManager(EntityManager em){
         this.em = em;
+        this.gridWidth = 20*50;
+        this.gridHeight = 13*50;
+        this.gm = new GridMap(em,gridWidth,gridHeight);
     }
 
     /**
      *  Generates the swing main window and adds a gridMap there
      */
     public void generateWindow(){
-        int gridWidth = 20*50;
-        int gridHeight = 13*50;
+
         JFrame frame = new JFrame("Real Time Simulator");
         CardLayout ca = new CardLayout();
         JPanel mainPanel = new JPanel(ca);
         JPanel mainMenuCard = new MainMenu(mainPanel, ca);
-        JPanel parametrsCard = new ParametrsView(mainPanel, ca,em);
-        JPanel simulationCard = new SimulationView(em);
+        JPanel parametrsCard = new ParametrsView(mainPanel, ca,em,gm);
+        JPanel simulationCard = new SimulationView(em, gm);
 
         mainPanel.add(mainMenuCard, "menu");
         mainPanel.add(parametrsCard, "params");

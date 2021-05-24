@@ -48,6 +48,7 @@ public class FoxRunnable implements Runnable {
             {
                 Thread.sleep(fox.aSpeed);
             } catch (InterruptedException ignored) {}
+            System.out.println(fox.toString());
             moveParticle();
         }
     }
@@ -70,7 +71,7 @@ public class FoxRunnable implements Runnable {
                     em.lock.unlock();
                 }
             }
-            if(fox.aHunger > 100) {
+            if(fox.aHunger > 110) {
                 em.lock.lock();
                 try {
                     fox.isAlive = false;
@@ -82,11 +83,11 @@ public class FoxRunnable implements Runnable {
                 }
             }
 
-            eatRabbit();
+//            eatRabbit();
+//
+//            createNewFox();
 
-            createNewFox();
-
-            fox.aLifeLenght = fox.aLifeLenght - 1;
+            fox.aLifeLenght = fox.aLifeLenght - 10;
 
         } finally
         {

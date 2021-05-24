@@ -17,6 +17,7 @@ public class GridMap extends JPanel implements Runnable{
     public boolean redraw;
     public int width;
     public int height;
+    public Thread thr;
 
    public GridMap(EntityManager em, int width, int height)
     {
@@ -26,16 +27,18 @@ public class GridMap extends JPanel implements Runnable{
         setOpaque(true);
         setBackground(new Color(240, 235, 232));
 
-        Thread thr = new Thread(this);
-        thr.start();
+        thr = new Thread(this);
     }
 
+    public void startRedraw(){
+       thr.start();
+    }
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         List<Entity> entities = em.getEntities();
-
+        System.out.println(entities.size());
         // drawing tiles
         int tileSize = 50;
         Image RED_LAND;
@@ -56,10 +59,10 @@ public class GridMap extends JPanel implements Runnable{
 
         }
 
-        if(entities.isEmpty()){
-            redraw = false;
-            JOptionPane.showMessageDialog(null, "My Goodness, simulation is canceld");
-        }
+//        if(entities.isEmpty()){
+//            redraw = false;
+//            JOptionPane.showMessageDialog(null, "My Goodness, simulation is canceld");
+//        }
 
     }
 

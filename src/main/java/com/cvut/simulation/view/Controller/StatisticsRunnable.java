@@ -52,8 +52,6 @@ public class StatisticsRunnable implements Runnable {
                 updateCount(em.getEntities());
                 TimePassed += 1;
                 statistics.updateCounts();
-
-                System.out.println(statistics.BulletCount);
             }
             finally {
                 em.lock.unlock();
