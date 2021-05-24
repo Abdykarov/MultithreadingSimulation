@@ -5,6 +5,7 @@ import com.cvut.simulation.view.Model.Bullet;
 import com.cvut.simulation.view.Model.Entity;
 import com.cvut.simulation.view.Model.Fox;
 import com.cvut.simulation.view.Model.Statistics;
+import com.cvut.simulation.view.View.StatisticsView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ public class EntityManager {
     public final int gridHeight;
     private int id;
     public int simulationSpeed;
+    public int simulationSpeedOriginal;
     final CountDownLatch latch = new CountDownLatch(1);
     public final Lock lock = new ReentrantLock();
     public boolean isRunning;
@@ -100,9 +102,9 @@ public class EntityManager {
         return id + 1;
     }
 
-    public void startStats(){
+    public void startStats(StatisticsView statsView){
         Statistics stats = new Statistics( this);
-        StatisticsRunnable statsRunnable = new StatisticsRunnable(stats,this);
+        StatisticsRunnable statsRunnable = new StatisticsRunnable(stats,this, statsView);
         new Thread(statsRunnable).start();
     }
 
@@ -166,7 +168,7 @@ public class EntityManager {
         CountDownLatch foxLatch = new CountDownLatch(1);
         Tile tile = new Tile(posX, posY);
         Entity fox = new Fox(this, tile,id,
-                100,100,50,70, 16, 20);
+                100,100,1000,0, 100, 20);
         entities.add(fox);
         FoxRunnable particleRunnable = new FoxRunnable(this,fox, foxLatch);
         new Thread(particleRunnable).start();
@@ -193,4 +195,21 @@ public class EntityManager {
         bulletLatch.countDown();
 
     }
+
+    public void changeSpeeds(String type){
+        if(type == "slow"){
+            for (Entity entity: entities){
+                entity.aSpeed = entity.aSpeedOriginal /2;
+            }
+        }else if(type == "normal"){
+            for (Entity entity: entities){
+                entity.aSpeed = entity.aSpeedOriginal;
+            }
+        }else if(type == "fast"){
+            for (Entity entity: entities){
+                entity.aSpeed = entity.aSpeedOriginal * 2;
+            }
+        }
+    }
+
 }

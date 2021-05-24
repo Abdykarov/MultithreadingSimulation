@@ -3,6 +3,7 @@ package com.cvut.simulation.view.View;
 import com.cvut.simulation.view.Controller.StatisticsRunnable;
 import com.cvut.simulation.view.Model.*;
 import com.cvut.simulation.view.Utils.EntityManager;
+import com.cvut.simulation.view.Utils.Tile;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +17,7 @@ public class ParametrsView extends JPanel {
 
     private JPanel mainPanel;
     private GridMap gridMap;
+    private StatisticsView statsView;
 
     private JTextField ID;
     private JTextField energy;
@@ -56,8 +58,9 @@ public class ParametrsView extends JPanel {
      * @param ca
      * @param em
      */
-    ParametrsView(JPanel mainPanel, CardLayout ca, EntityManager em, GridMap gridMap){
+    ParametrsView(JPanel mainPanel, CardLayout ca, EntityManager em, GridMap gridMap, StatisticsView statsView){
         this.mainPanel = mainPanel;
+        this.statsView = statsView;
         this.gridMap = gridMap;
         this.em = em;
         setOpaque(true);
@@ -310,8 +313,9 @@ public class ParametrsView extends JPanel {
                         CardLayout cl = (CardLayout) (mainPanel.getLayout());
                         cl.show(mainPanel, "simulation");
                         em.simulationSpeed = Integer.parseInt(simulationSpeed.getText());
+                        em.simulationSpeedOriginal = Integer.parseInt(simulationSpeed.getText());
                         em.startThreads();
-                        em.startStats();
+                        em.startStats(statsView);
                         gridMap.startRedraw();
                     }else{
                         LOGGER.log(Level.WARNING,"Incorrect simulation speed!");

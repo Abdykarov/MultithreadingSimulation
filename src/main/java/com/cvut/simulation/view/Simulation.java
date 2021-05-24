@@ -17,7 +17,7 @@ public class Simulation {
 
     public static void main(String[] args){
         int gridWidth = 20*50;
-        int gridHeight = 13*50;
+        int gridHeight = 12*50;
 
         EntityManager em = new EntityManager(gridWidth, gridHeight);
         BoardManager boardManager = new BoardManager(em);

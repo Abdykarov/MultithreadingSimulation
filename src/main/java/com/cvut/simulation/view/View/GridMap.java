@@ -23,6 +23,8 @@ public class GridMap extends JPanel implements Runnable{
     {
         this.em = em;
         this.redraw = true;
+        this.width = width;
+        this.height = height;
 
         setOpaque(true);
         setBackground(new Color(240, 235, 232));
@@ -38,7 +40,7 @@ public class GridMap extends JPanel implements Runnable{
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         List<Entity> entities = em.getEntities();
-        System.out.println(entities.size());
+
         // drawing tiles
         int tileSize = 50;
         Image RED_LAND;
@@ -49,14 +51,20 @@ public class GridMap extends JPanel implements Runnable{
         }
         Random rand = new Random();
 
-        //draw entities
-        for (Entity entity : entities) {
-            if (entity == null) {
+        em.lock.lock();
+        try {
+            //draw entities
+            for (Entity entity : entities) {
+                if (entity == null) {
 
-            } else {
-                g.drawImage(entity.EntityImage, entity.currentPosition.x, entity.currentPosition.y, entity.width, entity.height, null);
+                } else {
+                    g.drawImage(entity.EntityImage, entity.currentPosition.x, entity.currentPosition.y, entity.width, entity.height, null);
+                }
+
             }
-
+        }
+        finally {
+            em.lock.unlock();
         }
 
 //        if(entities.isEmpty()){
@@ -74,7 +82,9 @@ public class GridMap extends JPanel implements Runnable{
         catch (InterruptedException e) {
             System.out.println("Interrupted");
         }
-        repaint();
+        if(em.isRunning){
+            repaint();
+        }
         //optimise miltithreading
         Toolkit.getDefaultToolkit().sync();
    }

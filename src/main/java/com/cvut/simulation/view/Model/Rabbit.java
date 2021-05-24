@@ -23,6 +23,7 @@ public class Rabbit extends Entity {
         this.aLifeLenght = aLifeLenght;
         this.aSpeed = aSpeed;
         this.aType = "Rabbit";
+        this.aSpeedOriginal = aSpeed;
         this.image = "images/rabbit.png";
         this.id = id;
         this.width = 50;
@@ -40,76 +41,6 @@ public class Rabbit extends Entity {
                 return (Rabbit) entity;
             }
         }
-        return null;
-    }
-
-    /**
-     * Entity moves to next tile
-     */
-    @Override
-    public void move() {
-
-    }
-
-
-    /**
-     * Entity eats other entity, which is placed in the next tile
-     *
-     * @param entityToEat
-     */
-    @Override
-    public void eat(Entity entityToEat) {
-
-    }
-
-    /**
-     * Calculates nextPosition. Finds the best tile around
-     *
-     * @param currentPosition
-     * @return
-     */
-    @Override
-    public Tile calculateNextPosition(Tile currentPosition) {
-        return null;
-    }
-
-    @Override
-    public void die() {
-
-    }
-
-    @Override
-    public int getXPosition() {
-        return 0;
-    }
-
-    @Override
-    public int getYPosition() {
-        return 0;
-    }
-
-    @Override
-    public void setXPosition(int x) {
-
-    }
-
-    @Override
-    public void setYPosition(int y) {
-
-    }
-
-    /**
-     * Drinks water
-     *
-     * @param waterObject
-     */
-    @Override
-    public void drinkWater(Rabbit waterObject) {
-
-    }
-
-    @Override
-    public Tile getTile() {
         return null;
     }
 

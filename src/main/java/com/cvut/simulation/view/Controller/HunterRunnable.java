@@ -46,13 +46,15 @@ public class HunterRunnable implements Runnable {
             return;
         }
 
-        while (hunter.isAlive && em.isRunning)
+        while (hunter.isAlive)
         {
             try
             {
                 Thread.sleep(hunter.aSpeed);
             } catch (InterruptedException ignored) {}
-            moveParticle();
+            if(em.isRunning){
+                moveParticle();
+            }
         }
     }
 

@@ -4,7 +4,9 @@ import com.cvut.simulation.view.Model.Statistics;
 import com.cvut.simulation.view.Simulation;
 import com.cvut.simulation.view.Model.Entity;
 import com.cvut.simulation.view.Utils.EntityManager;
+import com.cvut.simulation.view.View.StatisticsView;
 
+import javax.swing.*;
 import java.sql.Time;
 import java.util.*;
 import java.util.concurrent.CountDownLatch;
@@ -16,22 +18,13 @@ public class StatisticsRunnable implements Runnable {
     public Statistics statistics;
     public EntityManager em;
     public final long fps = 100;
-    Random rand = new Random();
+    private Random rand = new Random();
+    private final StatisticsView statsView;
 
-    public StatisticsRunnable(Statistics statistics, EntityManager em) {
+    public StatisticsRunnable(Statistics statistics, EntityManager em, StatisticsView statsView) {
         this.statistics = statistics;
+        this.statsView = statsView;
         this.em = em;
-    }
-
-    public int getTotalCount(){
-        return TotalCount;
-    }
-
-    public Integer[] getEntityCountArray(){
-        Map<Integer, Boolean> map = new HashMap<Integer, Boolean>();
-        Set<Integer> keys = map.keySet();
-        Integer[] array = keys.toArray(new Integer[keys.size()]);
-        return array;
     }
 
     public void updateCount(List<Entity> entities){
@@ -40,24 +33,37 @@ public class StatisticsRunnable implements Runnable {
 
     @Override
     public void run() {
-        while(em.isRunning){
+        while(true){
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
-            em.lock.lock();
-            try {
-                updateCount(em.getEntities());
-                TimePassed += 1;
-                statistics.updateCounts();
-            }
-            finally {
-                em.lock.unlock();
+            if(em.isRunning){
+                em.lock.lock();
+                try {
+                    updateCount(em.getEntities());
+                    TimePassed += 1;
+                    statistics.updateCounts();
+                    setValues();
+                }
+                finally {
+                    em.lock.unlock();
+                }
             }
         }
 
+    }
+
+    private void setValues(){
+        statsView.getTotalCount().setText("Total count: " + String.valueOf(statistics.getTotalCount()));
+        statsView.getFoxCount().setText("Fox count: " + String.valueOf(statistics.getFoxCount()));
+        statsView.getHunterCount().setText("Hunter count: " + String.valueOf(statistics.getHunterCount()));
+        statsView.getSheepCount().setText("Sheep count: " + String.valueOf(statistics.getSheepCount()));
+        statsView.getRabbitCount().setText("Rabbit count: " + String.valueOf(statistics.getRabbitCount()));
+        statsView.getWolfCount().setText("Wolf count: " + String.valueOf(statistics.getWolfCount()));
+        statsView.getIsRunning().setText("Time passed: " + String.valueOf(TimePassed));
     }
 
 }

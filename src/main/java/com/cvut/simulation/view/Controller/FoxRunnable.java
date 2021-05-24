@@ -42,14 +42,15 @@ public class FoxRunnable implements Runnable {
             return;
         }
 
-        while (fox.isAlive && em.isRunning)
+        while (fox.isAlive)
         {
             try
             {
                 Thread.sleep(fox.aSpeed);
             } catch (InterruptedException ignored) {}
-            System.out.println(fox.toString());
-            moveParticle();
+            if(em.isRunning){
+                moveParticle();
+            }
         }
     }
 
@@ -83,54 +84,17 @@ public class FoxRunnable implements Runnable {
                 }
             }
 
-//            eatRabbit();
-//
-//            createNewFox();
 
-            fox.aLifeLenght = fox.aLifeLenght - 10;
-
-        } finally
-        {
-            fox.lock.unlock();
-        }
-    }
-
-    public void eatRabbit(){
-        if(fox.detectAnotherRabbit() != null){
-            if(fox.aHunger > 10){
-                em.lock.lock();
-                try {
-                    em.removeEntity(fox.detectAnotherRabbit().id);
-                    fox.sexualDesire += 10;
-                    fox.aHunger -= 20;
-                    LOGGER.log(Level.INFO, "Rabbit was eaten");
-                    fox.aEnergy += 20;
-                }
-                finally {
-                    em.lock.unlock();
-                }
-            } else{
-                simpleStep();
-            }
-        }
-        else{
-            simpleStep();
-        }
-    }
-    /**
-     * Entity moves to next tile
-     */
-    public void createNewFox() {
-        // create new fox
-            if(fox.detectAnotherFox() != null){
-                if(fox.aEnergy > 70 && fox.detectAnotherFox().aEnergy > 70 && fox.aHunger < 30 && fox.detectAnotherFox().aHunger < 30 && fox.sexualDesire > 90){
+            // eat rabbit
+            if(fox.detectAnotherRabbit() != null){
+                if(fox.aHunger > 10){
                     em.lock.lock();
                     try {
-                        em.addFox(20,fox.currentPosition.x, fox.currentPosition.y);
-                        LOGGER.log(Level.INFO, "Fox was created");
-                        fox.sexualDesire = 50;
-                        fox.aHunger += 20;
-                        fox.aEnergy -= 20;
+                        em.removeEntity(fox.detectAnotherRabbit().id);
+                        fox.sexualDesire += 10;
+                        fox.aHunger -= 20;
+                        LOGGER.log(Level.INFO, "Rabbit was eaten");
+                        fox.aEnergy += 20;
                     }
                     finally {
                         em.lock.unlock();
@@ -138,11 +102,41 @@ public class FoxRunnable implements Runnable {
                 } else{
                     simpleStep();
                 }
-            }
-            else{
+            } // create new fox
+            else if(fox.detectAnotherFox() != null){
+                em.lock.lock();
+                if(fox.available && fox.detectAnotherFox().available && fox.aEnergy > 70 && fox.detectAnotherFox().aEnergy > 70 && fox.aHunger < 30 && fox.detectAnotherFox().aHunger < 30 && fox.detectAnotherFox().sexualDesire > 70 && fox.sexualDesire > 70){
+                    try {
+                        fox.available = false;
+                        fox.detectAnotherFox().available = false;
+                        em.addFox(em.getNextID(),fox.currentPosition.x, fox.currentPosition.y);
+                        LOGGER.log(Level.INFO, "Fox was created");
+                        fox.sexualDesire = 20;
+                        fox.aHunger += 30;
+                        fox.aEnergy -= 20;
+                    }
+                    finally {
+                        fox.available = true;
+                        fox.detectAnotherFox().available = true;
+                    }
+                } else{
+                    simpleStep();
+                }
+                em.lock.unlock();
+            }else{
                 simpleStep();
             }
+            if(fox.aLifeLenght > 0){
+                fox.aLifeLenght = fox.aLifeLenght - 1;
+            }
+
+        } finally
+        {
+            fox.lock.unlock();
+        }
     }
+
+
 
 
     public void simpleStep(){
@@ -207,9 +201,16 @@ public class FoxRunnable implements Runnable {
 
         fox.currentPosition.x = xDelta;
         fox.currentPosition.y = yDelta;
-        fox.sexualDesire += 10;
-        fox.aEnergy -= 10;
-        fox.aHunger += 1;
+
+        if(fox.sexualDesire < 100){
+            fox.sexualDesire += 10;
+        }
+        if(fox.aEnergy > 0){
+            fox.aEnergy -= 10;
+        }
+        if(fox.aHunger < 100){
+            fox.aHunger += 1;
+        }
     }
 
 

@@ -39,6 +39,16 @@ public class Statistics {
         this.BulletCount = getCountByType("Bullet");
     }
 
+    public int getTotalCount(){
+        int count = 0;
+        count += foxCount;
+        count += HunterCount;
+        count += RabbitCount;
+        count += SheepCount;
+        count += WolfCount;
+        return count;
+    }
+
     public int getCountByType(String aType){
         int count = 0;
         for(Entity entity :em.getEntities()){
@@ -49,4 +59,23 @@ public class Statistics {
         return count;
     }
 
+    public int getFoxCount() {
+        return foxCount;
+    }
+
+    public int getHunterCount() {
+        return HunterCount;
+    }
+
+    public int getRabbitCount() {
+        return RabbitCount;
+    }
+
+    public int getSheepCount() {
+        return SheepCount;
+    }
+
+    public int getWolfCount() {
+        return WolfCount;
+    }
 }

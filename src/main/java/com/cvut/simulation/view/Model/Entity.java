@@ -18,6 +18,7 @@ public abstract class Entity{
     public Integer sexualDesire;
     public Boolean isAlive;
     public Integer aSpeed; //animalSpeed
+    public Integer aSpeedOriginal;
     public Integer aHunger;
     public Integer aHealth;
     public Integer aEnergy;
@@ -32,44 +33,6 @@ public abstract class Entity{
     public Image EntityImage = new ImageIcon(image).getImage();
     public Lock lock;
 
-//    public abstract Tile getTile();
-
-
-    /**
-     * Entity moves to next tile
-     */
-    public abstract void move();
-
-    /**
-     * Entity eats other entity, which is placed in the next tile
-     */
-    public abstract void eat(Entity entityToEat);
-
-    /**
-     * Calculates nextPosition. Finds the best tile around
-     * @return
-     */
-    public abstract Tile calculateNextPosition(Tile currentPosition);
-
-    /**
-     * Entity dies and thread goes down
-     */
-    public abstract void die();
-
-    public abstract int getXPosition();
-
-    public abstract int getYPosition();
-
-    public abstract void setXPosition(int x);
-
-    public abstract void setYPosition(int y);
-    /**
-     * Drinks water
-     * @param waterObject
-     */
-    public abstract void drinkWater(Rabbit waterObject);
-
-    public abstract Tile getTile();
 
 
 }

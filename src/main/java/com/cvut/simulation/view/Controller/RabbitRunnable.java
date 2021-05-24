@@ -44,14 +44,15 @@ public class RabbitRunnable implements Runnable {
             return;
         }
 
-        while (rabbit.isAlive && em.isRunning)
+        while (rabbit.isAlive)
         {
             try
             {
                 Thread.sleep(rabbit.aSpeed);
             } catch (InterruptedException ignored) {}
-            moveParticle();
-
+            if(em.isRunning){
+                moveParticle();
+            }
         }
     }
 

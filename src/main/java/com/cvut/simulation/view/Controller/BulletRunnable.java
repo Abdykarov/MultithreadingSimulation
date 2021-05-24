@@ -45,13 +45,16 @@ public class BulletRunnable implements Runnable {
             return;
         }
 
-        while (em.isRunning && bullet.isAlive)
+        while (bullet.isAlive)
         {
             try
             {
                 Thread.sleep(bullet.aSpeed);
             } catch (InterruptedException ignored) {}
-            moveParticle();
+            if(em.isRunning){
+                moveParticle();
+            }
+
 //            LOGGER.log(Level.FINEST, String.valueOf());
         }
     }

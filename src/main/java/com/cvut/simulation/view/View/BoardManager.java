@@ -10,13 +10,17 @@ public class BoardManager {
 
     private final EntityManager em;
     private final GridMap gm;
+    private final StatisticsView statsView;
+    private final ControllerView controller;
     private int gridWidth;
     private int gridHeight;
     public BoardManager(EntityManager em){
         this.em = em;
         this.gridWidth = 20*50;
-        this.gridHeight = 13*50;
+        this.gridHeight = 12*50;
         this.gm = new GridMap(em,gridWidth,gridHeight);
+        this.statsView = new StatisticsView();
+        this.controller = new ControllerView(em);
     }
 
     /**
@@ -28,8 +32,8 @@ public class BoardManager {
         CardLayout ca = new CardLayout();
         JPanel mainPanel = new JPanel(ca);
         JPanel mainMenuCard = new MainMenu(mainPanel, ca);
-        JPanel parametrsCard = new ParametrsView(mainPanel, ca,em,gm);
-        JPanel simulationCard = new SimulationView(em, gm);
+        JPanel parametrsCard = new ParametrsView(mainPanel, ca,em,gm,statsView);
+        JPanel simulationCard = new SimulationView(em, gm, statsView, controller);
 
         mainPanel.add(mainMenuCard, "menu");
         mainPanel.add(parametrsCard, "params");
@@ -37,7 +41,7 @@ public class BoardManager {
 
         frame.add(mainPanel);
         frame.setResizable(false);
-        frame.setSize(new Dimension(gridWidth+10, gridHeight+30));
+        frame.setSize(new Dimension(gridWidth+10, gridHeight+100));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setLocationRelativeTo(null);
