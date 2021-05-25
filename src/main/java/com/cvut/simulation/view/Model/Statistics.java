@@ -18,8 +18,6 @@ public class Statistics {
 
     public EntityManager em;
 
-
-
     public Statistics(EntityManager em){
         this.em = em;
         this.foxCount = getCountByType("Fox");

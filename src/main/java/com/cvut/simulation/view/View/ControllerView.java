@@ -60,7 +60,7 @@ public class ControllerView extends JPanel {
             public void actionPerformed(ActionEvent actionEvent) {
                 em.lock.lock();
                 try{
-                    em.simulationSpeed = em.simulationSpeedOriginal / 2;
+                    em.simulationSpeed = em.simulationSpeedOriginal * 2;
                     em.changeSpeeds("slow");
                 }
                 finally {
@@ -91,7 +91,7 @@ public class ControllerView extends JPanel {
             public void actionPerformed(ActionEvent actionEvent) {
                 em.lock.lock();
                 try{
-                    em.simulationSpeed = em.simulationSpeedOriginal * 2;
+                    em.simulationSpeed = em.simulationSpeedOriginal / 2;
                     em.changeSpeeds("fast");
                 }
                 finally {

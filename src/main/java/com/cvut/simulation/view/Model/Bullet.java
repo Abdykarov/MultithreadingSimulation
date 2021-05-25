@@ -32,23 +32,29 @@ public class Bullet extends Entity {
 
 
     public Entity detectCollision(){
-        for(Entity entity: em.getEntities()){
-            if((entity.aType == "Wolf" || entity.aType == "Fox" || entity.aType == "Rabbit" || entity.aType=="Sheep") && entity.currentPosition.x == currentPosition.x && entity.currentPosition.y == currentPosition.y){
-                entityToDestroy = entity;
-                System.out.println("bullet shots");
-                if(entity.aType == "Wolf"){
-                    return (Wolf) entity;
-                }
-                else if(entity.aType == "Fox"){
-                    return (Fox) entity;
-                }
-                else if(entity.aType == "Rabbit"){
-                    return (Rabbit) entity;
-                }
-                else if(entity.aType == "Sheep"){
-                    return (Sheep) entity;
+        em.lock.lock();
+        try {
+            for(Entity entity: em.getEntities()){
+                if((entity.aType == "Wolf" || entity.aType == "Fox" || entity.aType == "Rabbit" || entity.aType=="Sheep") && entity.currentPosition.x == currentPosition.x && entity.currentPosition.y == currentPosition.y){
+                    entityToDestroy = entity;
+                    System.out.println("bullet shots");
+                    if(entity.aType == "Wolf"){
+                        return (Wolf) entity;
+                    }
+                    else if(entity.aType == "Fox"){
+                        return (Fox) entity;
+                    }
+                    else if(entity.aType == "Rabbit"){
+                        return (Rabbit) entity;
+                    }
+                    else if(entity.aType == "Sheep"){
+                        return (Sheep) entity;
+                    }
                 }
             }
+        }
+        finally {
+            em.lock.unlock();
         }
         return null;
     }

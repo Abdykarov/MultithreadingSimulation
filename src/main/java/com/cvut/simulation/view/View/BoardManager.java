@@ -41,7 +41,7 @@ public class BoardManager {
 
         frame.add(mainPanel);
         frame.setResizable(false);
-        frame.setSize(new Dimension(gridWidth+10, gridHeight+100));
+        frame.setSize(new Dimension(gridWidth+10, gridHeight+110));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setLocationRelativeTo(null);

@@ -35,7 +35,7 @@ public class StatisticsRunnable implements Runnable {
     public void run() {
         while(true){
             try {
-                Thread.sleep(1000);
+                Thread.sleep(em.simulationSpeed);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

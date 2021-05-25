@@ -11,6 +11,7 @@ public class Wolf extends Entity {
 
     public final Lock lock;
     public EntityManager em;
+    public boolean available;
 
     public Wolf(EntityManager em, Tile tilePos, int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght, int sexualDesire){
         this.aEnergy = aEnergy;
@@ -18,6 +19,7 @@ public class Wolf extends Entity {
         this.lock = new ReentrantLock();
         this.sexualDesire = sexualDesire;
         this.aHealth = aHealth;
+        this.available = true;
         this.aHunger = aHunger;
         this.aLifeLenght = aLifeLenght;
         this.aSpeed = aSpeed;
@@ -31,6 +33,37 @@ public class Wolf extends Entity {
         this.EntityImage = new ImageIcon(image).getImage();
         this.isAlive = true;
 
+    }
+
+
+    public Wolf detectAnotherWolf(){
+        em.lock.lock();
+        try {
+            for(Entity entity: em.getEntities()){
+                if((entity.aType == "Wolf") && entity.id != id && (entity.currentPosition.x == currentPosition.x) && (entity.currentPosition.y == currentPosition.y)){
+                    return (Wolf) entity;
+                }
+            }
+        }
+        finally {
+            em.lock.unlock();
+        }
+        return null;
+    }
+
+    public Sheep detectAnotherSheep(){
+        em.lock.lock();
+        try {
+            for(Entity entity: em.getEntities()){
+                if((entity.aType == "Sheep") && (entity.currentPosition.x == currentPosition.x) && (entity.currentPosition.y == currentPosition.y)){
+                    return (Sheep) entity;
+                }
+            }
+        }
+        finally {
+            em.lock.unlock();
+        }
+        return null;
     }
 
 

@@ -54,32 +54,20 @@ public class BulletRunnable implements Runnable {
             if(em.isRunning){
                 moveParticle();
             }
-
-//            LOGGER.log(Level.FINEST, String.valueOf());
         }
     }
 
     private void moveParticle()
     {
-
         bullet.lock.lock();
         try
         {
-            move();
-
-        } finally
-        {
-            bullet.lock.unlock();
-        }
-    }
-
-    public void move() {
-        Entity detectedEntity;
+            Entity detectedEntity;
             if(bullet.steps == 5){
                 em.lock.lock();
                 try {
                     bullet.isAlive = false;
-                    LOGGER.log(Level.INFO, String.valueOf("steps over"));
+                    LOGGER.log(Level.INFO, String.valueOf("bullet steps over"));
                     em.removeEntity(bullet.id);
                 }finally {
                     em.lock.unlock();
@@ -97,31 +85,53 @@ public class BulletRunnable implements Runnable {
                     detectedEntity.lock.unlock();
                 }
             }else{
-                int xDelta = bullet.currentPosition.x;
-                int yDelta = bullet.currentPosition.y;
-                switch (bullet.direction){
-                    case 1:
-                        xDelta += 50;
-                        yDelta = yDelta;
-                        break;
-                    case 2:
-                        xDelta = xDelta;
-                        yDelta += 50;
-                        break;
-                    case 3:
-                        xDelta = xDelta;
-                        yDelta -= 50;
-                        break;
-                    case 4:
-                        xDelta -= 50;
-                        yDelta = yDelta;
-                }
-
-                bullet.currentPosition.x = xDelta;
-                bullet.currentPosition.y = yDelta;
-                bullet.steps += 1;
+                simpleStep();
             }
+
+        } finally
+        {
+            bullet.lock.unlock();
         }
+    }
+
+    private void simpleStep(){
+        int xDelta = bullet.currentPosition.x;
+        int yDelta = bullet.currentPosition.y;
+        switch (bullet.direction){
+            case 1:
+                xDelta += 50;
+                yDelta = yDelta;
+                break;
+            case 2:
+                xDelta = xDelta;
+                yDelta += 50;
+                break;
+            case 3:
+                xDelta = xDelta;
+                yDelta -= 50;
+                break;
+            case 4:
+                xDelta -= 50;
+                yDelta = yDelta;
+        }
+
+        bullet.currentPosition.x = xDelta;
+        bullet.currentPosition.y = yDelta;
+        bullet.steps += 1;
+
+        if(!inRange(bullet.currentPosition.x, bullet.currentPosition.y)){
+            bullet.isAlive = false;
+            LOGGER.log(Level.INFO, String.valueOf("bullet is out of map"));
+        }
+    }
+
+
+    public boolean inRange(int x, int y){
+        if(x < em.gridWidth-50 && x > 0 && y > 0 && y < em.gridHeight - 50){
+            return true;
+        }
+        return false;
+    }
 
 
 

@@ -199,7 +199,7 @@ public class EntityManager {
     public void changeSpeeds(String type){
         if(type == "slow"){
             for (Entity entity: entities){
-                entity.aSpeed = entity.aSpeedOriginal /2;
+                entity.aSpeed = entity.aSpeedOriginal * 2;
             }
         }else if(type == "normal"){
             for (Entity entity: entities){
@@ -207,7 +207,7 @@ public class EntityManager {
             }
         }else if(type == "fast"){
             for (Entity entity: entities){
-                entity.aSpeed = entity.aSpeedOriginal * 2;
+                entity.aSpeed = entity.aSpeedOriginal / 2;
             }
         }
     }

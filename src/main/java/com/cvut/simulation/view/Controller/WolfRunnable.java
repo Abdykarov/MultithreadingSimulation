@@ -1,7 +1,8 @@
 package com.cvut.simulation.view.Controller;
 
-import com.cvut.simulation.view.Model.Fox;
 import com.cvut.simulation.view.Model.Rabbit;
+import com.cvut.simulation.view.Model.Sheep;
+import com.cvut.simulation.view.Model.Wolf;
 import com.cvut.simulation.view.Utils.EntityManager;
 import com.cvut.simulation.view.Model.Entity;
 
@@ -10,17 +11,17 @@ import java.util.concurrent.CountDownLatch;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class FoxRunnable implements Runnable {
+public class WolfRunnable implements Runnable {
 
-    public Fox fox;
+    public Wolf wolf;
     private final CountDownLatch latch;
     public Random rand = new Random();
     private final EntityManager em;
     private final static Logger LOGGER = Logger.getLogger(BulletRunnable.class.getName());
 
-    public FoxRunnable(EntityManager em, Entity fox, CountDownLatch latch) {
+    public WolfRunnable(EntityManager em, Entity wolf, CountDownLatch latch) {
         this.em = em;
-        this.fox = (Fox) fox;
+        this.wolf = (Wolf) wolf;
         this.latch = latch;
     }
 
@@ -39,11 +40,11 @@ public class FoxRunnable implements Runnable {
             return;
         }
 
-        while (fox.isAlive)
+        while (wolf.isAlive)
         {
             try
             {
-                Thread.sleep(fox.aSpeed);
+                Thread.sleep(wolf.aSpeed);
             } catch (InterruptedException ignored) {}
             if(em.isRunning){
                 moveParticle();
@@ -53,27 +54,27 @@ public class FoxRunnable implements Runnable {
 
     private void moveParticle()
     {
-        Rabbit rabbit;
-        Fox nearFox;
-        fox.lock.lock();
+        Sheep sheep;
+        Wolf nearWolf;
+        wolf.lock.lock();
         try
         {
-            if(fox.aLifeLenght == 0) {
+            if(wolf.aLifeLenght == 0) {
                 em.lock.lock();
                 try {
-                    fox.isAlive = false;
-                    em.removeEntity(fox.id);
+                    wolf.isAlive = false;
+                    em.removeEntity(wolf.id);
                     return;
                 }
                 finally {
                     em.lock.unlock();
                 }
             }
-            if(fox.aHunger > 110) {
+            if(wolf.aHunger > 110) {
                 em.lock.lock();
                 try {
-                    fox.isAlive = false;
-                    em.removeEntity(fox.id);
+                    wolf.isAlive = false;
+                    em.removeEntity(wolf.id);
                     return;
                 }
                 finally {
@@ -82,16 +83,16 @@ public class FoxRunnable implements Runnable {
             }
 
 
-            // eat rabbit
-            if((rabbit = fox.detectAnotherRabbit()) != null){
-                if(fox.aHunger > 10){
+            // eat sheep
+            if((sheep = wolf.detectAnotherSheep()) != null){
+                if(wolf.aHunger > 10){
                     em.lock.lock();
                     try {
-                        em.removeEntity(rabbit.id);
-                        fox.sexualDesire += 10;
-                        fox.aHunger -= 20;
-                        LOGGER.log(Level.INFO, "Rabbit was eaten");
-                        fox.aEnergy += 20;
+                        em.removeEntity(sheep.id);
+                        wolf.sexualDesire += 10;
+                        wolf.aHunger -= 20;
+                        LOGGER.log(Level.INFO, "Sheep was eaten");
+                        wolf.aEnergy += 20;
                     }
                     finally {
                         em.lock.unlock();
@@ -100,23 +101,23 @@ public class FoxRunnable implements Runnable {
                     simpleStep();
                 }
             } // create new fox
-            else if((nearFox = fox.detectAnotherFox()) != null){
-                nearFox.lock.lock();
+            else if((nearWolf = wolf.detectAnotherWolf()) != null){
                 em.lock.lock();
-                if(fox.available && nearFox.available && fox.aEnergy > 70 && nearFox.aEnergy > 70 && fox.aHunger < 30 && nearFox.aHunger < 30 && nearFox.sexualDesire > 70 && fox.sexualDesire > 70){
+                nearWolf.lock.lock();
+                if(wolf.available && nearWolf.available && wolf.aEnergy > 70 && nearWolf.aEnergy > 70 && wolf.aHunger < 30 && nearWolf.aHunger < 30 && nearWolf.sexualDesire > 70 && wolf.sexualDesire > 70){
                     try {
-                        fox.available = false;
-                        nearFox.available = false;
-                        em.addFox(em.getNextID(),fox.currentPosition.x, fox.currentPosition.y);
-                        LOGGER.log(Level.INFO, "Fox was created");
-                        fox.sexualDesire = 20;
-                        fox.aHunger += 30;
-                        fox.aEnergy -= 20;
+                        wolf.available = false;
+                        nearWolf.available = false;
+                        em.addFox(em.getNextID(),wolf.currentPosition.x, wolf.currentPosition.y);
+                        LOGGER.log(Level.INFO, "New wolf was created");
+                        wolf.sexualDesire = 20;
+                        wolf.aHunger += 30;
+                        wolf.aEnergy -= 20;
                     }
                     finally {
-                        fox.available = true;
-                        nearFox.available = true;
-                        nearFox.lock.unlock();
+                        wolf.available = true;
+                        nearWolf.available = true;
+                        nearWolf.lock.unlock();
                     }
                 } else{
                     simpleStep();
@@ -125,13 +126,13 @@ public class FoxRunnable implements Runnable {
             }else{
                 simpleStep();
             }
-            if(fox.aLifeLenght > 0){
-                fox.aLifeLenght = fox.aLifeLenght - 1;
+            if(wolf.aLifeLenght > 0){
+                wolf.aLifeLenght = wolf.aLifeLenght - 1;
             }
 
         } finally
         {
-            fox.lock.unlock();
+            wolf.lock.unlock();
         }
     }
 
@@ -139,8 +140,8 @@ public class FoxRunnable implements Runnable {
 
 
     public void simpleStep(){
-        int xDelta = fox.currentPosition.x;
-        int yDelta = fox.currentPosition.y;
+        int xDelta = wolf.currentPosition.x;
+        int yDelta = wolf.currentPosition.y;
         // TODO update ai logic in future
         int velocity = rand.nextInt(9-1) +1;
         // there is will be 9 ways to go,
@@ -198,17 +199,17 @@ public class FoxRunnable implements Runnable {
             yDelta = 50;
         }
 
-        fox.currentPosition.x = xDelta;
-        fox.currentPosition.y = yDelta;
+        wolf.currentPosition.x = xDelta;
+        wolf.currentPosition.y = yDelta;
 
-        if(fox.sexualDesire < 100){
-            fox.sexualDesire += 10;
+        if(wolf.sexualDesire < 100){
+            wolf.sexualDesire += 10;
         }
-        if(fox.aEnergy > 0){
-            fox.aEnergy -= 10;
+        if(wolf.aEnergy > 0){
+            wolf.aEnergy -= 10;
         }
-        if(fox.aHunger < 100){
-            fox.aHunger += 1;
+        if(wolf.aHunger < 100){
+            wolf.aHunger += 1;
         }
     }
 

@@ -31,7 +31,20 @@ public class Sheep extends Entity {
         this.isAlive = true;
     }
 
-
+    public Sheep detectAnotherSheep(){
+        em.lock.lock();
+        try {
+            for(Entity entity: em.getEntities()){
+                if((entity.aType == "Sheep") && (entity.currentPosition.x == currentPosition.x) && (entity.currentPosition.y == currentPosition.y)){
+                    return (Sheep) entity;
+                }
+            }
+        }
+        finally {
+            em.lock.unlock();
+        }
+        return null;
+    }
     @Override
     public String toString() {
         return "Sheep | " +

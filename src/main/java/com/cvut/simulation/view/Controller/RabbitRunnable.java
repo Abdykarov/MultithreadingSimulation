@@ -1,15 +1,12 @@
 package com.cvut.simulation.view.Controller;
 
-import com.cvut.simulation.view.Model.Fox;
 import com.cvut.simulation.view.Model.Rabbit;
-import com.cvut.simulation.view.Simulation;
 import com.cvut.simulation.view.Utils.EntityManager;
-import com.cvut.simulation.view.View.GridMap;
 import com.cvut.simulation.view.Model.Entity;
 
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class RabbitRunnable implements Runnable {
@@ -18,9 +15,7 @@ public class RabbitRunnable implements Runnable {
     private final CountDownLatch latch;
     public Random rand = new Random();
     private EntityManager em;
-
     private final static Logger LOGGER = Logger.getLogger(BulletRunnable.class.getName());
-
 
     public RabbitRunnable(EntityManager em, Entity rabbit, CountDownLatch latch) {
         this.em = em;
@@ -28,7 +23,6 @@ public class RabbitRunnable implements Runnable {
         this.latch = latch;
 
     }
-
     /**
      * Overrides default thread method run
      */
@@ -57,7 +51,8 @@ public class RabbitRunnable implements Runnable {
     }
 
     private void moveParticle()
-    {;
+    {
+        Rabbit nearRabbit;
         rabbit.lock.lock();
         try
         {
@@ -72,7 +67,7 @@ public class RabbitRunnable implements Runnable {
                     em.lock.unlock();
                 }
             }
-            if(rabbit.aHunger > 100) {
+            if(rabbit.aHunger > 110) {
                 em.lock.lock();
                 try {
                     rabbit.isAlive = false;
@@ -83,10 +78,36 @@ public class RabbitRunnable implements Runnable {
                     em.lock.unlock();
                 }
             }
-                simpleStep();
 
-//            move();
-            rabbit.aLifeLenght = rabbit.aLifeLenght - 1;
+
+            if((nearRabbit = rabbit.detectAnotherRabbit()) != null){
+                nearRabbit.lock.lock();
+                em.lock.lock();
+                if(rabbit.available && nearRabbit.available && rabbit.aEnergy > 70 && nearRabbit.aEnergy > 70 && rabbit.aHunger < 30 && nearRabbit.aHunger < 30 && nearRabbit.sexualDesire > 70 && rabbit.sexualDesire > 70){
+                    try {
+                        rabbit.available = false;
+                        nearRabbit.available = false;
+                        em.addFox(em.getNextID(),rabbit.currentPosition.x, rabbit.currentPosition.y);
+                        LOGGER.log(Level.INFO, "New rabbit was created");
+                        rabbit.sexualDesire = 20;
+                        rabbit.aHunger += 30;
+                        rabbit.aEnergy -= 20;
+                    }
+                    finally {
+                        rabbit.available = true;
+                        nearRabbit.available = true;
+                        nearRabbit.lock.unlock();
+                    }
+                } else{
+                    simpleStep();
+                }
+                em.lock.unlock();
+            }else{
+                simpleStep();
+            }
+            if(rabbit.aLifeLenght > 0){
+                rabbit.aLifeLenght = rabbit.aLifeLenght - 1;
+            }
 
         } finally
         {
@@ -157,9 +178,16 @@ public class RabbitRunnable implements Runnable {
 
         rabbit.currentPosition.x = xDelta;
         rabbit.currentPosition.y = yDelta;
-        rabbit.sexualDesire += 10;
-        rabbit.aHunger += 1;
-        rabbit.aEnergy -= 10;
+
+        if(rabbit.sexualDesire < 100){
+            rabbit.sexualDesire += 10;
+        }
+        if(rabbit.aEnergy > 0){
+            rabbit.aEnergy -= 10;
+        }
+        if(rabbit.aHunger < 100){
+            rabbit.aHunger += 1;
+        }
     }
 
 

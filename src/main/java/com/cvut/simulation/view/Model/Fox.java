@@ -51,10 +51,16 @@ public class Fox extends Entity {
     }
 
     public Rabbit detectAnotherRabbit(){
-        for(Entity entity: em.getEntities()){
-            if((entity.aType == "Rabbit") && (entity.currentPosition.x == currentPosition.x) && (entity.currentPosition.y == currentPosition.y)){
-                return (Rabbit) entity;
+        em.lock.lock();
+        try {
+            for(Entity entity: em.getEntities()){
+                if((entity.aType == "Rabbit") && (entity.currentPosition.x == currentPosition.x) && (entity.currentPosition.y == currentPosition.y)){
+                    return (Rabbit) entity;
+                }
             }
+        }
+        finally {
+            em.lock.unlock();
         }
         return null;
     }
