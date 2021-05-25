@@ -10,17 +10,19 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Sheep extends Entity {
 
     public final Lock lock;
+    public boolean available;
 
     public Sheep(EntityManager em, Tile tilePos, int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght, int sexualDesire){
         this.lock = new ReentrantLock();
         this.aEnergy = aEnergy;
         this.em = em;
+        this.available = true;
         this.sexualDesire = sexualDesire;
         this.aHealth = aHealth;
         this.aHunger = aHunger;
         this.aLifeLenght = aLifeLenght;
         this.aSpeed = aSpeed;
-        this.aType = "Sheap";
+        this.aType = "Sheep";
         this.image = "images/sheep.png";
         this.id = id;
         this.width = 55;
@@ -58,5 +60,7 @@ public class Sheep extends Entity {
                 " | currentPosition=" + currentPosition +
                 "\n";
     }
+
+
 
 }

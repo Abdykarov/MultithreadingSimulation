@@ -34,6 +34,9 @@ public class Fox extends Entity {
 
     }
 
+    public Lock getLock(){
+        return lock;
+    }
 
     public Fox detectAnotherFox(){
         em.lock.lock();

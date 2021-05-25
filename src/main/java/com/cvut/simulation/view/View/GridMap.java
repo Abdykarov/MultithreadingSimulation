@@ -67,10 +67,10 @@ public class GridMap extends JPanel implements Runnable{
             em.lock.unlock();
         }
 
-//        if(entities.isEmpty()){
-//            redraw = false;
-//            JOptionPane.showMessageDialog(null, "My Goodness, simulation is canceld");
-//        }
+        if(entities.isEmpty()){
+            redraw = false;
+            JOptionPane.showMessageDialog(null, "My Goodness, simulation is canceld");
+        }
 
     }
 

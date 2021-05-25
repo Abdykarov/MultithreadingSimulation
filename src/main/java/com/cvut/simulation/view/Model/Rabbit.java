@@ -53,6 +53,7 @@ public class Rabbit extends Entity {
         return null;
     }
 
+
     @Override
     public String toString() {
         return "Rabbit | " +

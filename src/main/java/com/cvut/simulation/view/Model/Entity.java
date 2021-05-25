@@ -33,6 +33,131 @@ public abstract class Entity{
     public Image EntityImage = new ImageIcon(image).getImage();
     public Lock lock;
 
+    public Integer getId() {
+        return id;
+    }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
+    public Integer getSexualDesire() {
+        return sexualDesire;
+    }
+
+    public void setSexualDesire(Integer sexualDesire) {
+        this.sexualDesire = sexualDesire;
+    }
+
+    public Boolean getAlive() {
+        return isAlive;
+    }
+
+    public void setAlive(Boolean alive) {
+        isAlive = alive;
+    }
+
+    public Integer getaSpeed() {
+        return aSpeed;
+    }
+
+    public void setaSpeed(Integer aSpeed) {
+        this.aSpeed = aSpeed;
+    }
+
+    public Integer getaSpeedOriginal() {
+        return aSpeedOriginal;
+    }
+
+    public void setaSpeedOriginal(Integer aSpeedOriginal) {
+        this.aSpeedOriginal = aSpeedOriginal;
+    }
+
+    public Integer getaHunger() {
+        return aHunger;
+    }
+
+    public void setaHunger(Integer aHunger) {
+        this.aHunger = aHunger;
+    }
+
+    public Integer getaHealth() {
+        return aHealth;
+    }
+
+    public void setaHealth(Integer aHealth) {
+        this.aHealth = aHealth;
+    }
+
+    public Integer getaEnergy() {
+        return aEnergy;
+    }
+
+    public void setaEnergy(Integer aEnergy) {
+        this.aEnergy = aEnergy;
+    }
+
+    public Integer getaLifeLenght() {
+        return aLifeLenght;
+    }
+
+    public void setaLifeLenght(Integer aLifeLenght) {
+        this.aLifeLenght = aLifeLenght;
+    }
+
+    public Integer getWidth() {
+        return width;
+    }
+
+    public void setWidth(Integer width) {
+        this.width = width;
+    }
+
+    public Integer getHeight() {
+        return height;
+    }
+
+    public void setHeight(Integer height) {
+        this.height = height;
+    }
+
+    public String getaType() {
+        return aType;
+    }
+
+    public void setaType(String aType) {
+        this.aType = aType;
+    }
+
+    public Tile getCurrentPosition() {
+        return currentPosition;
+    }
+
+    public void setCurrentPosition(Tile currentPosition) {
+        this.currentPosition = currentPosition;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public Image getEntityImage() {
+        return EntityImage;
+    }
+
+    public void setEntityImage(Image entityImage) {
+        EntityImage = entityImage;
+    }
+
+    public Lock getLock() {
+        return lock;
+    }
+
+    public void setLock(Lock lock) {
+        this.lock = lock;
+    }
 }

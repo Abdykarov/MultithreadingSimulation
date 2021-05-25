@@ -28,7 +28,6 @@ public class HunterRunnable implements Runnable {
         this.em = em;
         this.hunter = (Hunter) hunter;
         this.latch = latch;
-
     }
 
     /**
@@ -50,7 +49,7 @@ public class HunterRunnable implements Runnable {
         {
             try
             {
-                Thread.sleep(hunter.aSpeed);
+                TimeUnit.MILLISECONDS.sleep(hunter.aSpeed);
             } catch (InterruptedException ignored) {}
             if(em.isRunning){
                 moveParticle();
@@ -60,8 +59,6 @@ public class HunterRunnable implements Runnable {
 
     private void moveParticle()
     {
-        Rabbit rabbit;
-        Fox nearFox;
         hunter.lock.lock();
         try
         {
@@ -76,19 +73,13 @@ public class HunterRunnable implements Runnable {
                     em.lock.unlock();
                 }
             }
-            if(hunter.aHunger > 100) {
-                em.lock.lock();
-                try {
-                    hunter.isAlive = false;
-                    em.removeEntity(hunter.id);
-                    return;
-                }
-                finally {
-                    em.lock.unlock();
-                }
-            }
 
-            shot();
+            if(hunter.reload == 0){
+                shot();
+                hunter.reload = 5;
+            }else{
+                simpleStep();
+            }
 
             hunter.aLifeLenght = hunter.aLifeLenght - 1;
 
@@ -99,25 +90,18 @@ public class HunterRunnable implements Runnable {
     }
 
     /**
-     * Entity moves to next tile
+     * Hunter makes shot
      */
     public void shot() {
-        // create new fox
+
         em.lock.lock();
-            if(hunter.aEnergy > 70){
-                try {
-                    em.addBullet(20,hunter.currentPosition.x, hunter.currentPosition.y, rand.nextInt(5-1) +1);
-                    LOGGER.log(Level.WARNING,"hunter shoots");
-                    hunter.aEnergy += 20;
-                }
-                finally {
-                    em.lock.unlock();
-                }
-            } else {
-                simpleStep();
-            }
-
-
+        try {
+            em.addBullet(em.getNextID(),hunter.currentPosition.x, hunter.currentPosition.y, rand.nextInt(5-1) +1);
+            LOGGER.log(Level.WARNING,"hunter shoots");
+        }
+        finally {
+            em.lock.unlock();
+        }
     }
 
 
@@ -183,7 +167,11 @@ public class HunterRunnable implements Runnable {
 
         hunter.currentPosition.x = xDelta;
         hunter.currentPosition.y = yDelta;
-        hunter.aEnergy -= 10;
+
+        if(hunter.reload > 0){
+            hunter.reload -= 1;
+        }
+
 
     }
 

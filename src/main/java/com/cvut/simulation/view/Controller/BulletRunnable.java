@@ -49,7 +49,7 @@ public class BulletRunnable implements Runnable {
         {
             try
             {
-                Thread.sleep(bullet.aSpeed);
+                TimeUnit.MILLISECONDS.sleep(bullet.aSpeed);
             } catch (InterruptedException ignored) {}
             if(em.isRunning){
                 moveParticle();
@@ -59,10 +59,10 @@ public class BulletRunnable implements Runnable {
 
     private void moveParticle()
     {
+        Entity detectedEntity;
         bullet.lock.lock();
         try
         {
-            Entity detectedEntity;
             if(bullet.steps == 5){
                 em.lock.lock();
                 try {
@@ -72,17 +72,15 @@ public class BulletRunnable implements Runnable {
                 }finally {
                     em.lock.unlock();
                 }
-            }else if((detectedEntity =  bullet.detectCollision() )!= null){
+            }else if((detectedEntity = bullet.detectCollision()) != null){
                 em.lock.lock();
-                detectedEntity.lock.lock();
                 try {
                     LOGGER.log(Level.INFO, String.valueOf("entity shoted"));
-                    bullet.entityToDestroy.isAlive = false;
-                    em.removeEntity(bullet.entityToDestroy.id);
+                    em.removeEntity(bullet.id);
+                    em.removeEntity(detectedEntity.id);
                 }
                 finally {
                     em.lock.unlock();
-                    detectedEntity.lock.unlock();
                 }
             }else{
                 simpleStep();
@@ -121,6 +119,7 @@ public class BulletRunnable implements Runnable {
 
         if(!inRange(bullet.currentPosition.x, bullet.currentPosition.y)){
             bullet.isAlive = false;
+            em.removeEntity(bullet.id);
             LOGGER.log(Level.INFO, String.valueOf("bullet is out of map"));
         }
     }

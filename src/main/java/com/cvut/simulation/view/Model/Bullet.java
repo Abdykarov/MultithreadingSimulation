@@ -15,11 +15,21 @@ public class Bullet extends Entity {
     public final Lock lock = new ReentrantLock();
     public EntityManager em;
 
-    public Bullet(EntityManager entityManager, Tile tilePos, int id, int direction){
+    public Bullet(EntityManager entityManager, Tile tilePos, int id, int direction, int speed){
         this.direction = direction;
+        if(direction == 1){
+            this.image = "images/right.png";
+        }else if(direction == 2){
+            this.image = "images/down.png";
+        }else if(direction == 3){
+            this.image = "images/up.png";
+        }else{
+            this.image = "images/left.png";
+        }
         this.aType = "Bullet";
         this.em = entityManager;
-        this.image = "images/bullet.png";
+        this.aSpeed = speed;
+        this.aSpeedOriginal = speed;
         this.id = id;
         this.width = 50;
         this.aLifeLenght = 1;
@@ -32,7 +42,7 @@ public class Bullet extends Entity {
 
 
     public Entity detectCollision(){
-        em.lock.lock();
+        em.lockMonitor();
         try {
             for(Entity entity: em.getEntities()){
                 if((entity.aType == "Wolf" || entity.aType == "Fox" || entity.aType == "Rabbit" || entity.aType=="Sheep") && entity.currentPosition.x == currentPosition.x && entity.currentPosition.y == currentPosition.y){
@@ -54,7 +64,7 @@ public class Bullet extends Entity {
             }
         }
         finally {
-            em.lock.unlock();
+            em.unlockMonitor();
         }
         return null;
     }

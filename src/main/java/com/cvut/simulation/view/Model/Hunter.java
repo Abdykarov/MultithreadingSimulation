@@ -11,11 +11,13 @@ public class Hunter extends Entity {
 
     public boolean shot = false;
     public final Lock lock;
+    public int reload;
 
     public Hunter(EntityManager em, Tile tilePos, int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght, int sexualDesire){
         this.aEnergy = aEnergy;
         this.sexualDesire = sexualDesire;
         this.em = em;
+        this.reload = 3;
         this.lock = new ReentrantLock();
         this.aHealth = aHealth;
         this.aHunger = aHunger;

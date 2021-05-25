@@ -76,11 +76,14 @@ public class ParametrsView extends JPanel {
      * List all toStrings into table
      */
     public void listEntities(){
-        System.out.println(em.getEntities().size());
         tableArea.setText(null);
         for (Entity entity: em.getEntities()){
             tableArea.append(entity.toString());
         }
+    }
+
+    public void setSimulationSpeed(String speed){
+        simulationSpeed.setText(speed);
     }
 
     /**
@@ -314,9 +317,9 @@ public class ParametrsView extends JPanel {
                         cl.show(mainPanel, "simulation");
                         em.simulationSpeed = Integer.parseInt(simulationSpeed.getText());
                         em.simulationSpeedOriginal = Integer.parseInt(simulationSpeed.getText());
-                        em.startThreads();
                         em.startStats(statsView);
                         gridMap.startRedraw();
+                        em.startThreads();
                     }else{
                         LOGGER.log(Level.WARNING,"Incorrect simulation speed!");
                     }

@@ -108,7 +108,7 @@ public class WolfRunnable implements Runnable {
                     try {
                         wolf.available = false;
                         nearWolf.available = false;
-                        em.addFox(em.getNextID(),wolf.currentPosition.x, wolf.currentPosition.y);
+                        em.addWolf(em.getNextID(),wolf.currentPosition.x, wolf.currentPosition.y);
                         LOGGER.log(Level.INFO, "New wolf was created");
                         wolf.sexualDesire = 20;
                         wolf.aHunger += 30;

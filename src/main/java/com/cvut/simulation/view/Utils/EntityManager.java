@@ -1,10 +1,7 @@
 package com.cvut.simulation.view.Utils;
 
 import com.cvut.simulation.view.Controller.*;
-import com.cvut.simulation.view.Model.Bullet;
-import com.cvut.simulation.view.Model.Entity;
-import com.cvut.simulation.view.Model.Fox;
-import com.cvut.simulation.view.Model.Statistics;
+import com.cvut.simulation.view.Model.*;
 import com.cvut.simulation.view.View.StatisticsView;
 
 import java.util.ArrayList;
@@ -13,6 +10,7 @@ import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.logging.Level;
 
 public class EntityManager {
 
@@ -32,6 +30,14 @@ public class EntityManager {
         this.gridHeight = gridHeight;
         this.id = 0;
         this.isRunning = false;
+    }
+
+    public void lockMonitor(){
+        this.lock.lock();
+    }
+
+    public void unlockMonitor(){
+        this.lock.unlock();
     }
 
 
@@ -55,6 +61,30 @@ public class EntityManager {
 
     public void addEntity(Entity entity){
         entities.add(entity);
+    }
+
+    public void createEntity(String type, int healthValue, int energyValue, int ageLengthValue, int speedValue, int hungerValue, int desireValue, int id){
+        try {
+            switch (type){
+                case "Wolf":
+                    addEntity(new Wolf(this,getRandomPosition(getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
+                    break;
+                case "Fox":
+                    addEntity(new Fox(this,getRandomPosition(getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
+                    break;
+                case "Hunter":
+                    addEntity(new Hunter(this,getRandomPosition(getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
+                    break;
+                case "Rabbit":
+                    addEntity(new Rabbit(this,getRandomPosition(getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
+                    break;
+                case "Sheep":
+                    addEntity(new Sheep(this,getRandomPosition(getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public Entity getEntity(){
@@ -125,15 +155,18 @@ public class EntityManager {
                 HunterRunnable particleRunnable = new HunterRunnable(this,entity, latch);
                 new Thread(particleRunnable).start();
             }
-//            if(entity.aType == "Wolf"){
-//                WolfRunnable particleRunnable = new HunterRunnable(this,entity, latch);
-//                new Thread(particleRunnable).start();
-//            }
-//            if(entity.aType == "Sheep"){
-//                HunterRunnable particleRunnable = new HunterRunnable(this,entity, latch);
-//                new Thread(particleRunnable).start();
-//            }
-
+            if(entity.aType == "Wolf"){
+                WolfRunnable particleRunnable = new WolfRunnable(this,entity, latch);
+                new Thread(particleRunnable).start();
+            }
+            if(entity.aType == "Sheep"){
+                SheepRunnable particleRunnable = new SheepRunnable(this,entity, latch);
+                new Thread(particleRunnable).start();
+            }
+            if(entity.aType == "Bullet"){
+                BulletRunnable particleRunnable = new BulletRunnable(this,entity, latch);
+                new Thread(particleRunnable).start();
+            }
         }
 
         try {
@@ -144,25 +177,54 @@ public class EntityManager {
         latch.countDown();
     }
 
-
-    public void addWolf(){
-
-    }
-
-    public Fox detectFox(Fox fox)
-    {
-        for (Entity entity : entities)
-        {
-            if (entity.id != fox.id)
-            {
-                if(entity.aType == "Fox" && entity.currentPosition.x == fox.currentPosition.x && entity.currentPosition.y == fox.currentPosition.y){
-                    return (Fox) entity;
-                }
-            }
+    public void addRabbit(int id, int posX, int posY){
+        CountDownLatch rabbitLatch = new CountDownLatch(1);
+        Tile tile = new Tile(posX, posY);
+        Entity rabbit = new Rabbit(this, tile,id,
+                100,100,1000,0, 100, 20);
+        entities.add(rabbit);
+        RabbitRunnable particleRunnable = new RabbitRunnable(this,rabbit, rabbitLatch);
+        new Thread(particleRunnable).start();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        return null;
+        rabbitLatch.countDown();
     }
 
+    public void addSheep(int id, int posX, int posY){
+        CountDownLatch sheepLatch = new CountDownLatch(1);
+        Tile tile = new Tile(posX, posY);
+        Entity sheep = new Sheep(this, tile,id,
+                100,100,1000,0, 100, 20);
+        entities.add(sheep);
+        SheepRunnable particleRunnable = new SheepRunnable(this,sheep, sheepLatch);
+        new Thread(particleRunnable).start();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        sheepLatch.countDown();
+    }
+
+
+    public void addWolf(int id, int posX, int posY){
+        CountDownLatch wolfLatch = new CountDownLatch(1);
+        Tile tile = new Tile(posX, posY);
+        Entity wolf = new Wolf(this, tile,id,
+                100,100,1000,0, 100, 20);
+        entities.add(wolf);
+        WolfRunnable particleRunnable = new WolfRunnable(this,wolf, wolfLatch);
+        new Thread(particleRunnable).start();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        wolfLatch.countDown();
+    }
 
     public void addFox(int id, int posX, int posY){
         CountDownLatch foxLatch = new CountDownLatch(1);
@@ -183,32 +245,40 @@ public class EntityManager {
     public void addBullet(int id, int posX, int posY, int direction){
         CountDownLatch bulletLatch = new CountDownLatch(1);
         Tile tile = new Tile(posX, posY);
-        Entity bullet = new Bullet(this,tile,id, direction);
+        Entity bullet = new Bullet(this,tile,id, direction, 1000);
         entities.add(bullet);
         BulletRunnable particleRunnable = new BulletRunnable(this,bullet, bulletLatch);
         new Thread(particleRunnable).start();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
         bulletLatch.countDown();
 
     }
 
     public void changeSpeeds(String type){
-        if(type == "slow"){
-            for (Entity entity: entities){
-                entity.aSpeed = entity.aSpeedOriginal * 2;
+        this.lockMonitor();
+        try {
+            if(type == "slow"){
+                for (Entity entity: entities){
+                    if (entity != null){
+                        entity.aSpeed = entity.aSpeedOriginal * 2;
+                    }
+                }
+            }else if(type == "normal"){
+                for (Entity entity: entities){
+                    if(entity != null){
+                        entity.aSpeed = entity.aSpeedOriginal;
+                    }
+                }
+            }else if(type == "fast"){
+                for (Entity entity: entities){
+                    if (entity != null){
+                        entity.aSpeed = entity.aSpeedOriginal / 2;
+                    }
+                }
             }
-        }else if(type == "normal"){
-            for (Entity entity: entities){
-                entity.aSpeed = entity.aSpeedOriginal;
-            }
-        }else if(type == "fast"){
-            for (Entity entity: entities){
-                entity.aSpeed = entity.aSpeedOriginal / 2;
-            }
+        }
+        finally {
+            this.unlockMonitor();
         }
     }
 

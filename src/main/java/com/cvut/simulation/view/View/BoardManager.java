@@ -12,8 +12,14 @@ public class BoardManager {
     private final GridMap gm;
     private final StatisticsView statsView;
     private final ControllerView controller;
-    private int gridWidth;
-    private int gridHeight;
+    private final JPanel mainPanel;
+    private final JPanel mainMenuCard;
+    private final ParametrsView parametrsCard;
+    private final JPanel simulationCard;
+    private final CardLayout ca;
+    private final int gridWidth;
+    private final int gridHeight;
+
     public BoardManager(EntityManager em){
         this.em = em;
         this.gridWidth = 20*50;
@@ -21,19 +27,19 @@ public class BoardManager {
         this.gm = new GridMap(em,gridWidth,gridHeight);
         this.statsView = new StatisticsView();
         this.controller = new ControllerView(em);
+
+        this.ca = new CardLayout();
+        this.mainPanel = new JPanel(ca);
+        this.parametrsCard = new ParametrsView(mainPanel, ca,em,gm,statsView);
+        this.mainMenuCard = new MainMenu(mainPanel, ca,em, parametrsCard);
+        this.simulationCard = new SimulationView(em, gm, statsView, controller);
     }
 
     /**
      *  Generates the swing main window and adds a gridMap there
      */
     public void generateWindow(){
-
         JFrame frame = new JFrame("Real Time Simulator");
-        CardLayout ca = new CardLayout();
-        JPanel mainPanel = new JPanel(ca);
-        JPanel mainMenuCard = new MainMenu(mainPanel, ca);
-        JPanel parametrsCard = new ParametrsView(mainPanel, ca,em,gm,statsView);
-        JPanel simulationCard = new SimulationView(em, gm, statsView, controller);
 
         mainPanel.add(mainMenuCard, "menu");
         mainPanel.add(parametrsCard, "params");

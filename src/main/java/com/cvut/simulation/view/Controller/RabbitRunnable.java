@@ -87,7 +87,7 @@ public class RabbitRunnable implements Runnable {
                     try {
                         rabbit.available = false;
                         nearRabbit.available = false;
-                        em.addFox(em.getNextID(),rabbit.currentPosition.x, rabbit.currentPosition.y);
+                        em.addRabbit(em.getNextID(),rabbit.currentPosition.x, rabbit.currentPosition.y);
                         LOGGER.log(Level.INFO, "New rabbit was created");
                         rabbit.sexualDesire = 20;
                         rabbit.aHunger += 30;
