@@ -58,7 +58,7 @@ public class HunterRunnable implements Runnable {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-//                moveParticle();
+                moveParticle();
             }
         }
     }
@@ -102,7 +102,7 @@ public class HunterRunnable implements Runnable {
 
         em.lock.lock();
         try {
-            em.addBullet(em.getNextID(),50,50, rand.nextInt(5-1) +1);
+            em.addBullet(em.getNextID(),hunter.currentPosition.x, hunter.currentPosition.y, rand.nextInt(5-1) +1);
             LOGGER.log(Level.WARNING,"hunter shoots");
         }
         finally {

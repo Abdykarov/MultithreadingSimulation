@@ -46,7 +46,6 @@ public class Bullet extends Entity {
         try {
             for(Entity entity: em.getEntities()){
                 if(entity.aType == "Fox" && entity.currentPosition.x == currentPosition.x && entity.currentPosition.y == currentPosition.y){
-                    System.out.println("bullet shots fox");
                     return (Fox) entity;
                 }
             }
@@ -63,7 +62,6 @@ public class Bullet extends Entity {
         try {
             for(Entity entity: em.getEntities()){
                 if(entity.aType == "Wolf" && entity.currentPosition.x == currentPosition.x && entity.currentPosition.y == currentPosition.y){
-                    System.out.println("bullet shots wolf");
                     return (Wolf) entity;
                 }
             }
@@ -80,7 +78,6 @@ public class Bullet extends Entity {
         try {
             for(Entity entity: em.getEntities()){
                 if(entity.aType == "Sheep" && entity.currentPosition.x == currentPosition.x && entity.currentPosition.y == currentPosition.y){
-                    System.out.println("bullet shots sheep");
                     return (Sheep) entity;
                 }
             }
@@ -97,7 +94,6 @@ public class Bullet extends Entity {
         try {
             for(Entity entity: em.getEntities()){
                 if(entity.aType == "Rabbit" && entity.currentPosition.x == currentPosition.x && entity.currentPosition.y == currentPosition.y){
-                    System.out.println("bullet shots rabbit");
                     return (Rabbit) entity;
                 }
             }

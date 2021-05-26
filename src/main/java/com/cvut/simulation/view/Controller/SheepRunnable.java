@@ -1,13 +1,12 @@
 package com.cvut.simulation.view.Controller;
 
-import com.cvut.simulation.view.Model.Rabbit;
 import com.cvut.simulation.view.Model.Sheep;
-import com.cvut.simulation.view.Model.Wolf;
 import com.cvut.simulation.view.Utils.EntityManager;
 import com.cvut.simulation.view.Model.Entity;
 
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -39,13 +38,13 @@ public class SheepRunnable implements Runnable {
             e.printStackTrace();
             return;
         }
+
         while (sheep.isAlive)
         {
             try
             {
-                Thread.sleep(sheep.aSpeed);
+                TimeUnit.MILLISECONDS.sleep(sheep.aSpeed);
             } catch (InterruptedException ignored) {}
-
             if(em.isRunning){
                 moveParticle();
             }
@@ -54,100 +53,85 @@ public class SheepRunnable implements Runnable {
 
     private void moveParticle()
     {
-        Sheep nearSheep;
-        try {
-            sheep.lock.lockInterruptibly();
-            sheep.lockAcquired = true;
-            try
-            {
-                if(sheep.aLifeLenght == 0) {
-                    em.lock.lockInterruptibly();
-                    em.lockAcquired = true;
-                    try {
-                        sheep.isAlive = false;
-                        em.removeEntity(sheep.id);
-                    }
-                    finally {
-                        if(em.lockAcquired){
-                            em.lockAcquired = false;
-                            em.lock.unlock();
-                        }
-                    }
+        Sheep nearsheep;
+        sheep.lock.lock();
+        try
+        {
+            if(sheep.aLifeLenght == 0) {
+                em.lock.lock();
+                try {
+                    sheep.isAlive = false;
+                    em.removeEntity(sheep.id);
                 }
-                if(sheep.aHunger > 110) {
-                    em.lock.lockInterruptibly();
-                    em.lockAcquired = true;
-                    try {
-                        sheep.isAlive = false;
-                        em.removeEntity(sheep.id);
-                    }
-                    finally {
-                        if(em.lockAcquired){
-                            em.lockAcquired = false;
-                            em.lock.unlock();
-                        }
-                    }
-                }
-
-
-
-                if((nearSheep = sheep.detectAnotherSheep()) != null){
-                    nearSheep.lock.lockInterruptibly();
-                    nearSheep.lockAcquired = true;
-                    em.lock.lockInterruptibly();
-                    em.lockAcquired = true;
-                    try {
-                        if(sheep.available && nearSheep.available && sheep.aEnergy > 70 && nearSheep.aEnergy > 70 && sheep.aHunger < 30 && nearSheep.aHunger < 30 && nearSheep.sexualDesire > 70 && sheep.sexualDesire > 70){
-                            try {
-                                sheep.available = false;
-                                nearSheep.available = false;
-                                em.addSheep(em.getNextID(),sheep.currentPosition.x, sheep.currentPosition.y);
-                                LOGGER.log(Level.INFO, "New sheep was created");
-                                sheep.sexualDesire = 20;
-                                sheep.aHunger += 30;
-                                sheep.aEnergy -= 20;
-                            }
-                            finally {
-                                if(em.lockAcquired && nearSheep.lockAcquired){
-                                    sheep.available = true;
-                                    nearSheep.available = true;
-                                    nearSheep.lock.unlock();
-                                    nearSheep.lockAcquired = false;
-                                    em.lock.unlock();
-                                    em.lockAcquired = false;
-                                }
-                            }
-                        } else{
-                            simpleStep();
-                        }
-                    }
-                    finally {
-                        if(em.lockAcquired){
-                            em.lock.unlock();
-                            em.lockAcquired = false;
-                        }
-                    }
-                }else{
-                    simpleStep();
-                }
-                if(sheep.aLifeLenght > 0){
-                    sheep.aLifeLenght = sheep.aLifeLenght - 1;
-                }
-
-            } finally
-            {
-                if(sheep.lockAcquired)
-                {
-                    sheep.lockAcquired = false;
-                    sheep.lock.unlock();
+                finally {
+                    em.lock.unlock();
                 }
             }
-        } catch (InterruptedException e) {
-            sheep.isAlive = false;
+            if(sheep.aHunger > 110) {
+                em.lock.lock();
+                try {
+                    sheep.isAlive = false;
+                    em.removeEntity(sheep.id);
+                }
+                finally {
+                    em.lock.unlock();
+                }
+            }
+
+            if((nearsheep = sheep.detectAnotherSheep()) != null){
+
+                if(sheep.available && nearsheep.available && sheep.aEnergy > 70 && nearsheep.aEnergy > 70 && sheep.aHunger < 30 && nearsheep.aHunger < 30 && nearsheep.sexualDesire > 70 && sheep.sexualDesire > 70){
+                    multiply(nearsheep,sheep);
+                } else{
+                    simpleStep();
+                }
+            }else{
+                simpleStep();
+            }
+            if(sheep.aLifeLenght > 0){
+                sheep.aLifeLenght = sheep.aLifeLenght - 1;
+            }
+
+        } finally
+        {
+            sheep.lock.unlock();
         }
     }
 
 
+    /**
+     * Create new fox preventing race condition by using lock methods
+     * @param nearsheep
+     * @param sheep
+     */
+    public void multiply(Sheep nearsheep, Sheep sheep){
+        nearsheep.lock.lock();
+        em.lock.lock();
+        try {
+            sheep.available = false;
+            nearsheep.available = false;
+            em.addSheep(em.getNextID(),sheep.currentPosition.x, sheep.currentPosition.y);
+            LOGGER.log(Level.INFO, "Sheep was created");
+            if(sheep.aHunger < 100){
+                sheep.aHunger += 20;
+            }
+            if(sheep.aEnergy > 0){
+                sheep.aEnergy -= 10;
+            }
+            sheep.sexualDesire = 20;
+        }
+        finally {
+            sheep.available = true;
+            nearsheep.available = true;
+            nearsheep.lock.unlock();
+            em.lock.unlock();
+        }
+    }
+
+
+    /**
+     * Random movement of entity, there are 9 ways to go
+     */
     public void simpleStep(){
         int xDelta = sheep.currentPosition.x;
         int yDelta = sheep.currentPosition.y;
@@ -212,13 +196,13 @@ public class SheepRunnable implements Runnable {
         sheep.currentPosition.y = yDelta;
 
         if(sheep.sexualDesire < 100){
-            sheep.sexualDesire += 10;
+            sheep.sexualDesire += 5;
         }
         if(sheep.aEnergy > 0){
-            sheep.aEnergy -= 10;
+            sheep.aEnergy += 5;
         }
         if(sheep.aHunger < 100){
-            sheep.aHunger += 1;
+            sheep.aHunger += 5;
         }
     }
 

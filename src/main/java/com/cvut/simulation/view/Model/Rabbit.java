@@ -12,14 +12,13 @@ public class Rabbit extends Entity {
     public int sexualDesire = 100;
 
     // A lock of this monitor
-    public final Lock lock;
+    public final Lock lock = new ReentrantLock();
     public boolean available;
 
     public Rabbit(EntityManager em, Tile tilePos, int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght, int sexualDesire){
         this.aEnergy = aEnergy;
         this.available = true;
         this.em = em;
-        this.lock = new ReentrantLock();
         this.aHealth = aHealth;
         this.aHunger = aHunger;
         this.sexualDesire = sexualDesire;
@@ -36,13 +35,11 @@ public class Rabbit extends Entity {
         this.isAlive = true;
 
     }
-
-
     public Rabbit detectAnotherRabbit(){
         em.lock.lock();
         try {
             for(Entity entity: em.getEntities()){
-                if((entity.aType == "Rabbit") && (entity.currentPosition.x == currentPosition.x) && (entity.currentPosition.y == currentPosition.y)){
+                if((entity.aType == "Rabbit") && entity.id != id && (entity.currentPosition.x == currentPosition.x) && (entity.currentPosition.y == currentPosition.y)){
                     return (Rabbit) entity;
                 }
             }
@@ -52,7 +49,6 @@ public class Rabbit extends Entity {
         }
         return null;
     }
-
 
     @Override
     public String toString() {

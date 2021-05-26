@@ -9,14 +9,13 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class Wolf extends Entity {
 
-    public final Lock lock;
+    public final Lock lock = new ReentrantLock();
     public EntityManager em;
     public boolean available;
 
     public Wolf(EntityManager em, Tile tilePos, int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght, int sexualDesire){
         this.aEnergy = aEnergy;
         this.em = em;
-        this.lock = new ReentrantLock();
         this.sexualDesire = sexualDesire;
         this.aHealth = aHealth;
         this.available = true;

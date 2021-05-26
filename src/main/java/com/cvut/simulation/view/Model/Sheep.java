@@ -9,12 +9,11 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class Sheep extends Entity {
 
-    public final Lock lock;
+    public final Lock lock = new ReentrantLock();
     public boolean available;
     public boolean lockAcquired = false;
 
     public Sheep(EntityManager em, Tile tilePos, int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght, int sexualDesire){
-        this.lock = new ReentrantLock();
         this.aEnergy = aEnergy;
         this.em = em;
         this.available = true;
@@ -38,7 +37,7 @@ public class Sheep extends Entity {
         em.lock.lock();
         try {
             for(Entity entity: em.getEntities()){
-                if((entity.aType == "Sheep") && (entity.currentPosition.x == currentPosition.x) && (entity.currentPosition.y == currentPosition.y)){
+                if((entity.aType == "Sheep") && entity.id != id && (entity.currentPosition.x == currentPosition.x) && (entity.currentPosition.y == currentPosition.y)){
                     return (Sheep) entity;
                 }
             }
@@ -48,6 +47,8 @@ public class Sheep extends Entity {
         }
         return null;
     }
+
+
     @Override
     public String toString() {
         return "Sheep | " +

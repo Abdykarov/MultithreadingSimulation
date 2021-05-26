@@ -47,8 +47,7 @@ public class FoxRunnable implements Runnable {
                 TimeUnit.MILLISECONDS.sleep(fox.aSpeed);
             } catch (InterruptedException ignored) {}
             if(em.isRunning){
-                System.out.println(fox.toString());
-//                moveParticle();
+                moveParticle();
             }
         }
     }
@@ -121,7 +120,7 @@ public class FoxRunnable implements Runnable {
                 fox.aHunger -= 20;
             }
             if(fox.aEnergy < 100){
-                fox.aEnergy += 20;
+                fox.aEnergy -= 10;
             }
             LOGGER.log(Level.INFO, "Rabbit was eaten");
         }
@@ -143,14 +142,11 @@ public class FoxRunnable implements Runnable {
             nearFox.available = false;
             em.addFox(em.getNextID(),fox.currentPosition.x, fox.currentPosition.y);
             LOGGER.log(Level.INFO, "Fox was created");
-            if(fox.sexualDesire < 100){
-                fox.sexualDesire += 10;
-            }
             if(fox.aHunger < 100){
-                fox.aHunger += 30;
+                fox.aHunger += 20;
             }
             if(fox.aEnergy > 0){
-                fox.aEnergy -= 20;
+                fox.aEnergy -= 10;
             }
             fox.sexualDesire = 20;
         }
@@ -230,13 +226,13 @@ public class FoxRunnable implements Runnable {
         fox.currentPosition.y = yDelta;
 
         if(fox.sexualDesire < 100){
-            fox.sexualDesire += 10;
+            fox.sexualDesire += 5;
         }
         if(fox.aEnergy > 0){
-            fox.aEnergy -= 10;
+            fox.aEnergy += 5;
         }
         if(fox.aHunger < 100){
-            fox.aHunger += 1;
+            fox.aHunger += 5;
         }
     }
 

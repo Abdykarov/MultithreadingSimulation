@@ -117,7 +117,6 @@ public class BulletRunnable implements Runnable {
                 try {
                     detectedWolf.isAlive = false;
                     bullet.isAlive = false;
-
                     em.removeEntity(bullet.id);
                     em.removeEntity(detectedWolf.id);
                 }
