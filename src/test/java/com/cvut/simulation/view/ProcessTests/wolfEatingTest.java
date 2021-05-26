@@ -1,7 +1,9 @@
 package com.cvut.simulation.view.ProcessTests;
 
 import com.cvut.simulation.view.Controller.BulletRunnable;
+import com.cvut.simulation.view.Controller.WolfRunnable;
 import com.cvut.simulation.view.Model.Bullet;
+import com.cvut.simulation.view.Model.Sheep;
 import com.cvut.simulation.view.Model.Wolf;
 import com.cvut.simulation.view.Utils.EntityManager;
 import com.cvut.simulation.view.Utils.Tile;
@@ -13,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class wolfEatingTest {
     @Test
-    public void bullet_kill_wolf_test(){
+    public void wolf_eating_sheep_test(){
         int gridWidth = 20*50;
         int gridHeight = 12*50;
 
@@ -22,20 +24,20 @@ public class wolfEatingTest {
         em.simulationSpeed = 1000;
         em.simulationSpeedOriginal = 1000;
 
-        Bullet bullet = new Bullet(em, new Tile(50,50), em.getNextID(),1,1000);
+        Sheep sheep = new Sheep(em, new Tile(50,50), em.getNextID(),100,100,1000,0,100,100);
         Wolf wolf = new Wolf(em, new Tile(50,50), em.getNextID(),100,100,1000,0,100,100);
 
-        em.addEntity(bullet);
+        em.addEntity(sheep);
         em.addEntity(wolf);
 
         CountDownLatch latch1 = new CountDownLatch(1);
-        BulletRunnable bulletRunnable = new BulletRunnable(em, bullet, latch1);
+        WolfRunnable wolfRunnable = new WolfRunnable(em, wolf, latch1);
 
         // act
-        bulletRunnable.killWolf(bullet, wolf);
+        wolfRunnable.eatSheep(sheep, wolf);
 
 
         // assert
-        assertEquals(0,em.getEntities().size());
+        assertEquals(1,em.getEntities().size());
     }
 }

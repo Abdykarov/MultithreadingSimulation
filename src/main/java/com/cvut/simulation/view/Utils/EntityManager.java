@@ -185,7 +185,6 @@ public class EntityManager {
      * Starts threads depending on the type of entity, because runnable threads are different
      */
     public void startThreads(){
-        System.out.println("started");
         this.isRunning = true;
         /* Start the Entity Runnables */
         for (Entity entity : entities)
