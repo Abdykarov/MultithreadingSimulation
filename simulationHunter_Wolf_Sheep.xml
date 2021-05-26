@@ -1,68 +1,8 @@
 <?xml version="1.0"?>
 <class>
-    <entity>
-        <type>Hunter</type>
-        <health>100</health>
-        <energy>100</energy>
-        <ageLength>100</ageLength>
-        <speed>1000</speed>
-        <hunger>0</hunger>
-        <sexDesire>100</sexDesire>
-    </entity>
+
 
     <entity>
-        <type>Hunter</type>
-        <health>100</health>
-        <energy>100</energy>
-        <ageLength>100</ageLength>
-        <speed>1000</speed>
-        <hunger>0</hunger>
-        <sexDesire>100</sexDesire>
-    </entity>
-
-    <entity>
-        <type>Wolf</type>
-        <health>100</health>
-        <energy>100</energy>
-        <ageLength>100</ageLength>
-        <speed>1000</speed>
-        <hunger>0</hunger>
-        <sexDesire>100</sexDesire>
-    </entity><entity>
-        <type>Wolf</type>
-        <health>100</health>
-        <energy>100</energy>
-        <ageLength>100</ageLength>
-        <speed>1000</speed>
-        <hunger>0</hunger>
-        <sexDesire>100</sexDesire>
-    </entity><entity>
-        <type>Wolf</type>
-        <health>100</health>
-        <energy>100</energy>
-        <ageLength>100</ageLength>
-        <speed>1000</speed>
-        <hunger>0</hunger>
-        <sexDesire>100</sexDesire>
-    </entity>
-
-    <entity>
-        <type>Sheep</type>
-        <health>100</health>
-        <energy>100</energy>
-        <ageLength>100</ageLength>
-        <speed>1000</speed>
-        <hunger>0</hunger>
-        <sexDesire>100</sexDesire>
-    </entity> <entity>
-        <type>Sheep</type>
-        <health>100</health>
-        <energy>100</energy>
-        <ageLength>100</ageLength>
-        <speed>1000</speed>
-        <hunger>0</hunger>
-        <sexDesire>100</sexDesire>
-    </entity> <entity>
         <type>Sheep</type>
         <health>100</health>
         <energy>100</energy>

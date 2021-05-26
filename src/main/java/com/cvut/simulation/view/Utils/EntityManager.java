@@ -24,11 +24,12 @@ public class EntityManager {
     final CountDownLatch latch = new CountDownLatch(1);
     public final Lock lock = new ReentrantLock();
     public boolean isRunning;
+    public boolean lockAcquired = false;
 
     public EntityManager(int gridWidth, int gridHeight){
         this.gridWidth = gridWidth;
         this.gridHeight = gridHeight;
-        this.id = 0;
+        this.id = 1;
         this.isRunning = false;
     }
 
@@ -79,7 +80,7 @@ public class EntityManager {
                     addEntity(new Rabbit(this,getRandomPosition(getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
                     break;
                 case "Sheep":
-                    addEntity(new Sheep(this,getRandomPosition(getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
+                    addEntity(new Sheep(this,new Tile(50,50),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
                     break;
             }
         } catch (Exception e) {
@@ -128,8 +129,9 @@ public class EntityManager {
     }
 
     public int getNextID(){
-        this.id = id + 1;
-        return id + 1;
+        int currentId = this.id;
+        this.id = currentId + 1;
+        return currentId;
     }
 
     public void startStats(StatisticsView statsView){
@@ -197,15 +199,11 @@ public class EntityManager {
         CountDownLatch sheepLatch = new CountDownLatch(1);
         Tile tile = new Tile(posX, posY);
         Entity sheep = new Sheep(this, tile,id,
-                100,100,1000,0, 100, 20);
+                100,100,1000,0, 150, 20);
         entities.add(sheep);
         SheepRunnable particleRunnable = new SheepRunnable(this,sheep, sheepLatch);
         new Thread(particleRunnable).start();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
         sheepLatch.countDown();
     }
 

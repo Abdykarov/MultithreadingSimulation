@@ -39,13 +39,13 @@ public class SheepRunnable implements Runnable {
             e.printStackTrace();
             return;
         }
-
         while (sheep.isAlive)
         {
             try
             {
                 Thread.sleep(sheep.aSpeed);
             } catch (InterruptedException ignored) {}
+
             if(em.isRunning){
                 moveParticle();
             }
@@ -55,72 +55,95 @@ public class SheepRunnable implements Runnable {
     private void moveParticle()
     {
         Sheep nearSheep;
-        sheep.lock.lock();
-        try
-        {
-            if(sheep.aLifeLenght == 0) {
-                em.lock.lock();
-                try {
-                    sheep.isAlive = false;
-                    em.removeEntity(sheep.id);
-                    return;
-                }
-                finally {
-                    em.lock.unlock();
-                }
-            }
-            if(sheep.aHunger > 110) {
-                em.lock.lock();
-                try {
-                    sheep.isAlive = false;
-                    em.removeEntity(sheep.id);
-                    return;
-                }
-                finally {
-                    em.lock.unlock();
-                }
-            }
-
-
-            if((nearSheep = sheep.detectAnotherSheep()) != null){
-                nearSheep.lock.lock();
-                em.lock.lock();
-                try {
-                    if(sheep.available && nearSheep.available && sheep.aEnergy > 70 && nearSheep.aEnergy > 70 && sheep.aHunger < 30 && nearSheep.aHunger < 30 && nearSheep.sexualDesire > 70 && sheep.sexualDesire > 70){
-                        em.lock.unlock();
-                        em.lock.lock();
-                        try {
-                            sheep.available = false;
-                            nearSheep.available = false;
-                            em.addSheep(em.getNextID(),sheep.currentPosition.x, sheep.currentPosition.y);
-                            LOGGER.log(Level.INFO, "New sheep was created");
-                            sheep.sexualDesire = 20;
-                            sheep.aHunger += 30;
-                            sheep.aEnergy -= 20;
-                        }
-                        finally {
-                            sheep.available = true;
-                            nearSheep.available = true;
-                            nearSheep.lock.unlock();
+        try {
+            sheep.lock.lockInterruptibly();
+            sheep.lockAcquired = true;
+            try
+            {
+                if(sheep.aLifeLenght == 0) {
+                    em.lock.lockInterruptibly();
+                    em.lockAcquired = true;
+                    try {
+                        sheep.isAlive = false;
+                        em.removeEntity(sheep.id);
+                    }
+                    finally {
+                        if(em.lockAcquired){
+                            em.lockAcquired = false;
                             em.lock.unlock();
                         }
-                    } else{
-                        simpleStep();
                     }
                 }
-                finally {
-                    em.lock.unlock();
+                if(sheep.aHunger > 110) {
+                    em.lock.lockInterruptibly();
+                    em.lockAcquired = true;
+                    try {
+                        sheep.isAlive = false;
+                        em.removeEntity(sheep.id);
+                    }
+                    finally {
+                        if(em.lockAcquired){
+                            em.lockAcquired = false;
+                            em.lock.unlock();
+                        }
+                    }
                 }
-            }else{
-                simpleStep();
-            }
-            if(sheep.aLifeLenght > 0){
-                sheep.aLifeLenght = sheep.aLifeLenght - 1;
-            }
 
-        } finally
-        {
-            sheep.lock.unlock();
+
+
+                if((nearSheep = sheep.detectAnotherSheep()) != null){
+                    nearSheep.lock.lockInterruptibly();
+                    nearSheep.lockAcquired = true;
+                    em.lock.lockInterruptibly();
+                    em.lockAcquired = true;
+                    try {
+                        if(sheep.available && nearSheep.available && sheep.aEnergy > 70 && nearSheep.aEnergy > 70 && sheep.aHunger < 30 && nearSheep.aHunger < 30 && nearSheep.sexualDesire > 70 && sheep.sexualDesire > 70){
+                            try {
+                                sheep.available = false;
+                                nearSheep.available = false;
+                                em.addSheep(em.getNextID(),sheep.currentPosition.x, sheep.currentPosition.y);
+                                LOGGER.log(Level.INFO, "New sheep was created");
+                                sheep.sexualDesire = 20;
+                                sheep.aHunger += 30;
+                                sheep.aEnergy -= 20;
+                            }
+                            finally {
+                                if(em.lockAcquired && nearSheep.lockAcquired){
+                                    sheep.available = true;
+                                    nearSheep.available = true;
+                                    nearSheep.lock.unlock();
+                                    nearSheep.lockAcquired = false;
+                                    em.lock.unlock();
+                                    em.lockAcquired = false;
+                                }
+                            }
+                        } else{
+                            simpleStep();
+                        }
+                    }
+                    finally {
+                        if(em.lockAcquired){
+                            em.lock.unlock();
+                            em.lockAcquired = false;
+                        }
+                    }
+                }else{
+                    simpleStep();
+                }
+                if(sheep.aLifeLenght > 0){
+                    sheep.aLifeLenght = sheep.aLifeLenght - 1;
+                }
+
+            } finally
+            {
+                if(sheep.lockAcquired)
+                {
+                    sheep.lockAcquired = false;
+                    sheep.lock.unlock();
+                }
+            }
+        } catch (InterruptedException e) {
+            sheep.isAlive = false;
         }
     }
 

@@ -11,6 +11,7 @@ public class Sheep extends Entity {
 
     public final Lock lock;
     public boolean available;
+    public boolean lockAcquired = false;
 
     public Sheep(EntityManager em, Tile tilePos, int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght, int sexualDesire){
         this.lock = new ReentrantLock();
