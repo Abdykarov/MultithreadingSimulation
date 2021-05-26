@@ -81,21 +81,10 @@ public class FoxRunnable implements Runnable {
                 }
             }
 
-
             // eat rabbit
             if((rabbit = fox.detectAnotherRabbit()) != null){
                 if(fox.aHunger > 10){
-                    em.lock.lock();
-                    try {
-                        em.removeEntity(rabbit.id);
-                        fox.sexualDesire += 10;
-                        fox.aHunger -= 20;
-                        LOGGER.log(Level.INFO, "Rabbit was eaten");
-                        fox.aEnergy += 20;
-                    }
-                    finally {
-                        em.lock.unlock();
-                    }
+                    eatRabbit(rabbit, fox);
                 } else{
                     simpleStep();
                 }
@@ -103,23 +92,7 @@ public class FoxRunnable implements Runnable {
             else if((nearFox = fox.detectAnotherFox()) != null){
 
                 if(fox.available && nearFox.available && fox.aEnergy > 70 && nearFox.aEnergy > 70 && fox.aHunger < 30 && nearFox.aHunger < 30 && nearFox.sexualDesire > 70 && fox.sexualDesire > 70){
-                    nearFox.lock.lock();
-                    em.lock.lock();
-                    try {
-                        fox.available = false;
-                        nearFox.available = false;
-                        em.addFox(em.getNextID(),fox.currentPosition.x, fox.currentPosition.y);
-                        LOGGER.log(Level.INFO, "Fox was created");
-                        fox.sexualDesire = 20;
-                        fox.aHunger += 30;
-                        fox.aEnergy -= 20;
-                    }
-                    finally {
-                        fox.available = true;
-                        nearFox.available = true;
-                        nearFox.lock.unlock();
-                        em.lock.unlock();
-                    }
+                   multiply(nearFox,fox);
                 } else{
                     simpleStep();
                 }
@@ -136,9 +109,63 @@ public class FoxRunnable implements Runnable {
         }
     }
 
+    public void eatRabbit(Rabbit rabbit, Fox fox){
+        em.lock.lock();
+        try {
+            em.removeEntity(rabbit.id);
+
+            if(fox.sexualDesire < 100){
+                fox.sexualDesire += 10;
+            }
+            if(fox.aHunger > 0){
+                fox.aHunger -= 20;
+            }
+            if(fox.aEnergy < 100){
+                fox.aEnergy += 20;
+            }
+            LOGGER.log(Level.INFO, "Rabbit was eaten");
+        }
+        finally {
+            em.lock.unlock();
+        }
+    }
+
+    /**
+     * Create new fox preventing race condition by using lock methods
+     * @param nearFox
+     * @param fox
+     */
+    public void multiply(Fox nearFox, Fox fox){
+        nearFox.lock.lock();
+        em.lock.lock();
+        try {
+            fox.available = false;
+            nearFox.available = false;
+            em.addFox(em.getNextID(),fox.currentPosition.x, fox.currentPosition.y);
+            LOGGER.log(Level.INFO, "Fox was created");
+            if(fox.sexualDesire < 100){
+                fox.sexualDesire += 10;
+            }
+            if(fox.aHunger < 100){
+                fox.aHunger += 30;
+            }
+            if(fox.aEnergy > 0){
+                fox.aEnergy -= 20;
+            }
+            fox.sexualDesire = 20;
+        }
+        finally {
+            fox.available = true;
+            nearFox.available = true;
+            nearFox.lock.unlock();
+            em.lock.unlock();
+        }
+    }
 
 
-
+    /**
+     * Random movement of entity, there are 9 ways to go
+     */
     public void simpleStep(){
         int xDelta = fox.currentPosition.x;
         int yDelta = fox.currentPosition.y;

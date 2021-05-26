@@ -8,12 +8,22 @@
         <energy>100</energy>
         <ageLength>100</ageLength>
         <speed>1000</speed>
-        <hunger>0</hunger>
+        <hunger>11</hunger>
+        <sexDesire>100</sexDesire>
+    </entity>
+    <entity>
+        <type>Fox</type>
+        <health>100</health>
+        <energy>100</energy>
+        <ageLength>100</ageLength>
+        <speed>1000</speed>
+        <hunger>11</hunger>
         <sexDesire>100</sexDesire>
     </entity>
 
+
     <entity>
-        <type>Fox</type>
+        <type>Rabbit</type>
         <health>100</health>
         <energy>100</energy>
         <ageLength>100</ageLength>
