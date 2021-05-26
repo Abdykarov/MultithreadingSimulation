@@ -52,7 +52,13 @@ public class HunterRunnable implements Runnable {
                 TimeUnit.MILLISECONDS.sleep(hunter.aSpeed);
             } catch (InterruptedException ignored) {}
             if(em.isRunning){
-                moveParticle();
+                shot();
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+//                moveParticle();
             }
         }
     }
@@ -96,7 +102,7 @@ public class HunterRunnable implements Runnable {
 
         em.lock.lock();
         try {
-            em.addBullet(em.getNextID(),hunter.currentPosition.x, hunter.currentPosition.y, rand.nextInt(5-1) +1);
+            em.addBullet(em.getNextID(),50,50, rand.nextInt(5-1) +1);
             LOGGER.log(Level.WARNING,"hunter shoots");
         }
         finally {

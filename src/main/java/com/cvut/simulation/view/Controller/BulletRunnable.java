@@ -1,12 +1,9 @@
 package com.cvut.simulation.view.Controller;
 
-import com.cvut.simulation.view.Model.Bullet;
-import com.cvut.simulation.view.Model.Fox;
-import com.cvut.simulation.view.Model.Rabbit;
+import com.cvut.simulation.view.Model.*;
 import com.cvut.simulation.view.Simulation;
 import com.cvut.simulation.view.Utils.EntityManager;
 import com.cvut.simulation.view.View.GridMap;
-import com.cvut.simulation.view.Model.Entity;
 
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
@@ -59,7 +56,10 @@ public class BulletRunnable implements Runnable {
 
     private void moveParticle()
     {
-        Entity detectedEntity;
+        Fox detectedFox;
+        Wolf detectedWolf;
+        Sheep detectedSheep;
+        Rabbit detectedRabbit;
         bullet.lock.lock();
         try
         {
@@ -72,14 +72,57 @@ public class BulletRunnable implements Runnable {
                 }finally {
                     em.lock.unlock();
                 }
-            }else if((detectedEntity = bullet.detectCollision()) != null){
+            }else if((detectedFox = bullet.detectFox()) != null){
                 em.lock.lock();
+                detectedFox.lock.lock();
                 try {
-                    LOGGER.log(Level.INFO, String.valueOf("entity shoted"));
+                    detectedFox.isAlive = false;
+                    bullet.isAlive = false;
                     em.removeEntity(bullet.id);
-                    em.removeEntity(detectedEntity.id);
+                    em.removeEntity(detectedFox.id);
                 }
                 finally {
+                    detectedFox.lock.unlock();
+                    em.lock.unlock();
+                }
+            }else if((detectedRabbit = bullet.detectRabbit()) != null){
+                em.lock.lock();
+                detectedRabbit.lock.lock();
+                try {
+                    detectedRabbit.isAlive = false;
+                    bullet.isAlive = false;
+                    em.removeEntity(bullet.id);
+                    em.removeEntity(detectedRabbit.id);
+                }
+                finally {
+                    detectedRabbit.lock.unlock();
+                    em.lock.unlock();
+                }
+            }else if((detectedSheep = bullet.detectSheep()) != null){
+                em.lock.lock();
+                detectedSheep.lock.lock();
+                try {
+                    detectedSheep.isAlive = false;
+                    bullet.isAlive = false;
+                    em.removeEntity(bullet.id);
+                    em.removeEntity(detectedSheep.id);
+                }
+                finally {
+                    detectedSheep.lock.unlock();
+                    em.lock.unlock();
+                }
+            }else if((detectedWolf = bullet.detectWolf()) != null){
+                em.lock.lock();
+                detectedWolf.lock.lock();
+                try {
+                    detectedWolf.isAlive = false;
+                    bullet.isAlive = false;
+
+                    em.removeEntity(bullet.id);
+                    em.removeEntity(detectedWolf.id);
+                }
+                finally {
+                    detectedWolf.lock.unlock();
                     em.lock.unlock();
                 }
             }else{
@@ -126,7 +169,7 @@ public class BulletRunnable implements Runnable {
 
 
     public boolean inRange(int x, int y){
-        if(x < em.gridWidth-50 && x > 0 && y > 0 && y < em.gridHeight - 50){
+        if(x < em.gridWidth && x > 0 && y > 0 && y < em.gridHeight){
             return true;
         }
         return false;

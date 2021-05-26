@@ -10,7 +10,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Fox extends Entity {
     
     // A lock of this monitor
-    public final Lock lock;
+    public final Lock lock = new ReentrantLock();
     public boolean available;
     // lock bothered
     public boolean lockAcquired;
@@ -20,7 +20,6 @@ public class Fox extends Entity {
         this.lockAcquired = false;
         this.em = em;
         this.available = true;
-        this.lock = new ReentrantLock();
         this.aHealth = aHealth;
         this.aHunger = aHunger;
         this.sexualDesire = sexualDesire;

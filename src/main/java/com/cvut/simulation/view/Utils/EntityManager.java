@@ -68,7 +68,7 @@ public class EntityManager {
         try {
             switch (type){
                 case "Wolf":
-                    addEntity(new Wolf(this,getRandomPosition(getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
+                    addEntity(new Wolf(this,new Tile(50,50),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
                     break;
                 case "Fox":
                     addEntity(new Fox(this,new Tile(50,50),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));

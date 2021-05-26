@@ -40,7 +40,7 @@ public class BulletCollisionTest {
 
         //act
         bullet.currentPosition.x += 50;
-        Entity result = bullet.detectCollision();
+        Entity result = bullet.detectFox();
 
         // assert
         assertEquals(expectedResult, result);

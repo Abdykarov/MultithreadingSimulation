@@ -3,7 +3,7 @@
 
 
     <entity>
-        <type>Fox</type>
+        <type>Wolf</type>
         <health>100</health>
         <energy>100</energy>
         <ageLength>100</ageLength>
@@ -20,10 +20,8 @@
         <hunger>11</hunger>
         <sexDesire>100</sexDesire>
     </entity>
-
-
     <entity>
-        <type>Rabbit</type>
+        <type>Hunter</type>
         <health>100</health>
         <energy>100</energy>
         <ageLength>100</ageLength>

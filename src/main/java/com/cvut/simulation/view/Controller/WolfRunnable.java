@@ -47,7 +47,7 @@ public class WolfRunnable implements Runnable {
                 Thread.sleep(wolf.aSpeed);
             } catch (InterruptedException ignored) {}
             if(em.isRunning){
-                moveParticle();
+              //  moveParticle();
             }
         }
     }

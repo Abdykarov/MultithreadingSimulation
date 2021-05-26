@@ -41,30 +41,69 @@ public class Bullet extends Entity {
     }
 
 
-    public Entity detectCollision(){
-        em.lockMonitor();
+    public Fox detectFox(){
+        em.lock.lock();
         try {
             for(Entity entity: em.getEntities()){
-                if((entity.aType == "Wolf" || entity.aType == "Fox" || entity.aType == "Rabbit" || entity.aType=="Sheep") && entity.currentPosition.x == currentPosition.x && entity.currentPosition.y == currentPosition.y){
-                    entityToDestroy = entity;
-                    System.out.println("bullet shots");
-                    if(entity.aType == "Wolf"){
-                        return (Wolf) entity;
-                    }
-                    else if(entity.aType == "Fox"){
-                        return (Fox) entity;
-                    }
-                    else if(entity.aType == "Rabbit"){
-                        return (Rabbit) entity;
-                    }
-                    else if(entity.aType == "Sheep"){
-                        return (Sheep) entity;
-                    }
+                if(entity.aType == "Fox" && entity.currentPosition.x == currentPosition.x && entity.currentPosition.y == currentPosition.y){
+                    System.out.println("bullet shots fox");
+                    return (Fox) entity;
                 }
             }
         }
         finally {
-            em.unlockMonitor();
+            em.lock.unlock();
+        }
+        return null;
+    }
+
+
+    public Wolf detectWolf(){
+        em.lock.lock();
+        try {
+            for(Entity entity: em.getEntities()){
+                if(entity.aType == "Wolf" && entity.currentPosition.x == currentPosition.x && entity.currentPosition.y == currentPosition.y){
+                    System.out.println("bullet shots wolf");
+                    return (Wolf) entity;
+                }
+            }
+        }
+        finally {
+            em.lock.unlock();
+        }
+        return null;
+    }
+
+
+    public Sheep detectSheep(){
+        em.lock.lock();
+        try {
+            for(Entity entity: em.getEntities()){
+                if(entity.aType == "Sheep" && entity.currentPosition.x == currentPosition.x && entity.currentPosition.y == currentPosition.y){
+                    System.out.println("bullet shots sheep");
+                    return (Sheep) entity;
+                }
+            }
+        }
+        finally {
+            em.lock.unlock();
+        }
+        return null;
+    }
+
+
+    public Rabbit detectRabbit(){
+        em.lock.lock();
+        try {
+            for(Entity entity: em.getEntities()){
+                if(entity.aType == "Rabbit" && entity.currentPosition.x == currentPosition.x && entity.currentPosition.y == currentPosition.y){
+                    System.out.println("bullet shots rabbit");
+                    return (Rabbit) entity;
+                }
+            }
+        }
+        finally {
+            em.lock.unlock();
         }
         return null;
     }

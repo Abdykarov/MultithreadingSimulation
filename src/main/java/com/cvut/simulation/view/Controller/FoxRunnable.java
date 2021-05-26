@@ -48,7 +48,7 @@ public class FoxRunnable implements Runnable {
             } catch (InterruptedException ignored) {}
             if(em.isRunning){
                 System.out.println(fox.toString());
-                moveParticle();
+//                moveParticle();
             }
         }
     }
