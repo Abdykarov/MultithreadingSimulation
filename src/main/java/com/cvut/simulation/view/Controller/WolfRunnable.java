@@ -100,7 +100,7 @@ public class WolfRunnable implements Runnable {
                 } else{
                     simpleStep();
                 }
-            } // create new fox
+            } // create new wolf
             else if((nearWolf = wolf.detectAnotherWolf()) != null){
                 em.lock.lock();
                 nearWolf.lock.lock();
@@ -140,77 +140,77 @@ public class WolfRunnable implements Runnable {
 
 
     public void simpleStep(){
-        int xDelta = wolf.currentPosition.x;
-        int yDelta = wolf.currentPosition.y;
-        // TODO update ai logic in future
-        int velocity = rand.nextInt(9-1) +1;
-        // there is will be 9 ways to go,
-        switch (velocity){
-            case 1:
-                xDelta+= 0;
-                yDelta += 0;
-                break;
-            case 2:
-                xDelta += 50;
-                yDelta += 0;
-                break;
-            case 3:
-                xDelta+= 50;
-                yDelta += 50;
-                break;
-            case 4:
-                xDelta += 0;
-                yDelta += 50;
-                break;
-            case 5:
-                xDelta += -50;
-                yDelta += 50;
-                break;
-            case 6:
-                xDelta += -50;
-                yDelta += 0;
-                break;
-            case 7:
-                xDelta += 50;
-                yDelta += -50;
-                break;
-            case 8:
-                xDelta += 0;
-                yDelta += -50;
-                break;
-            case 9:
-                xDelta += -50;
-                yDelta += -50;
-                break;
-            default:
-                break;
-        }
-
-        if(xDelta > em.gridWidth-50){
-            xDelta = em.gridWidth - 50;
-        }
-        if(xDelta < 50){
-            xDelta = 50;
-        }
-        if (yDelta > em.gridHeight-50){
-            yDelta = em.gridHeight - 50;
-        }
-        if(yDelta < 50){
-            yDelta = 50;
-        }
-
-        wolf.currentPosition.x = xDelta;
-        wolf.currentPosition.y = yDelta;
-
-        if(wolf.sexualDesire < 100){
-            wolf.sexualDesire += 10;
-        }
-        if(wolf.aEnergy > 0){
-            wolf.aEnergy -= 10;
-        }
-        if(wolf.aHunger < 100){
-            wolf.aHunger += 1;
-        }
+//        int xDelta = wolf.currentPosition.x;
+//        int yDelta = wolf.currentPosition.y;
+//        // TODO update ai logic in future
+//        int velocity = rand.nextInt(9-1) +1;
+//        // there is will be 9 ways to go,
+//        switch (velocity){
+//            case 1:
+//                xDelta+= 0;
+//                yDelta += 0;
+//                break;
+//            case 2:
+//                xDelta += 50;
+//                yDelta += 0;
+//                break;
+//            case 3:
+//                xDelta+= 50;
+//                yDelta += 50;
+//                break;
+//            case 4:
+//                xDelta += 0;
+//                yDelta += 50;
+//                break;
+//            case 5:
+//                xDelta += -50;
+//                yDelta += 50;
+//                break;
+//            case 6:
+//                xDelta += -50;
+//                yDelta += 0;
+//                break;
+//            case 7:
+//                xDelta += 50;
+//                yDelta += -50;
+//                break;
+//            case 8:
+//                xDelta += 0;
+//                yDelta += -50;
+//                break;
+//            case 9:
+//                xDelta += -50;
+//                yDelta += -50;
+//                break;
+//            default:
+//                break;
+//        }
+//
+//        if(xDelta > em.gridWidth-50){
+//            xDelta = em.gridWidth - 50;
+//        }
+//        if(xDelta < 50){
+//            xDelta = 50;
+//        }
+//        if (yDelta > em.gridHeight-50){
+//            yDelta = em.gridHeight - 50;
+//        }
+//        if(yDelta < 50){
+//            yDelta = 50;
+//        }
+//
+//        wolf.currentPosition.x = xDelta;
+//        wolf.currentPosition.y = yDelta;
+//
+//        if(wolf.sexualDesire < 100){
+//            wolf.sexualDesire += 10;
+//        }
+//        if(wolf.aEnergy > 0){
+//            wolf.aEnergy -= 10;
+//        }
+//        if(wolf.aHunger < 100){
+//            wolf.aHunger += 1;
+//        }
     }
 
 

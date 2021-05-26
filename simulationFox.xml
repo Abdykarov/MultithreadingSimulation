@@ -3,15 +3,17 @@
 
 
     <entity>
-        <type>Wolf</type>
+        <type>Fox</type>
         <health>100</health>
         <energy>100</energy>
         <ageLength>100</ageLength>
         <speed>1000</speed>
-        <hunger>20</hunger>
+        <hunger>0</hunger>
         <sexDesire>100</sexDesire>
-    </entity> <entity>
-        <type>Sheep</type>
+    </entity>
+
+    <entity>
+        <type>Fox</type>
         <health>100</health>
         <energy>100</energy>
         <ageLength>100</ageLength>

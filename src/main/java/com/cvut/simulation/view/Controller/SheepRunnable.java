@@ -47,7 +47,7 @@ public class SheepRunnable implements Runnable {
             } catch (InterruptedException ignored) {}
 
             if(em.isRunning){
-                moveParticle();
+//                moveParticle();
             }
         }
     }

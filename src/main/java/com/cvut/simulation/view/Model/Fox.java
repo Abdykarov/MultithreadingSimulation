@@ -12,8 +12,12 @@ public class Fox extends Entity {
     // A lock of this monitor
     public final Lock lock;
     public boolean available;
+    // lock bothered
+    public boolean lockAcquired;
+
     public Fox(EntityManager em, Tile tilePos, int id, int aEnergy, int aHealth, int aSpeed, int aHunger, int aLifeLenght, int sexualDesire){
         this.aEnergy = aEnergy;
+        this.lockAcquired = false;
         this.em = em;
         this.available = true;
         this.lock = new ReentrantLock();

@@ -71,13 +71,13 @@ public class EntityManager {
                     addEntity(new Wolf(this,getRandomPosition(getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
                     break;
                 case "Fox":
-                    addEntity(new Fox(this,getRandomPosition(getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
+                    addEntity(new Fox(this,new Tile(50,50),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
                     break;
                 case "Hunter":
                     addEntity(new Hunter(this,getRandomPosition(getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
                     break;
                 case "Rabbit":
-                    addEntity(new Rabbit(this,getRandomPosition(getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
+                    addEntity(new Rabbit(this,new Tile(50,50),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
                     break;
                 case "Sheep":
                     addEntity(new Sheep(this,new Tile(50,50),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
@@ -232,11 +232,7 @@ public class EntityManager {
         entities.add(fox);
         FoxRunnable particleRunnable = new FoxRunnable(this,fox, foxLatch);
         new Thread(particleRunnable).start();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
         foxLatch.countDown();
     }
 

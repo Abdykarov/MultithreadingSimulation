@@ -7,6 +7,7 @@ import com.cvut.simulation.view.Model.Entity;
 
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,10 +44,11 @@ public class FoxRunnable implements Runnable {
         {
             try
             {
-                Thread.sleep(fox.aSpeed);
+                TimeUnit.MILLISECONDS.sleep(fox.aSpeed);
             } catch (InterruptedException ignored) {}
             if(em.isRunning){
-               moveParticle();
+                System.out.println(fox.toString());
+                moveParticle();
             }
         }
     }
@@ -63,7 +65,6 @@ public class FoxRunnable implements Runnable {
                 try {
                     fox.isAlive = false;
                     em.removeEntity(fox.id);
-                    return;
                 }
                 finally {
                     em.lock.unlock();
@@ -74,7 +75,6 @@ public class FoxRunnable implements Runnable {
                 try {
                     fox.isAlive = false;
                     em.removeEntity(fox.id);
-                    return;
                 }
                 finally {
                     em.lock.unlock();
@@ -85,10 +85,8 @@ public class FoxRunnable implements Runnable {
             // eat rabbit
             if((rabbit = fox.detectAnotherRabbit()) != null){
                 if(fox.aHunger > 10){
-                    rabbit.lock.lock();
                     em.lock.lock();
                     try {
-                        rabbit.isAlive = false;
                         em.removeEntity(rabbit.id);
                         fox.sexualDesire += 10;
                         fox.aHunger -= 20;
@@ -96,7 +94,6 @@ public class FoxRunnable implements Runnable {
                         fox.aEnergy += 20;
                     }
                     finally {
-                        rabbit.lock.unlock();
                         em.lock.unlock();
                     }
                 } else{
@@ -104,9 +101,10 @@ public class FoxRunnable implements Runnable {
                 }
             } // create new fox
             else if((nearFox = fox.detectAnotherFox()) != null){
-                nearFox.lock.lock();
-                em.lockMonitor();
+
                 if(fox.available && nearFox.available && fox.aEnergy > 70 && nearFox.aEnergy > 70 && fox.aHunger < 30 && nearFox.aHunger < 30 && nearFox.sexualDesire > 70 && fox.sexualDesire > 70){
+                    nearFox.lock.lock();
+                    em.lock.lock();
                     try {
                         fox.available = false;
                         nearFox.available = false;
@@ -120,18 +118,14 @@ public class FoxRunnable implements Runnable {
                         fox.available = true;
                         nearFox.available = true;
                         nearFox.lock.unlock();
-                        em.unlockMonitor();
+                        em.lock.unlock();
                     }
                 } else{
                     simpleStep();
                 }
-                nearFox.lock.unlock();
-                em.lock.unlock();
             }else{
                 simpleStep();
             }
-
-
             if(fox.aLifeLenght > 0){
                 fox.aLifeLenght = fox.aLifeLenght - 1;
             }

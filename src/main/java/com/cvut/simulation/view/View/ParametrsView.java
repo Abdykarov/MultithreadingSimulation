@@ -251,7 +251,7 @@ public class ParametrsView extends JPanel {
                     em.addEntity(new Wolf(em,em.getRandomPosition(em.getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
                     break;
                 case "Fox":
-                    em.addEntity(new Fox(em,em.getRandomPosition(em.getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
+                    em.addEntity(new Fox(em,new Tile(50,50),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
                     break;
                 case "Hunter":
                     em.addEntity(new Hunter(em,em.getRandomPosition(em.getEntities()),id,energyValue,healthValue,speedValue,hungerValue,ageLengthValue,desireValue ));
