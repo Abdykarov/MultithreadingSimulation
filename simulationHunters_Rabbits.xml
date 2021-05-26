@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<class>
+
+
+    <entity>
+        <type>Hunter</type>
+        <health>100</health>
+        <energy>100</energy>
+        <ageLength>200</ageLength>
+        <speed>500</speed>
+        <hunger>0</hunger>
+        <sexDesire>100</sexDesire>
+    </entity>
+<entity>
+        <type>Hunter</type>
+        <health>100</health>
+        <energy>100</energy>
+        <ageLength>200</ageLength>
+        <speed>500</speed>
+        <hunger>0</hunger>
+        <sexDesire>100</sexDesire>
+    </entity>
+<entity>
+        <type>Hunter</type>
+        <health>100</health>
+        <energy>100</energy>
+        <ageLength>200</ageLength>
+        <speed>500</speed>
+        <hunger>0</hunger>
+        <sexDesire>100</sexDesire>
+    </entity>
+<entity>
+        <type>Hunter</type>
+        <health>100</health>
+        <energy>100</energy>
+        <ageLength>200</ageLength>
+        <speed>500</speed>
+        <hunger>0</hunger>
+        <sexDesire>100</sexDesire>
+    </entity>
+<entity>
+        <type>Hunter</type>
+        <health>100</health>
+        <energy>100</energy>
+        <ageLength>200</ageLength>
+        <speed>500</speed>
+        <hunger>0</hunger>
+        <sexDesire>100</sexDesire>
+    </entity>
+<entity>
+        <type>Hunter</type>
+        <health>100</health>
+        <energy>100</energy>
+        <ageLength>200</ageLength>
+        <speed>500</speed>
+        <hunger>0</hunger>
+        <sexDesire>100</sexDesire>
+    </entity>
+<entity>
+        <type>Hunter</type>
+        <health>100</health>
+        <energy>100</energy>
+        <ageLength>200</ageLength>
+        <speed>500</speed>
+        <hunger>0</hunger>
+        <sexDesire>100</sexDesire>
+    </entity>
+
+    <entity>
+        <type>Rabbit</type>
+        <health>100</health>
+        <energy>100</energy>
+        <ageLength>200</ageLength>
+        <speed>500</speed>
+        <hunger>0</hunger>
+        <sexDesire>0</sexDesire>
+    </entity><entity>
+        <type>Rabbit</type>
+        <health>100</health>
+        <energy>100</energy>
+        <ageLength>200</ageLength>
+        <speed>500</speed>
+        <hunger>0</hunger>
+        <sexDesire>0</sexDesire>
+    </entity><entity>
+        <type>Rabbit</type>
+        <health>100</health>
+        <energy>100</energy>
+        <ageLength>200</ageLength>
+        <speed>500</speed>
+        <hunger>0</hunger>
+        <sexDesire>0</sexDesire>
+    </entity><entity>
+        <type>Rabbit</type>
+        <health>100</health>
+        <energy>100</energy>
+        <ageLength>200</ageLength>
+        <speed>500</speed>
+        <hunger>0</hunger>
+        <sexDesire>0</sexDesire>
+    </entity><entity>
+        <type>Rabbit</type>
+        <health>100</health>
+        <energy>100</energy>
+        <ageLength>200</ageLength>
+        <speed>500</speed>
+        <hunger>0</hunger>
+        <sexDesire>0</sexDesire>
+    </entity><entity>
+        <type>Rabbit</type>
+        <health>100</health>
+        <energy>100</energy>
+        <ageLength>200</ageLength>
+        <speed>500</speed>
+        <hunger>0</hunger>
+        <sexDesire>0</sexDesire>
+    </entity><entity>
+        <type>Rabbit</type>
+        <health>100</health>
+        <energy>100</energy>
+        <ageLength>200</ageLength>
+        <speed>500</speed>
+        <hunger>0</hunger>
+        <sexDesire>0</sexDesire>
+    </entity>
+
+
+
+</class>
