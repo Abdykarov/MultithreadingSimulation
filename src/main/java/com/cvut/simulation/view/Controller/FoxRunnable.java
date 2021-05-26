@@ -11,6 +11,10 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
+/**
+ * Fox runnable thread class, holds fox entity and manipulates with him
+ */
 public class FoxRunnable implements Runnable {
 
     public Fox fox;
@@ -52,6 +56,11 @@ public class FoxRunnable implements Runnable {
         }
     }
 
+    /**
+     * Move particle, different actions depending on position and values of entity.
+     * I used lock and unlock methods for preventing deadlocks and race conditions.
+     * It could be replaced by classic synchronized blocks, but i prefer more elegant solution
+     */
     private void moveParticle()
     {
         Rabbit rabbit;
@@ -108,6 +117,11 @@ public class FoxRunnable implements Runnable {
         }
     }
 
+    /**
+     * Fox eats rabbit, then logs about action using logger.
+     * @param rabbit
+     * @param fox
+     */
     public void eatRabbit(Rabbit rabbit, Fox fox){
         em.lock.lock();
         try {
@@ -130,7 +144,7 @@ public class FoxRunnable implements Runnable {
     }
 
     /**
-     * Create new fox preventing race condition by using lock methods
+     * Creating the new fox entity, and preventing race condition by using lock methods
      * @param nearFox
      * @param fox
      */

@@ -7,6 +7,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
+/**
+ * View panel, holds statistics view , main map of simulation and controller buttons view
+ */
 public class SimulationView extends JPanel {
 
     private EntityManager em;

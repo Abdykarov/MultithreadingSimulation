@@ -1,17 +1,16 @@
 package com.cvut.simulation.view.Controller;
 
 import com.cvut.simulation.view.Model.Statistics;
-import com.cvut.simulation.view.Simulation;
 import com.cvut.simulation.view.Model.Entity;
 import com.cvut.simulation.view.Utils.EntityManager;
 import com.cvut.simulation.view.View.StatisticsView;
 
-import javax.swing.*;
-import java.sql.Time;
 import java.util.*;
-import java.util.concurrent.CountDownLatch;
 
 
+/**
+ * Statistics runnable is thread class, which updates table of statistics every time
+ */
 public class StatisticsRunnable implements Runnable {
     public int TimePassed;
     public int TotalCount;
@@ -27,6 +26,10 @@ public class StatisticsRunnable implements Runnable {
         this.em = em;
     }
 
+    /**
+     * Update total count of entities
+     * @param entities
+     */
     public void updateCount(List<Entity> entities){
         TotalCount = entities.size();
     }
@@ -56,6 +59,10 @@ public class StatisticsRunnable implements Runnable {
 
     }
 
+
+    /**
+     * Setting new text to the labels of statistics view
+     */
     private void setValues(){
         statsView.getTotalCount().setText("Total count: " + String.valueOf(statistics.getTotalCount()));
         statsView.getFoxCount().setText("Fox count: " + String.valueOf(statistics.getFoxCount()));

@@ -10,6 +10,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.locks.Lock;
 
+
+/**
+ * Each entity has own lock, which could be locked and unlocked only by one of the threads
+ * This way prevents from possible deadlocks and race conditions, makes the class thread-safety to use
+ */
 public abstract class Entity{
     public Random rand = new Random();
     public static final int SIZE = 50; // size of entity

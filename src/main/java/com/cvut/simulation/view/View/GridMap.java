@@ -1,5 +1,6 @@
 package com.cvut.simulation.view.View;
 
+import com.cvut.simulation.view.Controller.BulletRunnable;
 import com.cvut.simulation.view.Model.Entity;
 import com.cvut.simulation.view.Simulation;
 import com.cvut.simulation.view.Utils.EntityManager;
@@ -10,6 +11,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GridMap extends JPanel implements Runnable{
 
@@ -18,8 +21,10 @@ public class GridMap extends JPanel implements Runnable{
     public int width;
     public int height;
     public Thread thr;
+    private final static Logger LOGGER = Logger.getLogger(BulletRunnable.class.getName());
 
-   public GridMap(EntityManager em, int width, int height)
+
+    public GridMap(EntityManager em, int width, int height)
     {
         this.em = em;
         this.redraw = true;
@@ -56,22 +61,20 @@ public class GridMap extends JPanel implements Runnable{
             //draw entities
             for (Entity entity : entities) {
                 if (entity == null) {
-
                 } else {
                     g.drawImage(entity.EntityImage, entity.currentPosition.x, entity.currentPosition.y, entity.width, entity.height, null);
                 }
-
             }
         }
         finally {
             em.lock.unlock();
         }
 
-        if(entities.isEmpty()){
+        if(entities.isEmpty()) {
             redraw = false;
-            JOptionPane.showMessageDialog(null, "My Goodness, simulation is canceld");
+            em.isRunning = false;
+            LOGGER.log(Level.WARNING, "Simulation is over!)");
         }
-
     }
 
     public void redraw() {

@@ -10,8 +10,11 @@ import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.Level;
 
+
+/**
+ * Entity manager is responsible for presenting entity list, generate new entities, for creating, deleting etc.
+ */
 public class EntityManager {
 
     private static final Random rand = new Random();
@@ -41,7 +44,11 @@ public class EntityManager {
         this.lock.unlock();
     }
 
-
+    /**
+     * Remove entity from list by his id, if hasn't found, returns null
+     * @param id
+     * @return
+     */
     public boolean removeEntity(int id){
         Entity entityToRemove = findEntity(id);
         if (entityToRemove != null){
@@ -51,6 +58,11 @@ public class EntityManager {
         return false;
     }
 
+    /**
+     * returns entity by id
+     * @param id
+     * @return
+     */
     public Entity findEntity(int id){
         for(Entity entity: entities){
             if(entity.id == id){
@@ -60,10 +72,26 @@ public class EntityManager {
         return null;
     }
 
+    /**
+     * Add entity to the list
+     * @param entity
+     */
     public void addEntity(Entity entity){
         entities.add(entity);
     }
 
+    /**
+     * Create entity using incoming parameters, depending on the type, creates new entity model
+     * and add him to the list
+     * @param type
+     * @param healthValue
+     * @param energyValue
+     * @param ageLengthValue
+     * @param speedValue
+     * @param hungerValue
+     * @param desireValue
+     * @param id
+     */
     public void createEntity(String type, int healthValue, int energyValue, int ageLengthValue, int speedValue, int hungerValue, int desireValue, int id){
         try {
             switch (type){
@@ -96,7 +124,11 @@ public class EntityManager {
         return entities;
     }
 
-
+    /**
+     * Get tile position which is not occurred yet
+     * @param entities
+     * @return
+     */
     public Tile getRandomPosition(List<Entity> entities)
     {
         int xPos = rand.nextInt(gridWidth / Entity.SIZE) * Entity.SIZE;
@@ -128,18 +160,30 @@ public class EntityManager {
         return false;
     }
 
+    /**
+     * returns new id which hasnt been used yet
+     * @return
+     */
     public int getNextID(){
         int currentId = this.id;
         this.id = currentId + 1;
         return currentId;
     }
 
+    /**
+     * Starts statistics thread
+     * @param statsView
+     */
     public void startStats(StatisticsView statsView){
         Statistics stats = new Statistics( this);
         StatisticsRunnable statsRunnable = new StatisticsRunnable(stats,this, statsView);
         new Thread(statsRunnable).start();
     }
 
+
+    /**
+     * Starts threads depending on the type of entity, because runnable threads are different
+     */
     public void startThreads(){
         this.isRunning = true;
         /* Start the Entity Runnables */
@@ -179,6 +223,12 @@ public class EntityManager {
         latch.countDown();
     }
 
+    /**
+     * Create new rabbit model, create new rabbit thread and start him, add model to the list
+     * @param id
+     * @param posX
+     * @param posY
+     */
     public void addRabbit(int id, int posX, int posY){
         CountDownLatch rabbitLatch = new CountDownLatch(1);
         Tile tile = new Tile(posX, posY);
@@ -190,7 +240,12 @@ public class EntityManager {
 
         rabbitLatch.countDown();
     }
-
+    /**
+     * Create new sheep model, create new sheep thread and start him, add model to the list
+     * @param id
+     * @param posX
+     * @param posY
+     */
     public void addSheep(int id, int posX, int posY){
         CountDownLatch sheepLatch = new CountDownLatch(1);
         Tile tile = new Tile(posX, posY);
@@ -203,7 +258,12 @@ public class EntityManager {
         sheepLatch.countDown();
     }
 
-
+    /**
+     * Create new wolf model, create new wolf thread and start him, add model to the list
+     * @param id
+     * @param posX
+     * @param posY
+     */
     public void addWolf(int id, int posX, int posY){
         CountDownLatch wolfLatch = new CountDownLatch(1);
         Tile tile = new Tile(posX, posY);
@@ -215,7 +275,12 @@ public class EntityManager {
 
         wolfLatch.countDown();
     }
-
+    /**
+     * Create new fox model, create new fox thread and start him, add model to the list
+     * @param id
+     * @param posX
+     * @param posY
+     */
     public void addFox(int id, int posX, int posY){
         CountDownLatch foxLatch = new CountDownLatch(1);
         Tile tile = new Tile(posX, posY);
@@ -227,7 +292,12 @@ public class EntityManager {
 
         foxLatch.countDown();
     }
-
+    /**
+     * Create new bullet model, create new bullet thread and start him, add model to the list
+     * @param id
+     * @param posX
+     * @param posY
+     */
     public void addBullet(int id, int posX, int posY, int direction){
         CountDownLatch bulletLatch = new CountDownLatch(1);
         Tile tile = new Tile(posX, posY);
@@ -240,6 +310,10 @@ public class EntityManager {
 
     }
 
+    /**
+     * Changes speeds of entities
+     * @param type
+     */
     public void changeSpeeds(String type){
         this.lockMonitor();
         try {

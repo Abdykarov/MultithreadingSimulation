@@ -14,6 +14,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Hunter runnable thread class, holds hunter entity and manipulates with him
+ */
 public class HunterRunnable implements Runnable {
 
     public Hunter hunter;
@@ -22,7 +25,6 @@ public class HunterRunnable implements Runnable {
     private EntityManager em;
 
     private final static Logger LOGGER = Logger.getLogger(BulletRunnable.class.getName());
-
 
     public HunterRunnable(EntityManager em, Entity hunter, CountDownLatch latch) {
         this.em = em;
@@ -63,6 +65,11 @@ public class HunterRunnable implements Runnable {
         }
     }
 
+    /**
+     * Move particle, different actions depending on position and values of entity.
+     * I used lock and unlock methods for preventing deadlocks and race conditions.
+     * It could be replaced by classic synchronized blocks, but i prefer more elegant solution
+     */
     private void moveParticle()
     {
         hunter.lock.lock();
@@ -96,7 +103,7 @@ public class HunterRunnable implements Runnable {
     }
 
     /**
-     * Hunter makes shot
+     * Hunter makes shot, if reload is equals 0
      */
     public void shot() {
 
@@ -110,7 +117,9 @@ public class HunterRunnable implements Runnable {
         }
     }
 
-
+    /**
+     * Simple random step
+     */
     public void simpleStep(){
         int xDelta = hunter.currentPosition.x;
         int yDelta = hunter.currentPosition.y;

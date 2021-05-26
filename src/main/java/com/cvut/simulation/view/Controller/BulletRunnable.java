@@ -1,18 +1,17 @@
 package com.cvut.simulation.view.Controller;
 
 import com.cvut.simulation.view.Model.*;
-import com.cvut.simulation.view.Simulation;
 import com.cvut.simulation.view.Utils.EntityManager;
-import com.cvut.simulation.view.View.GridMap;
 
-import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
+/**
+ * Bullet runnable thread class, holds bullet class and manipulates with him
+ */
 public class BulletRunnable implements Runnable {
 
     public Bullet bullet;
@@ -54,6 +53,11 @@ public class BulletRunnable implements Runnable {
         }
     }
 
+    /**
+     * Move particle, different actions depending on position and values of entity.
+     * I used lock and unlock methods for preventing deadlocks and race conditions.
+     * It could be replaced by classic synchronized blocks, but i prefer more elegant solution
+     */
     private void moveParticle()
     {
         Fox detectedFox;
@@ -134,6 +138,9 @@ public class BulletRunnable implements Runnable {
         }
     }
 
+    /**
+     * Random movement of entity, there are 9 ways to go
+     */
     private void simpleStep(){
         int xDelta = bullet.currentPosition.x;
         int yDelta = bullet.currentPosition.y;
@@ -167,6 +174,12 @@ public class BulletRunnable implements Runnable {
     }
 
 
+    /**
+     * Checks if bullet is out of map
+     * @param x
+     * @param y
+     * @return
+     */
     public boolean inRange(int x, int y){
         if(x < em.gridWidth && x > 0 && y > 0 && y < em.gridHeight){
             return true;

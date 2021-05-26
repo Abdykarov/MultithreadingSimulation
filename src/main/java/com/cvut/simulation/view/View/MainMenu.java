@@ -1,14 +1,12 @@
 package com.cvut.simulation.view.View;
 
 import com.cvut.simulation.view.Utils.EntityManager;
-import com.cvut.simulation.view.Utils.xmlManager;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileSystemView;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.awt.*;
@@ -16,6 +14,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+/**
+ * Main menu has 2 buttons: new simulation and load simulation, uses card layout
+ * for replacing panels between each other
+ */
 public class MainMenu extends JPanel {
 
     private JButton btnNew;
@@ -23,7 +25,6 @@ public class MainMenu extends JPanel {
     final JFileChooser fc = new JFileChooser();
     private String xmlFile;
     private JPanel mainPanel;
-    private xmlManager xm;
     private EntityManager em;
     private ParametrsView params;
 

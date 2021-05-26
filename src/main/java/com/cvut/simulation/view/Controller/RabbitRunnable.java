@@ -11,6 +11,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Rabbit runnable thread class, holds rabbit entity and manipulates with him
+ */
 public class RabbitRunnable implements Runnable {
 
     public Rabbit rabbit;
@@ -52,6 +55,11 @@ public class RabbitRunnable implements Runnable {
         }
     }
 
+    /**
+     * Move particle, different actions depending on position and values of entity.
+     * I used lock and unlock methods for preventing deadlocks and race conditions.
+     * It could be replaced by classic synchronized blocks, but i prefer more elegant solution
+     */
     private void moveParticle()
     {
 

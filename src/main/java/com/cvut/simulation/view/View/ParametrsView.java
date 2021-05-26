@@ -303,6 +303,9 @@ public class ParametrsView extends JPanel {
         }
     }
 
+    /**
+     * Generates all listeners of buttons
+     */
     private void generateListeners(){
 
 
