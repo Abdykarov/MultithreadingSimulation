@@ -116,18 +116,7 @@ public class BulletRunnable implements Runnable {
                     em.lock.unlock();
                 }
             }else if((detectedWolf = bullet.detectWolf()) != null){
-                em.lock.lock();
-                detectedWolf.lock.lock();
-                try {
-                    detectedWolf.isAlive = false;
-                    bullet.isAlive = false;
-                    em.removeEntity(bullet.id);
-                    em.removeEntity(detectedWolf.id);
-                }
-                finally {
-                    detectedWolf.lock.unlock();
-                    em.lock.unlock();
-                }
+                killWolf( bullet,  detectedWolf);
             }else{
                 simpleStep();
             }
@@ -137,6 +126,22 @@ public class BulletRunnable implements Runnable {
             bullet.lock.unlock();
         }
     }
+
+    public void killWolf(Bullet bullet, Wolf detectedWolf){
+        em.lock.lock();
+        detectedWolf.lock.lock();
+        try {
+            detectedWolf.isAlive = false;
+            bullet.isAlive = false;
+            em.removeEntity(bullet.id);
+            em.removeEntity(detectedWolf.id);
+        }
+        finally {
+            detectedWolf.lock.unlock();
+            em.lock.unlock();
+        }
+    }
+
 
     /**
      * Random movement of entity, there are 9 ways to go

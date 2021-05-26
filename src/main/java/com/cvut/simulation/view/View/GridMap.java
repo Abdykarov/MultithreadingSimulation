@@ -32,7 +32,7 @@ public class GridMap extends JPanel implements Runnable{
         this.height = height;
 
         setOpaque(true);
-        setBackground(new Color(240, 235, 232));
+        setBackground(new Color(253, 253, 253));
 
         thr = new Thread(this);
     }

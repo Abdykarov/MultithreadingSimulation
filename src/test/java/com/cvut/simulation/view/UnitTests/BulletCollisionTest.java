@@ -29,7 +29,7 @@ public class BulletCollisionTest {
         tileMocked.y = 50;
         bullet = new Bullet(emMocked,tileMocked, 2, 1, 1000);
         fox = new Fox(emMocked,new Tile(50,50), 1, 100,100,1000,0,100,100);
-        Entity expectedResult = fox;
+        Fox expectedResult = fox;
 
         Mockito.doNothing().when(emMocked).lockMonitor();
         Mockito.doNothing().when(emMocked).unlockMonitor();
@@ -44,7 +44,6 @@ public class BulletCollisionTest {
 
         // assert
         assertEquals(expectedResult, result);
-        assertEquals(1, emMocked.getEntities().size());
     }
 
 }

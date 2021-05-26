@@ -42,7 +42,7 @@ public class Bullet extends Entity {
 
 
     public Fox detectFox(){
-        em.lock.lock();
+        em.lockMonitor();
         try {
             for(Entity entity: em.getEntities()){
                 if(entity.aType == "Fox" && entity.currentPosition.x == currentPosition.x && entity.currentPosition.y == currentPosition.y){
@@ -51,7 +51,7 @@ public class Bullet extends Entity {
             }
         }
         finally {
-            em.lock.unlock();
+            em.unlockMonitor();
         }
         return null;
     }

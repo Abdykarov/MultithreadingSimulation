@@ -25,25 +25,19 @@ public class sheepSpawningTest {
         em.simulationSpeedOriginal = 1000;
 
         Sheep sheep1 = new Sheep(em, new Tile(50,50), em.getNextID(),100,100,1000,0,100,100);
-        Sheep sheep2 = new Sheep(em, new Tile(800,50), em.getNextID(),100,100,1000,0,100,100);
-
-        // act
+        Sheep sheep2 = new Sheep(em, new Tile(50,50), em.getNextID(),100,100,1000,0,100,100);
         em.addEntity(sheep1);
         em.addEntity(sheep2);
+        CountDownLatch latch1 = new CountDownLatch(1);
+        CountDownLatch latch2 = new CountDownLatch(1);
+        SheepRunnable sheepRunnable1 = new SheepRunnable(em, sheep1, latch1);
+        SheepRunnable sheepRunnable2 = new SheepRunnable(em, sheep2, latch1);
 
-        em.startThreads();
+        // act
+        sheepRunnable1.multiply(sheep1, sheep2);
 
-        try {
-            TimeUnit.SECONDS.sleep(2);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        for (Entity entity: em.getEntities()){
-            if(entity != null){
-                System.out.println(entity.currentPosition.x);
-            }
-        }
+
         // assert
-        assertEquals(2,em.getEntities().size());
+        assertEquals(3,em.getEntities().size());
     }
 }
