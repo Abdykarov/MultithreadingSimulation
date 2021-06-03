@@ -16,13 +16,13 @@ Existují nasledujicí simulační objekty:
     Bullet
 
 How to install
-```
-git clone https://github.com/Abdykarov/MultithreadingSimulation.git
+    ```
+    git clone https://github.com/Abdykarov/MultithreadingSimulation.git
 
-cd MultithreadingSimulation
+    cd MultithreadingSimulation
 
-java -jar simulationApp.jar
-```
+    java -jar simulationApp.jar
+    ```
 How to play
 
     Vytvořit novou simulaci kliknutím na tlačitko "Start new simulation"
