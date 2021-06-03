@@ -24,7 +24,6 @@ ReentrantLock
 
 How to install
 
-    ```
         
     git clone https://github.com/Abdykarov/MultithreadingSimulation.git
 
@@ -32,5 +31,5 @@ How to install
 
     java -jar simulationApp.jar
     
-    ```
+  
 
