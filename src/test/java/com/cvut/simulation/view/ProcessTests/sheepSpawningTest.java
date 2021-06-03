@@ -26,12 +26,16 @@ public class sheepSpawningTest {
 
         Sheep sheep1 = new Sheep(em, new Tile(50,50), em.getNextID(),100,100,1000,0,100,100);
         Sheep sheep2 = new Sheep(em, new Tile(50,50), em.getNextID(),100,100,1000,0,100,100);
+
+        //act
         em.addEntity(sheep1);
         em.addEntity(sheep2);
+
+        //assert
+        assertEquals(2,em.getEntities().size());
+
         CountDownLatch latch1 = new CountDownLatch(1);
-        CountDownLatch latch2 = new CountDownLatch(1);
         SheepRunnable sheepRunnable1 = new SheepRunnable(em, sheep1, latch1);
-        SheepRunnable sheepRunnable2 = new SheepRunnable(em, sheep2, latch1);
 
         // act
         sheepRunnable1.multiply(sheep1, sheep2);

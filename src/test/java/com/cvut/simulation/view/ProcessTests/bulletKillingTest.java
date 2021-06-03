@@ -28,9 +28,11 @@ public class bulletKillingTest {
 
         Bullet bullet = new Bullet(em, new Tile(50,50), em.getNextID(),1,1000);
         Wolf wolf = new Wolf(em, new Tile(50,50), em.getNextID(),100,100,1000,0,100,100);
-
+        //act
         em.addEntity(bullet);
         em.addEntity(wolf);
+        //assert
+        assertEquals(2,em.getEntities().size());
 
         CountDownLatch latch1 = new CountDownLatch(1);
         BulletRunnable bulletRunnable = new BulletRunnable(em, bullet, latch1);

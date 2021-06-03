@@ -26,9 +26,12 @@ public class wolfEatingTest {
 
         Sheep sheep = new Sheep(em, new Tile(50,50), em.getNextID(),100,100,1000,0,100,100);
         Wolf wolf = new Wolf(em, new Tile(50,50), em.getNextID(),100,100,1000,0,100,100);
-
+        //act
         em.addEntity(sheep);
         em.addEntity(wolf);
+
+        //assert
+        assertEquals(2,em.getEntities().size());
 
         CountDownLatch latch1 = new CountDownLatch(1);
         WolfRunnable wolfRunnable = new WolfRunnable(em, wolf, latch1);

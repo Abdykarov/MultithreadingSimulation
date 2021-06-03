@@ -21,8 +21,11 @@ public class BulletCollisionTest {
     private Fox fox;
     private Bullet bullet;
 
+    /**
+     * Test should
+     */
     @Test
-    public void bulletCollision_withFox_test(){
+    public void bullet_detectFox_Test(){
         emMocked = mock(EntityManager.class);
         tileMocked = mock(Tile.class);
         tileMocked.x = 0;
@@ -35,8 +38,8 @@ public class BulletCollisionTest {
         Mockito.doNothing().when(emMocked).unlockMonitor();
         when(emMocked.getEntities()).thenReturn(Arrays.asList(fox));
 
-        emMocked.addEntity(bullet);
-        emMocked.addEntity(fox);
+//        emMocked.addEntity(bullet);
+//        emMocked.addEntity(fox);
 
         //act
         bullet.currentPosition.x += 50;
